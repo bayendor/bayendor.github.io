@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: command-line | Musings of an 8-bit Vet]]></title>
+  <link href="http://bayendor.github.io/blog/categories/command-line/atom.xml" rel="self"/>
+  <link href="http://bayendor.github.io/"/>
+  <updated>2013-07-20T20:59:59-06:00</updated>
+  <id>http://bayendor.github.io/</id>
+  <author>
+    <name><![CDATA[David Bayendor]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Command Line Crash Course]]></title>
+    <link href="http://bayendor.github.io/blog/2013/07/19/command-line-crash-course/"/>
+    <updated>2013-07-19T10:18:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/07/19/command-line-crash-course</id>
+    <content type="html"><![CDATA[<p><img class="<a" src="href="http://f.cl.ly/items/0J3R0O2p1V2Z1Z0F1s25/196.png">http://f.cl.ly/items/0J3R0O2p1V2Z1Z0F1s25/196.png</a>">
+Command Line Fu &ndash; <a href="http://xkcd.com/196/">xkcd.com</a>
+This cartoon is particularly amusing because&hellip;</p>
+
+<p>I&rsquo;ve spent the last twenty-four hours working through
+<a href="http://cli.learncodethehardway.org/book/">The Command Line Crash Course</a>
+as homework for class.  In addition our instructor had us log our progress in
+Pivotal Tracker by having us work through &ldquo;stories&rdquo; to test our knowledge.</p>
+
+<p>Overall it was excellent, since we got exposure to two parts of the development
+environment at the same time: using and working the command line, and learning a
+tool that is a de-facto standard in the development industry.</p>
+
+<p>What did I learn?</p>
+
+<p>Pay attention to the stories, details are important, so don&rsquo;t rush ahead or you&rsquo;ll
+miss something.  My first few stories in Pivotal Tracker were rejected for that reason.</p>
+
+<p>Using the command line is both frustrating and confidence inspiring.  You get the
+feeling you are really interacting with the environment.  The abstraction of GUI&rsquo;s has
+made many people feel that they &ldquo;understand&rdquo; computers, but the reality is not that
+simple.</p>
+
+<p>I grew up using CP/M, DOS, and even did some time on a VAX 11/750 mini-computer.  As
+a result I&rsquo;m comfortable with basic aspects of the command line.  But as I&rsquo;ve been
+delving into development I&rsquo;ve seen command lines that I&rsquo;ve had to use and have simply
+cut and paste them without being entirely sure what they do or how they do it.</p>
+
+<p>The classic was <code>grep</code>.  I was always fascinated by what it was doing, and
+how it was so often used in combination with pipes or redirects.  Prior to this I
+never really had a reason to use it.  Since we do so much work with text and files,
+I see how useful it can be.</p>
+
+<p>In other news I did some fiddling with the blog and added a twitter feed for a list
+of Rubyists that I follow.  Check it out in the sidebar to the right.</p>
+
+<p>Thanx for reading.  Stay tuned for more from the front lines&hellip;</p>
+]]></content>
+  </entry>
+  
+</feed>

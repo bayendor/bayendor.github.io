@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: bundle | Musings of an 8-bit Vet]]></title>
+  <link href="http://bayendor.github.io/blog/categories/bundle/atom.xml" rel="self"/>
+  <link href="http://bayendor.github.io/"/>
+  <updated>2013-07-20T20:59:59-06:00</updated>
+  <id>http://bayendor.github.io/</id>
+  <author>
+    <name><![CDATA[David Bayendor]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Choices: Gemsets & bundle exec]]></title>
+    <link href="http://bayendor.github.io/blog/2013/07/16/rbenv/"/>
+    <updated>2013-07-16T18:58:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/07/16/rbenv</id>
+    <content type="html"><![CDATA[<p>I have just started at the DaVinci Coders &ldquo;Building the tool-belt of a junior
+Ruby on Rails Developer&rdquo; program.  An eleven week immersion course designed to
+take someone with good computer skills and minimal or dated programming
+experience into the fast moving world of web-development.</p>
+
+<p>Part of our first assignment was to generate this blog, and then to write about
+our experiences, and the technical and other things that we stumble upon.</p>
+
+<p>Here is my first observation: There is danger in having choices.</p>
+
+<p>This is particularly true in choices for web development environments.  It is
+even more perilous when you are a student in a web development course.</p>
+
+<p>In my case, for various reasons, I had spent the prior two months teaching
+myself as much as possible about Ruby and Rails so that I would not feel out
+of my depth in the level II class I was assessed into at DaVinci Coders.</p>
+
+<p>Like most folks, I took the standard path to a working Ruby install, and for
+a while I used RVM like everybody else.  However, for various philosophical, and
+other reasons I decided to start using rbenv instead.</p>
+
+<p>(For insight into this, see my earlier post.  I was an Atari man, after all&hellip;)</p>
+
+<p>rbenv takes a more lightweight approach to managing Ruby installs, holding to the
+Unix tenet of &ldquo;do one thing well.&rdquo;  Unlike RVM it does not have a concept of
+gemsets.  Instead it relies heavily on another standard of Ruby development:
+Bundler.</p>
+
+<p>The bundler gem is pure genius, in that it manages gem install and dependencies
+almost by magic.  Bundler takes it cue from the Gemfile that should be configured
+in each project directory.</p>
+
+<p>So what&rsquo;s the problem?  Isolation, and then duplication of effort.</p>
+
+<p>RVM does an excellent job, via gemsets, of isolating a development environment from other versions of Ruby and associated gems from other projects. Like Bundler, RVM manages various paths to executable gems by some serious techno-magic.</p>
+
+<p>To make sure that project specific gems are run in the context of their gemset
+or gemfile, you typically need to call a command like this:</p>
+
+<p><code>
+$ bundle exec rake db:migrate, # or
+$ bundle exec rspec spec/
+</code></p>
+
+<p>Even with RVM installed you need to pay the &ldquo;bundle exec&rdquo; keystroke tax, just to
+be sure you are running your code in the right environment.</p>
+
+<p>There are ways to avoid this, you can install bin stubs for your gems and other
+executables or you can do some clever <code>$PATH</code> editing on a per project basis.</p>
+
+<p>Seems to me like RVM and Bundler are sort of doing some of the same work, which
+certainly seems to violate the DRY coding principle, &ldquo;Don&rsquo;t Repeat Yourself.&rdquo;</p>
+
+<p>What&rsquo;s the solution?  Blindingly simple: make an alias in your login profile. Oh,
+and stop using gemsets, since you don&rsquo;t really need them.</p>
+
+<p>In either <code>.bashrc</code> or <code>.bash_profile</code> simply add the following:
+``` ruby</p>
+
+<h1>an alias to run &lsquo;bundle exec&rsquo;</h1>
+
+<p>alias bex=&lsquo;bundle exec&rsquo;
+```</p>
+
+<p>Now you can type the keystroke efficient <code>bex</code> before any command and
+be sure it is running in the proper context of your application directory.  It
+rapidly becomes second nature.</p>
+
+<p>I have to give a nod to Michael Hartl and his
+<a href="http://ruby.railstutorial.org">Ruby on Rails Tutorial</a>, since he proposes this
+exact solution.  However I had seen it before in several other contexts but did
+not know how or why to take advantage of it.</p>
+
+<p>Additionally, you now know how to create an alias for other often used commands,
+or for applications with awkward names.  For instance <code>subl</code> for the
+Sublime Text 2 editor:
+``` ruby</p>
+
+<h1>subl runs Sublime Text</h1>
+
+<p>alias subl=&lsquo;/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl&rsquo;
+```</p>
+
+<p>Lastly, I have to add that in exploring how RVM, rbenv, and Bundler function I also
+learnt an incredible amount about how things work &ldquo;behind the curtain.&rdquo;</p>
+
+<p>I believe this is essential to problem solving. It is not enough to know that things
+work, you have to understand the how and the why.</p>
+
+<p>For even more on Bundler and gemsets, check out this <a href="http://rubyrogues.com/045-rr-bundler-with-andre-arko/">Ruby Rogues Podcast</a>.</p>
+
+<p>Thanx for reading.  Stay tuned for more from the front lines&hellip;</p>
+]]></content>
+  </entry>
+  
+</feed>

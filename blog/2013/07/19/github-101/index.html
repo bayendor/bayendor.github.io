@@ -1,0 +1,346 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>When Github Keeps Asking for a Password - Musings of an 8-bit Vet</title>
+  <meta name="author" content="David Bayendor">
+
+  
+  <meta name="description" content="If everytime you go to do a remote connect (e.g. push) to github and it requests
+your github password, then you have most likely have a problem with &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://bayendor.github.io/blog/2013/07/19/github-101">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Musings of an 8-bit Vet" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Musings of an 8-bit Vet</a></h1>
+  
+    <h2>A DaVinci Coders Student Tech Diary</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:bayendor.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">When Github Keeps Asking for a Password</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-19T21:32:00-06:00" pubdate data-updated="true">Jul 19<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>If everytime you go to do a remote connect (e.g. <code>push</code>) to github and it requests
+your github password, then you have most likely have a problem with your credential helper.</p>
+
+<p>The credential helper is part of a standard github or <code>homebrew</code> install.
+But sometimes things don&rsquo;t go as planned, or perhaps your github install was part
+of a larger &ldquo;all-in-one&rdquo; install and something got improperly configured.</p>
+
+<p>The good new is it&rsquo;s an easy enough problem to fix.</p>
+
+<p>These instructions apply to OS X, but you can check <a href="https://help.github.com/articles/set-up-git#platform-all">GitHub Help</a> for your platform.</p>
+
+<p>1: First, check to see if you have the credential helper installed:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">credential</span><span class="o">-</span><span class="n">osxkeychain</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you get the following then it is installed, go to step 3:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">usage</span><span class="p">:</span> <span class="n">git</span> <span class="n">credential</span><span class="o">-</span><span class="n">osxkeychain</span> <span class="o">&lt;</span><span class="n">get</span><span class="o">|</span><span class="n">store</span><span class="o">|</span><span class="n">erase</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But if you get, go to step 2:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">git</span><span class="p">:</span> <span class="s1">&#39;credential-osxkeychain&#39;</span> <span class="n">is</span> <span class="ow">not</span> <span class="n">a</span> <span class="n">git</span> <span class="n">command</span><span class="o">.</span> <span class="no">See</span> <span class="s1">&#39;git --help&#39;</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2: Then you need to install and configure it with:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Download the file</span>
+</span><span class='line'><span class="n">curl</span> <span class="o">-</span><span class="n">s</span> <span class="o">-</span><span class="n">O</span> <span class="p">\</span>
+</span><span class='line'>  <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="n">github</span><span class="o">-</span><span class="n">media</span><span class="o">-</span><span class="n">downloads</span><span class="o">.</span><span class="n">s3</span><span class="o">.</span><span class="n">amazonaws</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">osx</span><span class="o">/</span><span class="n">git</span><span class="o">-</span><span class="n">credential</span><span class="o">-</span><span class="n">osxkeychain</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Fix the permissions</span>
+</span><span class='line'><span class="n">chmod</span> <span class="n">u</span><span class="o">+</span><span class="n">x</span> <span class="n">git</span><span class="o">-</span><span class="n">credential</span><span class="o">-</span><span class="n">osxkeychain</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Move it to the right path, sudo may require your password.</span>
+</span><span class='line'><span class="n">sudo</span> <span class="n">mv</span> <span class="n">git</span><span class="o">-</span><span class="n">credential</span><span class="o">-</span><span class="n">osxkeychain</span> <span class="p">\</span>
+</span><span class='line'>  <span class="s2">&quot;$(dirname $(which git))/git-credential-osxkeychain&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>3: Lastly, modify your git config file to use the helper:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="n">global</span> <span class="n">credential</span><span class="o">.</span><span class="n">helper</span> <span class="n">osxkeychain</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The next time you <code>push</code> you&rsquo;ll be asked for your github
+password, but after that it should be remembered in your OS X keychain for each
+subsequent remote access request.</p>
+
+<p>Thanx for reading. Stay tuned for more from the front lines…</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">David Bayendor</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-19T21:32:00-06:00" pubdate data-updated="true">Jul 19<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/github/'>github</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://bayendor.github.io/blog/2013/07/19/github-101/" data-via="bayendor" data-counturl="http://bayendor.github.io/blog/2013/07/19/github-101/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/07/19/agile-is-the-new-black/" title="Previous Post: Agile is the new black">&laquo; Agile is the new black</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/07/20/notes-on-a-github-rebase-workflow/" title="Next Post: Notes on a github rebase workflow">Notes on a github rebase workflow &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/20/notes-on-a-github-rebase-workflow/">Notes on a Github Rebase Workflow</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/19/github-101/">When Github Keeps Asking for a Password</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/19/agile-is-the-new-black/">Agile Is the New Black</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/19/command-line-crash-course/">Command Line Crash Course</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/17/deploying-octopress-to-github-dot-io/">Deploying Octopress to github.io</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Twitter</h1>
+  <a class="twitter-timeline" href="https://twitter.com/bayendor/rubyists" data-widget-id="358255105751015424">Tweets from @bayendor/rubyists</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+</section>
+
+
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/bayendor">@bayendor</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'bayendor',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - David Bayendor -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
