@@ -9,9 +9,7 @@
   <meta name="author" content="David Bayendor">
 
   
-  <meta name="description" content="This is primarily for my own reference, but it is an attempt to encapsulate the
-git workflow for working with repos being edited by other users. 1
-2 &hellip;">
+  <meta name="description" content="Our instructor,Jason Noble sent out an email this morning about the homework. In this homework we had progressed beyond the ubiquitous hello_world.rb &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +65,133 @@ git workflow for working with repos being edited by other users. 1
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/23/dates-slash-times-are-hard/">Dates/Times Are Hard</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-23T12:18:00-06:00" pubdate data-updated="true">Jul 23<span>rd</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Our instructor,Jason Noble sent out an email this morning about the homework.  In this homework we had progressed beyond the ubiquitous <code>hello_world.rb</code>, and had moved on to calculating how many seconds there were in various blocks of time.  In particular, how many seconds are there between now and 20 or 100 years from now?</p>
+
+<p>Turns out that dates and times are hard to get a handle on in programming.</p>
+
+<p>His email addressed the issue that depending on how you do your calculations you end up with different answers:
+<code></p>
+
+<p>Jason originally had these values as the specified output:</p>
+
+<pre><code>That means when you turn 20, you've been alive for 628992000 seconds,
+and if you make it to 100, you will have lived 3144960000 seconds.
+</code></pre>
+
+<p>Classmate Aron was first to finish and his output was slightly different:</p>
+
+<pre><code>That means when you turn 20, you've been alive for 630720000 seconds,
+and if you make it to 100, you will have lived 3153600000 seconds.
+</code></pre>
+
+<p>Calculations methods were to blame.</p>
+
+<p>Jason:</p>
+
+<pre><code>86400 * 7 * 52 * 20  # seconds/day * 7 days/week * 52 weeks/year * 20 years
+86400 * 7 * 52 * 100  # seconds/day * 7 days/week * 52 weeks/year * 20 years
+</code></pre>
+
+<p><strong>365 days != 52 weeks * 7 days/week (364 days)</strong></p>
+
+<p>Aron:</p>
+
+<pre><code>86400 * 365 * 20  # seconds / day * 365 days / year * 20 years
+86400 * 365 * 100  # seconds / day * 365 days / year * 100 years
+</code></pre>
+
+<p><em>(Aron is more accurate, but he forgot to account for leap years)</em></p>
+
+<p>Another possibility from Jason:</p>
+
+<pre><code>86400 * 365.25 * 20  # seconds / day * 365.25 days / year * 20 years  =&gt; 631152000
+86400 * 365.25 * 100  # seconds / day * 365.25 days / year * 100 years =&gt; 3155760000
+</code></pre>
+
+<p><em>(Looks like Jason is getting closer by trying to account for leap years. A year is actually = 365d, 5h, 48m, 47s.  The fractional diffence is why we have leap year. That is an additional 20,927 seconds per year)</em></p>
+
+<p>Jason used the Rails console to get a slightly better answer:</p>
+
+<pre><code>20.years is 631152000 seconds
+100.years is 3155760000 seconds
+</code></pre>
+
+<p>Who has the right answer?  Is there another algorithm?</p>
+
+<p></code>
+A leap year is every is every 4 years from 1804, but not every 100, and then again every 400 years.  Confusing, I know.</p>
+
+<p>My answer was also slightly different since I actually counted the leap years for 20 and 100 years from now, 5 &amp; 24 respectively.</p>
+
+<p>I then added in the additional days to yield:</p>
+
+<pre><code>20 years from now is 631152000 seconds,
+100 years from now is 3155673600 seconds.
+</code></pre>
+
+<p>Notice that my 20 year number is the same as the Rails computation, and my 100 year number is much closer.  In fact it&rsquo;s off by exactly one day.  Looks like Rails missed the fact that 100 / 4 = 25 is not an accurate way to count leap years.</p>
+
+<p>I also tried using the <code>Time</code> function in Ruby:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Seconds from now till twenty years from now.</span>
+</span><span class='line'><span class="n">irb</span><span class="o">&gt;</span> <span class="nb">puts</span> <span class="p">(</span><span class="no">Time</span><span class="o">.</span><span class="n">gm</span><span class="p">(</span><span class="mi">2033</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mo">03</span><span class="p">)</span> <span class="o">-</span> <span class="no">Time</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;&gt;</span> <span class="mi">631130357</span><span class="o">.</span><span class="mi">633387</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Seconds from now till 100 years from now.</span>
+</span><span class='line'><span class="n">irb</span><span class="o">&gt;</span> <span class="nb">puts</span> <span class="p">(</span><span class="no">Time</span><span class="o">.</span><span class="n">gm</span><span class="p">(</span><span class="mi">2113</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mo">04</span><span class="p">)</span> <span class="o">-</span> <span class="no">Time</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;&gt;</span> <span class="mi">3155651903</span><span class="o">.</span><span class="mi">756982</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Again, slightly different answers.  There are several gems to tackle this
+problem as well.  But this is where I stopped.  Hopefully this stimulates some conversation in class this
+ week.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -735,6 +860,10 @@ worthy of particular awe&hellip;</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/07/23/dates-slash-times-are-hard/">Dates/Times Are Hard</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/07/20/notes-on-a-github-rebase-workflow/">Notes on a Github Rebase Workflow</a>
       </li>
     
@@ -748,10 +877,6 @@ worthy of particular awe&hellip;</p>
     
       <li class="post">
         <a href="/blog/2013/07/18/command-line-crash-course/">Command Line Crash Course</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/07/17/deploying-octopress-to-github-dot-io/">Deploying Octopress to github.io</a>
       </li>
     
   </ul>

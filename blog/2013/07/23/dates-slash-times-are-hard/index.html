@@ -5,13 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Notes on a github rebase workflow - Musings of an 8-bit Vet</title>
+  <title>Dates/Times are Hard - Musings of an 8-bit Vet</title>
   <meta name="author" content="David Bayendor">
 
   
-  <meta name="description" content="This is primarily for my own reference, but it is an attempt to encapsulate the
-git workflow for working with repos being edited by other users. 1
-2 &hellip;">
+  <meta name="description" content="Our instructor,Jason Noble sent out an email this morning about the homework. In this homework we had progressed beyond the ubiquitous hello_world.rb &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +18,7 @@ git workflow for working with repos being edited by other users. 1
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://bayendor.github.io/blog/2013/07/20/notes-on-a-github-rebase-workflow">
+  <link rel="canonical" href="http://bayendor.github.io/blog/2013/07/23/dates-slash-times-are-hard">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Musings of an 8-bit Vet" type="application/atom+xml">
@@ -70,7 +68,7 @@ git workflow for working with repos being edited by other users. 1
   
   <header>
     
-      <h1 class="entry-title">Notes on a Github Rebase Workflow</h1>
+      <h1 class="entry-title">Dates/Times Are Hard</h1>
     
     
       <p class="meta">
@@ -86,15 +84,80 @@ git workflow for working with repos being edited by other users. 1
   
 
 
-<time datetime="2013-07-20T20:02:00-06:00" pubdate data-updated="true">Jul 20<span>th</span>, 2013</time>
+<time datetime="2013-07-23T12:18:00-06:00" pubdate data-updated="true">Jul 23<span>rd</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>This is primarily for my own reference, but it is an attempt to encapsulate the
-git workflow for working with repos being edited by other users.</p>
+<div class="entry-content"><p>Our instructor,Jason Noble sent out an email this morning about the homework.  In this homework we had progressed beyond the ubiquitous <code>hello_world.rb</code>, and had moved on to calculating how many seconds there were in various blocks of time.  In particular, how many seconds are there between now and 20 or 100 years from now?</p>
+
+<p>Turns out that dates and times are hard to get a handle on in programming.</p>
+
+<p>His email addressed the issue that depending on how you do your calculations you end up with different answers:
+<code></p>
+
+<p>Jason originally had these values as the specified output:</p>
+
+<pre><code>That means when you turn 20, you've been alive for 628992000 seconds,
+and if you make it to 100, you will have lived 3144960000 seconds.
+</code></pre>
+
+<p>Classmate Aron was first to finish and his output was slightly different:</p>
+
+<pre><code>That means when you turn 20, you've been alive for 630720000 seconds,
+and if you make it to 100, you will have lived 3153600000 seconds.
+</code></pre>
+
+<p>Calculations methods were to blame.</p>
+
+<p>Jason:</p>
+
+<pre><code>86400 * 7 * 52 * 20  # seconds/day * 7 days/week * 52 weeks/year * 20 years
+86400 * 7 * 52 * 100  # seconds/day * 7 days/week * 52 weeks/year * 20 years
+</code></pre>
+
+<p><strong>365 days != 52 weeks * 7 days/week (364 days)</strong></p>
+
+<p>Aron:</p>
+
+<pre><code>86400 * 365 * 20  # seconds / day * 365 days / year * 20 years
+86400 * 365 * 100  # seconds / day * 365 days / year * 100 years
+</code></pre>
+
+<p><em>(Aron is more accurate, but he forgot to account for leap years)</em></p>
+
+<p>Another possibility from Jason:</p>
+
+<pre><code>86400 * 365.25 * 20  # seconds / day * 365.25 days / year * 20 years  =&gt; 631152000
+86400 * 365.25 * 100  # seconds / day * 365.25 days / year * 100 years =&gt; 3155760000
+</code></pre>
+
+<p><em>(Looks like Jason is getting closer by trying to account for leap years. A year is actually = 365d, 5h, 48m, 47s.  The fractional diffence is why we have leap year. That is an additional 20,927 seconds per year)</em></p>
+
+<p>Jason used the Rails console to get a slightly better answer:</p>
+
+<pre><code>20.years is 631152000 seconds
+100.years is 3155760000 seconds
+</code></pre>
+
+<p>Who has the right answer?  Is there another algorithm?</p>
+
+<p></code>
+A leap year is every is every 4 years from 1804, but not every 100, and then again every 400 years.  Confusing, I know.</p>
+
+<p>My answer was also slightly different since I actually counted the leap years for 20 and 100 years from now, 5 &amp; 24 respectively.</p>
+
+<p>I then added in the additional days to yield:</p>
+
+<pre><code>20 years from now is 631152000 seconds,
+100 years from now is 3155673600 seconds.
+</code></pre>
+
+<p>Notice that my 20 year number is the same as the Rails computation, and my 100 year number is much closer.  In fact it&rsquo;s off by exactly one day.  Looks like Rails missed the fact that 100 / 4 = 25 is not an accurate way to count leap years.</p>
+
+<p>I also tried using the <code>Time</code> function in Ruby:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -105,46 +168,21 @@ git workflow for working with repos being edited by other users.</p>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">git</span> <span class="n">remote</span> <span class="n">add</span> <span class="n">upstream</span> <span class="s2">&quot;repo-path&quot;</span>     <span class="c1"># set upstream to the correct place</span>
-</span><span class='line'><span class="n">git</span> <span class="n">remote</span> <span class="n">add</span> <span class="n">remote_name</span> <span class="n">git_repo_url</span> <span class="c1"># make alias for remote (co-workers) repo</span>
-</span><span class='line'>  <span class="n">git</span> <span class="n">remote</span> <span class="o">-</span><span class="n">v</span>                           <span class="c1"># verify correct paths to repos</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Seconds from now till twenty years from now.</span>
+</span><span class='line'><span class="n">irb</span><span class="o">&gt;</span> <span class="nb">puts</span> <span class="p">(</span><span class="no">Time</span><span class="o">.</span><span class="n">gm</span><span class="p">(</span><span class="mi">2033</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mo">03</span><span class="p">)</span> <span class="o">-</span> <span class="no">Time</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
 </span><span class='line'>
-</span><span class='line'><span class="n">git</span> <span class="n">fetch</span> <span class="n">origin</span>                        <span class="c1"># check to see what changed</span>
-</span><span class='line'><span class="n">git</span> <span class="n">rebase</span> <span class="n">origin</span><span class="o">/</span><span class="n">branchname</span>            <span class="c1"># rewrite branch based on origin/branchname</span>
-</span><span class='line'><span class="n">git</span> <span class="n">mergetool</span>                           <span class="c1"># run merge tool to resolve diffs</span>
-</span><span class='line'><span class="n">git</span> <span class="n">rebase</span> <span class="o">--</span><span class="n">continue</span>                   <span class="c1"># rebase not done yet!</span>
-</span><span class='line'>  <span class="ow">or</span> <span class="n">git</span> <span class="n">rebase</span> <span class="o">--</span><span class="n">skip</span>                    <span class="c1"># if you want to accept changes</span>
-</span><span class='line'><span class="n">git</span> <span class="n">clean</span> <span class="o">-</span><span class="n">f</span>                            <span class="c1"># cleans up .orig files generated by merge</span>
+</span><span class='line'><span class="o">&gt;&gt;</span> <span class="mi">631130357</span><span class="o">.</span><span class="mi">633387</span>
 </span><span class='line'>
-</span><span class='line'><span class="n">git</span> <span class="n">status</span>                              <span class="c1"># always a good idea to check status</span>
-</span><span class='line'><span class="n">git</span> <span class="n">add</span> <span class="s2">&quot;file&quot;</span>                          <span class="c1"># add only the file you changed!</span>
-</span><span class='line'><span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;message&quot;</span>
-</span><span class='line'><span class="n">git</span> <span class="n">push</span> <span class="p">(</span><span class="o">-</span><span class="n">f</span><span class="p">)</span>                           <span class="c1"># -f forces changes if necessary</span>
-</span><span class='line'>  <span class="n">git</span> <span class="n">status</span>                            <span class="c1"># is working directory clean?</span>
+</span><span class='line'><span class="c1"># Seconds from now till 100 years from now.</span>
+</span><span class='line'><span class="n">irb</span><span class="o">&gt;</span> <span class="nb">puts</span> <span class="p">(</span><span class="no">Time</span><span class="o">.</span><span class="n">gm</span><span class="p">(</span><span class="mi">2113</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mo">04</span><span class="p">)</span> <span class="o">-</span> <span class="no">Time</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;&gt;</span> <span class="mi">3155651903</span><span class="o">.</span><span class="mi">756982</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p><strong>Setting the branch to track upstream: </strong>
-In order to track the remote branch on the first push from that branch specify the
-&ldquo;-u&rdquo; switch, i.e. <code>git push -u origin repo_branch</code></p>
-
-<p><strong>Forking / cloning a repository: </strong>
-Make sure that you give your collaborator access to your repo from github.com
-under settings.  You will add them by their github user name.  If you don&rsquo;t their
-<code>git push</code> will be rejected.</p>
-
-<p><strong>Error messages: </strong>
-Git is really good about telling you what went wrong, so read the error messages carefully.</p>
-
-<p><strong>Useful Resource: </strong>
-<a href="http://johnjwilliams.org/2013/07/git-command-essentials.html">JohnWilliams.org: Git Command Essentials</a></p>
+<p>Again, slightly different answers.  There are several gems to tackle this
+problem as well.  But this is where I stopped.  Hopefully this stimulates some conversation in class this
+ week.</p>
 </div>
 
 
@@ -167,12 +205,12 @@ Git is really good about telling you what went wrong, so read the error messages
   
 
 
-<time datetime="2013-07-20T20:02:00-06:00" pubdate data-updated="true">Jul 20<span>th</span>, 2013</time>
+<time datetime="2013-07-23T12:18:00-06:00" pubdate data-updated="true">Jul 23<span>rd</span>, 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/github/'>github</a>
+    <a class='category' href='/blog/categories/coding/'>coding</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
   
 </span>
 
@@ -181,7 +219,7 @@ Git is really good about telling you what went wrong, so read the error messages
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://bayendor.github.io/blog/2013/07/20/notes-on-a-github-rebase-workflow/" data-via="bayendor" data-counturl="http://bayendor.github.io/blog/2013/07/20/notes-on-a-github-rebase-workflow/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://bayendor.github.io/blog/2013/07/23/dates-slash-times-are-hard/" data-via="bayendor" data-counturl="http://bayendor.github.io/blog/2013/07/23/dates-slash-times-are-hard/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -194,10 +232,8 @@ Git is really good about telling you what went wrong, so read the error messages
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/07/19/github-101/" title="Previous Post: When Github Keeps Asking for a Password">&laquo; When Github Keeps Asking for a Password</a>
+        <a class="basic-alignment left" href="/blog/2013/07/20/notes-on-a-github-rebase-workflow/" title="Previous Post: Notes on a github rebase workflow">&laquo; Notes on a github rebase workflow</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/07/23/dates-slash-times-are-hard/" title="Next Post: Dates/Times are Hard">Dates/Times are Hard &raquo;</a>
       
     </p>
   </footer>
