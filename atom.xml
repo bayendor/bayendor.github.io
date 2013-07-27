@@ -4,7 +4,7 @@
   <title><![CDATA[Musings of an 8-bit Vet]]></title>
   <link href="http://bayendor.github.io/atom.xml" rel="self"/>
   <link href="http://bayendor.github.io/"/>
-  <updated>2013-07-27T09:58:23-06:00</updated>
+  <updated>2013-07-27T09:59:56-06:00</updated>
   <id>http://bayendor.github.io/</id>
   <author>
     <name><![CDATA[David Bayendor]]></name>
@@ -21,11 +21,11 @@
     <content type="html"><![CDATA[<p>As we are starting to write code, it becomes apparent that some code just looks
 better than other code.  I&rsquo;m pretty sure the Ruby interpreter doesn&rsquo;t care, but
 source code is really a document of the product that the code produces
-so it is important that it be readable, and understandable other Rubyists.</p>
+so it is important that it be readable and understandable to others.</p>
 
 <p>Ruby is pretty expressive, and it seems to offer a lot of flexibility with the
-syntax.  This could lead to a lot of variation in style.  However,just as
-there are standards for style in the production of written works, so there
+syntax.  This could lead to a lot of variation in style.  Just as there are
+ standards for style in the production of written works, so there
 are for programmers.</p>
 
 <p>For Ruby that style guide seems to be: <a href="https://github.com/bbatsov/ruby-style-guide">BBatsov&rsquo;s Ruby Style Guide</a>.</p>
