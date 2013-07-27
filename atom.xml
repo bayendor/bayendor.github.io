@@ -4,7 +4,7 @@
   <title><![CDATA[Musings of an 8-bit Vet]]></title>
   <link href="http://bayendor.github.io/atom.xml" rel="self"/>
   <link href="http://bayendor.github.io/"/>
-  <updated>2013-07-27T09:59:56-06:00</updated>
+  <updated>2013-07-27T11:11:08-06:00</updated>
   <id>http://bayendor.github.io/</id>
   <author>
     <name><![CDATA[David Bayendor]]></name>
@@ -153,8 +153,8 @@ easy to spot as regular comments.</p>
 
 
 <p>That&rsquo;s probably enough to get started.  There is also a very useful gem
-<a href="https://github.com/bbatsov/rubocop">RuboCop</a> that will tell you where you
-where you diverging from these recommendations.</p>
+<a href="https://github.com/bbatsov/rubocop">RuboCop</a> that will tell you
+where you are diverging from these recommendations.</p>
 ]]></content>
   </entry>
   
