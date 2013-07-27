@@ -4,7 +4,7 @@
   <title><![CDATA[Musings of an 8-bit Vet]]></title>
   <link href="http://bayendor.github.io/atom.xml" rel="self"/>
   <link href="http://bayendor.github.io/"/>
-  <updated>2013-07-23T21:00:58-06:00</updated>
+  <updated>2013-07-27T09:54:14-06:00</updated>
   <id>http://bayendor.github.io/</id>
   <author>
     <name><![CDATA[David Bayendor]]></name>
@@ -12,6 +12,151 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Matters of style]]></title>
+    <link href="http://bayendor.github.io/blog/2013/07/26/matters-of-style/"/>
+    <updated>2013-07-26T11:55:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/07/26/matters-of-style</id>
+    <content type="html"><![CDATA[<p>As we are starting to write code, it becomes apparent that some code just looks
+better than others.  I&rsquo;m pretty sure the Ruby interpreter doesn&rsquo;t care, but
+because source code is really a document of the product that the code produces
+it is important that it be readable, and understandable by yourself and others.</p>
+
+<p>Ruby is pretty expressive, and it seems to offer a lot of flexibility with the
+syntax as well.  This could lead to a lot of variation in style.  However,
+just as their are standards for style in the producing written works, so there
+are for programmers.</p>
+
+<p>For Ruby that style guide seems to be: <a href="https://github.com/bbatsov/ruby-style-guide">BBatsov&rsquo;s Ruby Style Guide</a>.</p>
+
+<p>It&rsquo;s an envolving document with a lot of examples of good and bad coding style,
+some of which I am certain are parts of large philosophical debates.  In any
+event as a new Rubyist I feel it is important to develop good habits.  I read
+through the whole document and here are my picks for new programmers to be aware of when writing code, based on the sort of code we are writing now.</p>
+
+<p>All examples courtesy of BBatsov.</p>
+
+<p>Limit lines to 80 characters.</p>
+
+<p>Avoid trailing whitespace.</p>
+
+<p>Use spaces around operators, after commas, colons and semicolons, around <code>{</code>and before <code>}</code>. Whitespace might be (mostly) irrelevant to the Ruby interpreter, but its proper use is the key to writing easily readable code.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">sum</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span>
+</span><span class='line'><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
+</span><span class='line'><span class="mi">1</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="o">?</span> <span class="kp">true</span> <span class="p">:</span> <span class="kp">false</span><span class="p">;</span> <span class="nb">puts</span> <span class="s1">&#39;Hi&#39;</span>
+</span><span class='line'><span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">].</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">e</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>No spaces after <code>(, [</code> or before <code>], )</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">some</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span><span class="o">.</span><span class="n">other</span>
+</span><span class='line'><span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">].</span><span class="n">length</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Use empty lines between defs and to break up a method into logical paragraphs.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">some_method</span>
+</span><span class='line'>  <span class="n">data</span> <span class="o">=</span> <span class="kp">initialize</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">data</span><span class="o">.</span><span class="n">manipulate!</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">data</span><span class="o">.</span><span class="n">result</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">some_method</span>
+</span><span class='line'>  <span class="n">result</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Use spaces around the = operator when assigning default values to method parameters:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># bad</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">some_method</span><span class="p">(</span><span class="n">arg1</span><span class="o">=</span><span class="ss">:default</span><span class="p">,</span> <span class="n">arg2</span><span class="o">=</span><span class="kp">nil</span><span class="p">,</span> <span class="n">arg3</span><span class="o">=[]</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1"># do something...</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># good</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">some_method</span><span class="p">(</span><span class="n">arg1</span> <span class="o">=</span> <span class="ss">:default</span><span class="p">,</span> <span class="n">arg2</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">,</span> <span class="n">arg3</span> <span class="o">=</span> <span class="o">[]</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1"># do something...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Add underscores to large numeric literals to improve their readability.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># bad - how many 0s are there?</span>
+</span><span class='line'><span class="n">num</span> <span class="o">=</span> <span class="mi">1000000</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># good - much easier to parse for the human brain</span>
+</span><span class='line'><span class="n">num</span> <span class="o">=</span> <span class="mi">1_000_000</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Don&rsquo;t use block comments. They cannot be preceded by whitespace and are not as
+easy to spot as regular comments.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># bad</span>
+</span><span class='line'><span class="o">==</span> <span class="k">begin</span>
+</span><span class='line'><span class="n">comment</span> <span class="n">line</span>
+</span><span class='line'><span class="n">another</span> <span class="n">comment</span> <span class="n">line</span>
+</span><span class='line'><span class="o">==</span> <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># good</span>
+</span><span class='line'><span class="c1"># comment line</span>
+</span><span class='line'><span class="c1"># another comment line</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s probably enough to get started.  There is also a very useful gem
+<a href="https://github.com/bbatsov/rubocop">RuboCop</a> that will tell you where you
+where you diverging from these recommendations.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Dates/Times are Hard]]></title>

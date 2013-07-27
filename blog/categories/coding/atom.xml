@@ -4,7 +4,7 @@
   <title><![CDATA[Category: coding | Musings of an 8-bit Vet]]></title>
   <link href="http://bayendor.github.io/blog/categories/coding/atom.xml" rel="self"/>
   <link href="http://bayendor.github.io/"/>
-  <updated>2013-07-23T21:00:58-06:00</updated>
+  <updated>2013-07-27T09:54:14-06:00</updated>
   <id>http://bayendor.github.io/</id>
   <author>
     <name><![CDATA[David Bayendor]]></name>
@@ -98,7 +98,7 @@ My answer was also slightly different since I actually counted the leap years fo
 
 <p>irb> puts (Time.gm(2113, 7, 23, 11, 04) &ndash; Time.new)</p>
 
-<blockquote><blockquote><p>3155651903.756982<br/>
+<blockquote><blockquote><p>3155651903.756982
 ```
 Again, slightly different answers.  There are several gems to tackle this
 problem as well.  But this is where I stopped.  Hopefully this stimulates some conversation in class this
