@@ -96,15 +96,28 @@
 
   <div class="entry-content"><p>Two useful things I learned doing homework over the weekend:</p>
 
-<p><em>USEFUL THING 1: <code>git commit &mdash;amend</code></em></p>
+<p><em>USEFUL THING 1: git commit &mdash;amend</em></p>
 
 <p>Lets say that your fingers get ahead of your brain, and
-that you write your <code>git commit -m &ldquo;Mad code skilz&rdquo;</code>
-and then realize that you forgot to add your modified file.</p>
+that you write your</p>
 
-<p>Well, go ahead  <code>git add thatfile.txt</code> and then issue</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git commit -m "Mad code skilz"</span></code></pre></td></tr></table></div></figure>
 
-<p><code>git commit &mdash;amend</code></p>
+
+<p>and then realize that you forgot to add your modified file.</p>
+
+<p>Well, go ahead</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git add thatfile.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and then issue</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git commit --amend</span></code></pre></td></tr></table></div></figure>
+
 
 <p>This will combine the last two commands together, your forgotten file will get linked with the commit message. Problem solved.</p>
 
@@ -122,10 +135,17 @@ expect to get the message:</p>
 <p>Thanks to a quick <em>HipChat</em> session with classmate Aron, I arrived at
 the following way to control float output:</p>
 
-<p><code>puts &ldquo;Your change is $#{sprintf(&rdquo;%0.2f",@reg_change)}&ldquo;</code></p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;Your change is $</span><span class="si">#{</span><span class="nb">sprintf</span><span class="p">(</span><span class="s2">&quot;%0.2f&quot;</span><span class="p">,</span><span class="vi">@reg_change</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>Let&rsquo;s break it down, the key part here is inside the string interpolation,
-its the <code>sprintf(%0.2f",<em>float</em>)</code>.</p>
+
+<p>Let&rsquo;s break it down, the key part here is inside the string interpolation:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">sprintf</span><span class="p">(</span><span class="o">%</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span><span class="n">f</span><span class="s2">&quot;,float)</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>In particular, the <code>$0.2f</code> is telling <code>sprintf</code> that you want output to be offset by <code>0</code> digits, and include only
  <code>.2</code> digits after the decimal point.</p>
