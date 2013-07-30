@@ -4,7 +4,7 @@
   <title><![CDATA[Musings of an 8-bit Vet]]></title>
   <link href="http://bayendor.github.io/atom.xml" rel="self"/>
   <link href="http://bayendor.github.io/"/>
-  <updated>2013-07-29T18:37:56-06:00</updated>
+  <updated>2013-07-30T08:43:47-06:00</updated>
   <id>http://bayendor.github.io/</id>
   <author>
     <name><![CDATA[David Bayendor]]></name>
@@ -67,11 +67,11 @@ the following way to control float output:</p>
 <p>Let&rsquo;s break it down, the key part here is inside the string interpolation:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">sprintf</span><span class="p">(</span><span class="o">%</span><span class="mi">0</span><span class="o">.</span><span class="mi">2</span><span class="n">f</span><span class="s2">&quot;,float)</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">sprintf</span><span class="p">(</span><span class="s2">&quot;%0.2f&quot;</span><span class="p">,</span><span class="n">float</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>In particular, the <code>$0.2f</code> is telling <code>sprintf</code> that you want output to be offset by <code>0</code> digits, and include only
+<p>In particular, the <code>&ldquo;%0.2f&rdquo;</code> is telling <code>sprintf</code> that you want output to be offset by <code>0</code> digits, and include only
  <code>.2</code> digits after the decimal point.</p>
 
 <p>If you want to set the width of your float output, to say right justify,
