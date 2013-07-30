@@ -4,7 +4,7 @@
   <title><![CDATA[Musings of an 8-bit Vet]]></title>
   <link href="http://bayendor.github.io/atom.xml" rel="self"/>
   <link href="http://bayendor.github.io/"/>
-  <updated>2013-07-27T11:11:08-06:00</updated>
+  <updated>2013-07-29T18:17:59-06:00</updated>
   <id>http://bayendor.github.io/</id>
   <author>
     <name><![CDATA[David Bayendor]]></name>
@@ -12,6 +12,59 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Strings &amp; things]]></title>
+    <link href="http://bayendor.github.io/blog/2013/07/29/strings-and-things/"/>
+    <updated>2013-07-29T17:35:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/07/29/strings-and-things</id>
+    <content type="html"><![CDATA[<p>Two useful things I learned doing homework over the weekend:</p>
+
+<p><em>USEFUL THING 1: <code>git commit &mdash;amend</code></em></p>
+
+<p>Lets say that your fingers get ahead of your brain, and
+that you write your <code>git commit -m &ldquo;Mad code skilz&rdquo;</code>
+and then realize that you forgot to add your modified file.</p>
+
+<p>Well, go ahead  <code>git add thatfile.txt</code> and then issue</p>
+
+<p><code>git commit &mdash;amend</code></p>
+
+<p>This will combine the last two commands together, your forgotten file will get linked with the commit message. Problem solved.</p>
+
+<p><em>USEFUL THING 2: Control significant digits in Ruby <code>float</code> returns</em></p>
+
+<p>While building our <code>CashRegister</code> class, I ran into the problem
+that Ruby floats return way more digits after the decimal point than you
+need to make change.</p>
+
+<p>For example, if you pay for an $8.30 purchase with a $10 bill, you do not
+expect to get the message:</p>
+
+<p><code>Your change is $1.6999999999999993</code></p>
+
+<p>Thanks to a quick <em>HipChat</em> session with classmate Aron, I arrived at
+the following way to control float output:</p>
+
+<p><code>puts &ldquo;Your change is $#{sprintf(&rdquo;%0.2f",@reg_change)}&ldquo;</code></p>
+
+<p>Let&rsquo;s break it down, the key part here is inside the string interpolation,
+its the <code>sprintf(%0.2f",<em>float</em>)</code>.</p>
+
+<p>In particular, the <code>$0.2f</code> is telling <code>sprintf</code> that you want output to be offset by <code>0</code> digits, and include only
+ <code>.2</code> digits after the decimal point.</p>
+
+<p>If you want to set the width of your float output, to say right justify,
+change the <code>0</code> to a larger number, <code>10</code> would
+include padding to make the field 10 digits wide. If you want more or less
+precision after the decimal, change the number after the <code>.</code> to
+any number you choose, say <code>.1</code> or <code>.5</code>.</p>
+
+<p>My final output: <code>Your change is $1.70</code>. Problem solved.</p>
+
+<p>Thanx for reading. Stay tuned for more from the front lines…</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Matters of style]]></title>

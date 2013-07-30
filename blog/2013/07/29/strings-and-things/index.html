@@ -5,14 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Blog Archive - Musings of an 8-bit Vet</title>
+  <title>Strings &amp; things - Musings of an 8-bit Vet</title>
   <meta name="author" content="David Bayendor">
 
   
-  <meta name="description" content="Blog Archive 2013 Strings &amp; things
-Jul 29 2013 Matters of style
-Jul 26 2013 Dates/Times are Hard
-Jul 23 2013 posted in coding, ruby Notes on a &hellip;">
+  <meta name="description" content="Two useful things I learned doing homework over the weekend: USEFUL THING 1: git commit &mdash;amend Lets say that your fingers get ahead of your &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -21,7 +18,7 @@ Jul 23 2013 posted in coding, ruby Notes on a &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://bayendor.github.io/blog/archives">
+  <link rel="canonical" href="http://bayendor.github.io/blog/2013/07/29/strings-and-things">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Musings of an 8-bit Vet" type="application/atom+xml">
@@ -67,153 +64,126 @@ Jul 23 2013 posted in coding, ruby Notes on a &hellip;">
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Blog Archive</h1>
+    
+      <h1 class="entry-title">Strings &amp; Things</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-29T17:35:00-06:00" pubdate data-updated="true">Jul 29<span>th</span>, 2013</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives">
 
 
+<div class="entry-content"><p>Two useful things I learned doing homework over the weekend:</p>
 
-  
-  <h2>2013</h2>
+<p><em>USEFUL THING 1: <code>git commit &mdash;amend</code></em></p>
 
-<article>
-  
-<h1><a href="/blog/2013/07/29/strings-and-things/">Strings &amp; things</a></h1>
-<time datetime="2013-07-29T17:35:00-06:00" pubdate><span class='month'>Jul</span> <span class='day'>29</span> <span class='year'>2013</span></time>
+<p>Lets say that your fingers get ahead of your brain, and
+that you write your <code>git commit -m &ldquo;Mad code skilz&rdquo;</code>
+and then realize that you forgot to add your modified file.</p>
 
+<p>Well, go ahead  <code>git add thatfile.txt</code> and then issue</p>
 
-</article>
+<p><code>git commit &mdash;amend</code></p>
 
+<p>This will combine the last two commands together, your forgotten file will get linked with the commit message. Problem solved.</p>
 
+<p><em>USEFUL THING 2: Control significant digits in Ruby <code>float</code> returns</em></p>
 
-<article>
-  
-<h1><a href="/blog/2013/07/26/matters-of-style/">Matters of style</a></h1>
-<time datetime="2013-07-26T11:55:00-06:00" pubdate><span class='month'>Jul</span> <span class='day'>26</span> <span class='year'>2013</span></time>
+<p>While building our <code>CashRegister</code> class, I ran into the problem
+that Ruby floats return way more digits after the decimal point than you
+need to make change.</p>
 
+<p>For example, if you pay for an $8.30 purchase with a $10 bill, you do not
+expect to get the message:</p>
 
-</article>
+<p><code>Your change is $1.6999999999999993</code></p>
 
+<p>Thanks to a quick <em>HipChat</em> session with classmate Aron, I arrived at
+the following way to control float output:</p>
 
+<p><code>puts &ldquo;Your change is $#{sprintf(&rdquo;%0.2f",@reg_change)}&ldquo;</code></p>
 
-<article>
-  
-<h1><a href="/blog/2013/07/23/dates-slash-times-are-hard/">Dates/Times are Hard</a></h1>
-<time datetime="2013-07-23T12:18:00-06:00" pubdate><span class='month'>Jul</span> <span class='day'>23</span> <span class='year'>2013</span></time>
+<p>Let&rsquo;s break it down, the key part here is inside the string interpolation,
+its the <code>sprintf(%0.2f",<em>float</em>)</code>.</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/coding/'>coding</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a></span>
-</footer>
+<p>In particular, the <code>$0.2f</code> is telling <code>sprintf</code> that you want output to be offset by <code>0</code> digits, and include only
+ <code>.2</code> digits after the decimal point.</p>
 
+<p>If you want to set the width of your float output, to say right justify,
+change the <code>0</code> to a larger number, <code>10</code> would
+include padding to make the field 10 digits wide. If you want more or less
+precision after the decimal, change the number after the <code>.</code> to
+any number you choose, say <code>.1</code> or <code>.5</code>.</p>
 
-</article>
+<p>My final output: <code>Your change is $1.70</code>. Problem solved.</p>
 
-
-
-<article>
-  
-<h1><a href="/blog/2013/07/20/notes-on-a-github-rebase-workflow/">Notes on a github rebase workflow</a></h1>
-<time datetime="2013-07-20T20:02:00-06:00" pubdate><span class='month'>Jul</span> <span class='day'>20</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/github/'>github</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2013/07/19/github-101/">When Github Keeps Asking for a Password</a></h1>
-<time datetime="2013-07-19T21:32:00-06:00" pubdate><span class='month'>Jul</span> <span class='day'>19</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/github/'>github</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2013/07/19/agile-is-the-new-black/">Agile is the new black</a></h1>
-<time datetime="2013-07-19T20:14:00-06:00" pubdate><span class='month'>Jul</span> <span class='day'>19</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/agile/'>agile</a>, <a class='category' href='/blog/categories/video/'>video</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2013/07/18/command-line-crash-course/">Command Line Crash Course</a></h1>
-<time datetime="2013-07-18T10:18:00-06:00" pubdate><span class='month'>Jul</span> <span class='day'>18</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/command-line/'>command-line</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2013/07/17/deploying-octopress-to-github-dot-io/">Deploying Octopress to github.io</a></h1>
-<time datetime="2013-07-17T15:01:00-06:00" pubdate><span class='month'>Jul</span> <span class='day'>17</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/blog/'>blog</a>, <a class='category' href='/blog/categories/github/'>github</a>, <a class='category' href='/blog/categories/octopress/'>octopress</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2013/07/16/rbenv/">Choices: Gemsets & bundle exec</a></h1>
-<time datetime="2013-07-16T18:58:00-06:00" pubdate><span class='month'>Jul</span> <span class='day'>16</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/bundle/'>bundle</a>, <a class='category' href='/blog/categories/gems/'>gems</a>, <a class='category' href='/blog/categories/rbenv/'>rbenv</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2013/07/15/q-who-is-an-8-bit-vet/">Q: Who is an 8-bit Vet?</a></h1>
-<time datetime="2013-07-15T23:34:00-06:00" pubdate><span class='month'>Jul</span> <span class='day'>15</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/culture/'>culture</a>, <a class='category' href='/blog/categories/tech/'>tech</a></span>
-</footer>
-
-
-</article>
-
+<p>Thanx for reading. Stay tuned for more from the front lines…</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">David Bayendor</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-29T17:35:00-06:00" pubdate data-updated="true">Jul 29<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://bayendor.github.io/blog/2013/07/29/strings-and-things/" data-via="bayendor" data-counturl="http://bayendor.github.io/blog/2013/07/29/strings-and-things/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/07/26/matters-of-style/" title="Previous Post: Matters of style">&laquo; Matters of style</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
 </div>

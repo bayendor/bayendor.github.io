@@ -9,8 +9,7 @@
   <meta name="author" content="David Bayendor">
 
   
-  <meta name="description" content="As we are starting to write code, it becomes apparent that some code just looks
-better than other code. I&rsquo;m pretty sure the Ruby interpreter &hellip;">
+  <meta name="description" content="Two useful things I learned doing homework over the weekend: USEFUL THING 1: git commit &mdash;amend Lets say that your fingers get ahead of your &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +65,86 @@ better than other code. I&rsquo;m pretty sure the Ruby interpreter &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/29/strings-and-things/">Strings &amp; Things</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-29T17:35:00-06:00" pubdate data-updated="true">Jul 29<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Two useful things I learned doing homework over the weekend:</p>
+
+<p><em>USEFUL THING 1: <code>git commit &mdash;amend</code></em></p>
+
+<p>Lets say that your fingers get ahead of your brain, and
+that you write your <code>git commit -m &ldquo;Mad code skilz&rdquo;</code>
+and then realize that you forgot to add your modified file.</p>
+
+<p>Well, go ahead  <code>git add thatfile.txt</code> and then issue</p>
+
+<p><code>git commit &mdash;amend</code></p>
+
+<p>This will combine the last two commands together, your forgotten file will get linked with the commit message. Problem solved.</p>
+
+<p><em>USEFUL THING 2: Control significant digits in Ruby <code>float</code> returns</em></p>
+
+<p>While building our <code>CashRegister</code> class, I ran into the problem
+that Ruby floats return way more digits after the decimal point than you
+need to make change.</p>
+
+<p>For example, if you pay for an $8.30 purchase with a $10 bill, you do not
+expect to get the message:</p>
+
+<p><code>Your change is $1.6999999999999993</code></p>
+
+<p>Thanks to a quick <em>HipChat</em> session with classmate Aron, I arrived at
+the following way to control float output:</p>
+
+<p><code>puts &ldquo;Your change is $#{sprintf(&rdquo;%0.2f",@reg_change)}&ldquo;</code></p>
+
+<p>Let&rsquo;s break it down, the key part here is inside the string interpolation,
+its the <code>sprintf(%0.2f",<em>float</em>)</code>.</p>
+
+<p>In particular, the <code>$0.2f</code> is telling <code>sprintf</code> that you want output to be offset by <code>0</code> digits, and include only
+ <code>.2</code> digits after the decimal point.</p>
+
+<p>If you want to set the width of your float output, to say right justify,
+change the <code>0</code> to a larger number, <code>10</code> would
+include padding to make the field 10 digits wide. If you want more or less
+precision after the decimal, change the number after the <code>.</code> to
+any number you choose, say <code>.1</code> or <code>.5</code>.</p>
+
+<p>My final output: <code>Your change is $1.70</code>. Problem solved.</p>
+
+<p>Thanx for reading. Stay tuned for more from the front lines…</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1033,6 +1112,10 @@ worthy of particular awe&hellip;</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/07/29/strings-and-things/">Strings &amp; Things</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/07/26/matters-of-style/">Matters of Style</a>
       </li>
     
@@ -1046,10 +1129,6 @@ worthy of particular awe&hellip;</p>
     
       <li class="post">
         <a href="/blog/2013/07/19/github-101/">When Github Keeps Asking for a Password</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/07/19/agile-is-the-new-black/">Agile Is the New Black</a>
       </li>
     
   </ul>
