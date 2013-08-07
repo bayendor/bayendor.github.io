@@ -4,7 +4,7 @@
   <title><![CDATA[Category: github | Musings of an 8-bit Vet]]></title>
   <link href="http://bayendor.github.io/blog/categories/github/atom.xml" rel="self"/>
   <link href="http://bayendor.github.io/"/>
-  <updated>2013-08-07T17:20:21-06:00</updated>
+  <updated>2013-08-07T17:41:42-06:00</updated>
   <id>http://bayendor.github.io/</id>
   <author>
     <name><![CDATA[David Bayendor]]></name>
@@ -24,7 +24,7 @@ to making git commits and doing pull requests.</p>
 <p>While exploring the section &ldquo;about_regular_expressions&rdquo; and fixing each test and doing some <a href="http://gitx.frim.nl/">Gitx</a> practice, I found myself the proud
 owner of 27 separate commits!</p>
 
-<p>At this point Jason Noble, our instructor, stepped in and said something like
+<p>At this point <a href="http://jasonnoble.org">Jason Noble</a>, our instructor, stepped in and said something like
 &ldquo;Wow, that&rsquo;s a lot of commits.  You should <code>git rebase -i</code> and
 squash some of them.&rdquo;</p>
 
@@ -95,6 +95,8 @@ I used <code>HEAD ~4</code> to tell rebase to count four commits from
 <p> The instructions on how to use all these features are in the comments
  below the list of commits.  Change <code>pick</code> to
  <code>squash</code> on the commits you want to combine, and save your changes.</p>
+
+<p> <strong><strong>WARNING: Do NOT change the first line!  Bad things happen.</strong></strong></p>
 
 <p>```
 pick 1962bf9 Add another_file.txt
