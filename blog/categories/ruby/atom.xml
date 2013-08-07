@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | Musings of an 8-bit Vet]]></title>
   <link href="http://bayendor.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://bayendor.github.io/"/>
-  <updated>2013-08-02T12:43:35-06:00</updated>
+  <updated>2013-08-07T17:20:21-06:00</updated>
   <id>http://bayendor.github.io/</id>
   <author>
     <name><![CDATA[David Bayendor]]></name>
@@ -12,6 +12,112 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Matters of style]]></title>
+    <link href="http://bayendor.github.io/blog/2013/07/26/matters-of-style/"/>
+    <updated>2013-07-26T11:55:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/07/26/matters-of-style</id>
+    <content type="html"><![CDATA[<p>As we are starting to write code, it becomes apparent that some code just looks
+better than other code.  I&rsquo;m pretty sure the Ruby interpreter doesn&rsquo;t care, but
+source code is really a document of the product that the code produces
+so it is important that it be readable and understandable to others.</p>
+
+<p>Ruby is pretty expressive, and it seems to offer a lot of flexibility with the
+syntax.  This could lead to a lot of variation in style.  Just as there are
+ standards for style in the production of written works, so there
+are for programmers.</p>
+
+<p>For Ruby that style guide seems to be: <a href="https://github.com/bbatsov/ruby-style-guide">BBatsov&rsquo;s Ruby Style Guide</a>.</p>
+
+<p>It&rsquo;s an envolving document with a lot of examples of good and bad coding style,
+some of which I am certain are parts of large philosophical debates.  In any
+event as a new Rubyist I feel it is important to develop good habits.  I read
+through the whole document and here some picks for new programmers to be aware of when writing code, based on the sort of code we are writing now.</p>
+
+<p><em>All examples courtesy of BBatsov.</em></p>
+
+<p>Limit lines to 80 characters.</p>
+
+<p>Avoid trailing whitespace.</p>
+
+<p>Use spaces around operators, after commas, colons and semicolons, around <code>{</code>and before <code>}</code>. Whitespace might be (mostly) irrelevant to the Ruby interpreter, but its proper use is the key to writing easily readable code.
+<code>ruby
+sum = 1 + 2
+a, b = 1, 2
+1 &gt; 2 ? true : false; puts 'Hi'
+[1, 2, 3].each { |e| puts e }
+</code>
+No spaces after <code>(, [</code> or before <code>], )</code>.
+<code>ruby
+some(arg).other
+[1, 2, 3].length
+</code>
+Use empty lines between defs and to break up a method into logical paragraphs.
+```ruby
+def some_method
+  data = initialize(options)</p>
+
+<p>  data.manipulate!</p>
+
+<p>  data.result
+end</p>
+
+<p>def some_method
+  result
+end
+<code>
+Use spaces around the = operator when assigning default values to method parameters:
+</code>ruby</p>
+
+<h1>bad</h1>
+
+<p>def some_method(arg1=:default, arg2=nil, arg3=[])
+  # do something&hellip;
+end</p>
+
+<h1>good</h1>
+
+<p>def some_method(arg1 = :default, arg2 = nil, arg3 = [])
+  # do something&hellip;
+end
+<code>
+Add underscores to large numeric literals to improve their readability.
+</code>ruby</p>
+
+<h1>bad &ndash; how many 0s are there?</h1>
+
+<p>num = 1000000</p>
+
+<h1>good &ndash; much easier to parse for the human brain</h1>
+
+<p>num = 1_000_000
+```
+Don&rsquo;t use block comments. They cannot be preceded by whitespace and are not as
+easy to spot as regular comments.</p>
+
+<p>```ruby</p>
+
+<h1>bad</h1>
+
+<p>== begin
+comment line
+another comment line
+== end</p>
+
+<h1>good</h1>
+
+<h1>comment line</h1>
+
+<h1>another comment line</h1>
+
+<p>```</p>
+
+<p>That&rsquo;s probably enough to get started.  There is also a very useful gem
+<a href="https://github.com/bbatsov/rubocop">RuboCop</a> that will tell you
+where you are diverging from these recommendations.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Dates/Times are Hard]]></title>

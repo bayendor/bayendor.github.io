@@ -4,7 +4,7 @@
   <title><![CDATA[Category: github | Musings of an 8-bit Vet]]></title>
   <link href="http://bayendor.github.io/blog/categories/github/atom.xml" rel="self"/>
   <link href="http://bayendor.github.io/"/>
-  <updated>2013-08-02T12:43:35-06:00</updated>
+  <updated>2013-08-07T17:20:21-06:00</updated>
   <id>http://bayendor.github.io/</id>
   <author>
     <name><![CDATA[David Bayendor]]></name>
@@ -12,6 +12,232 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Tame Git Commits with squash]]></title>
+    <link href="http://bayendor.github.io/blog/2013/08/07/tame-git-commits-squash-and-reword/"/>
+    <updated>2013-08-07T11:34:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/08/07/tame-git-commits-squash-and-reword</id>
+    <content type="html"><![CDATA[<p>In class we are working our way through the <a href="https://github.com/neo/ruby_koans">Ruby Koans</a>. This is partly to learn Ruby, and partly to get us used
+to making git commits and doing pull requests.</p>
+
+<p>While exploring the section &ldquo;about_regular_expressions&rdquo; and fixing each test and doing some <a href="http://gitx.frim.nl/">Gitx</a> practice, I found myself the proud
+owner of 27 separate commits!</p>
+
+<p>At this point Jason Noble, our instructor, stepped in and said something like
+&ldquo;Wow, that&rsquo;s a lot of commits.  You should <code>git rebase -i</code> and
+squash some of them.&rdquo;</p>
+
+<p>What is <code>squash</code>, you ask?  It is where you take a number of commits
+and turn them into a single commit, combining the commit messages at the same
+time.</p>
+
+<p>In the following example, lines 3-7 are five commits I performed:
+<code>
+[~/workspace/squash_reword]
+(master) $ git log --oneline
+d3d80ce Add README file
+b209207 Include testing file
+53ca0f5 Env &gt;&gt; file.txt
+1962bf9 Add another_file.txt
+44d0164 Initial commit
+[~/workspace/squash_reword]
+(master) $
+</code>
+Issuing the following command: <code>git rebase -i HEAD~4</code>
+make the default editor editor open up <code>git-rebase-todo</code> with the following content:</p>
+
+<p>```
+pick 1962bf9 Add another_file.txt
+pick 53ca0f5 Env >> file.txt
+pick b209207 Include testing file
+pick d3d80ce Add README file</p>
+
+<h1>Rebase 44d0164..d3d80ce onto 44d0164</h1>
+
+<p>#</p>
+
+<h1>Commands:</h1>
+
+<h1>p, pick = use commit</h1>
+
+<h1>r, reword = use commit, but edit the commit message</h1>
+
+<h1>e, edit = use commit, but stop for amending</h1>
+
+<h1>s, squash = use commit, but meld into previous commit</h1>
+
+<h1>f, fixup = like &ldquo;squash&rdquo;, but discard this commit&rsquo;s log message</h1>
+
+<h1>x, exec = run command (the rest of the line) using shell</h1>
+
+<p>#</p>
+
+<h1>These lines can be re-ordered; they are executed from top to bottom.</h1>
+
+<p>#</p>
+
+<h1>If you remove a line here THAT COMMIT WILL BE LOST.</h1>
+
+<p>#</p>
+
+<h1>However, if you remove everything, the rebase will be aborted.</h1>
+
+<p>#</p>
+
+<h1>Note that empty commits are commented out</h1>
+
+<p>```
+I used <code>HEAD ~4</code> to tell rebase to count four commits from
+ <code>HEAD</code>. If you are rebasing against a remote you would use
+ something like <code>git rebase -i upstream/master</code>.</p>
+
+<p> The instructions on how to use all these features are in the comments
+ below the list of commits.  Change <code>pick</code> to
+ <code>squash</code> on the commits you want to combine, and save your changes.</p>
+
+<p>```
+pick 1962bf9 Add another_file.txt
+squash 53ca0f5 Env >> file.txt
+squash b209207 Include testing file
+squash d3d80ce Add README file</p>
+
+<h1>Rebase 44d0164..d3d80ce onto 44d0164</h1>
+
+<p>```</p>
+
+<p>Upon closing the editor, you will be presented with the file
+<code>COMMIT_EDITMSG</code> containing all the messages from the squashed
+commits:</p>
+
+<p>```</p>
+
+<h1>This is a combination of 4 commits.</h1>
+
+<h1>The first commit&rsquo;s message is:</h1>
+
+<p>Add another_file.txt</p>
+
+<h1>This is the 2nd commit message:</h1>
+
+<p>Env >> file.txt</p>
+
+<h1>This is the 3rd commit message:</h1>
+
+<p>Include testing file</p>
+
+<h1>This is the 4th commit message:</h1>
+
+<p>Add README file</p>
+
+<h1>Please enter the commit message for your changes. Lines starting</h1>
+
+<h1>with &lsquo;#&rsquo; will be ignored, and an empty message aborts the commit.</h1>
+
+<h1>HEAD detached from 1962bf9</h1>
+
+<h1>You are currently editing a commit while rebasing branch &lsquo;master&rsquo; on &lsquo;44d0164&rsquo;.</h1>
+
+<p>#</p>
+
+<h1>Changes to be committed:</h1>
+
+<h1>(use &ldquo;git reset HEAD<sup>1</sup> <file>&hellip;&rdquo; to unstage)</h1>
+
+<p>#</p>
+
+<h1>new file:   README.md</h1>
+
+<h1>new file:   another_file.txt</h1>
+
+<h1>modified:   file1.txt</h1>
+
+<h1>new file:   file_spec.spec</h1>
+
+<p><code>
+Edit the new single commit message, and remove any duplicated or extraneous
+text, and hit save and close the file.  Git will update the files
+and adjust the commit. Your list of commits now looks like this:
+</code>
+(master) $ git log &mdash;oneline
+5dd5037 Add README and testing files
+44d0164 Initial commit
+[~/workspace/squash_reword]
+(master) $
+```</p>
+
+<p>Problem solved!</p>
+
+<p>You can also use the same procedure to edit commit messages, only use the
+option <code>reword</code> instead of <code>pick</code>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Strings &amp; things]]></title>
+    <link href="http://bayendor.github.io/blog/2013/07/29/strings-and-things/"/>
+    <updated>2013-07-29T17:35:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/07/29/strings-and-things</id>
+    <content type="html"><![CDATA[<p>Two useful things I learned doing homework over the weekend:</p>
+
+<p><em>USEFUL THING 1: git commit &mdash;amend</em></p>
+
+<p>Lets say that your fingers get ahead of your brain, and
+that you write your
+<code>
+git commit -m "Mad code skilz"
+</code>
+and then realize that you forgot to add your modified file.</p>
+
+<p>Well, go ahead
+<code>
+git add thatfile.txt
+</code>
+and then issue</p>
+
+<p><code>
+git commit --amend
+</code></p>
+
+<p>This will combine the last two commands together, your forgotten file will get linked with the commit message. Problem solved.</p>
+
+<p><em>USEFUL THING 2: Control significant digits in Ruby <code>float</code> returns</em></p>
+
+<p>While building our <code>CashRegister</code> class, I ran into the problem
+that Ruby floats return way more digits after the decimal point than you
+need to make change.</p>
+
+<p>For example, if you pay for an $8.30 purchase with a $10 bill, you do not
+expect to get the message:</p>
+
+<p><code>Your change is $1.6999999999999993</code></p>
+
+<p>Thanks to a quick <em>HipChat</em> session with classmate Aron, I arrived at
+the following way to control float output:</p>
+
+<p><code>ruby
+puts "Your change is $#{sprintf("%0.2f",@reg_change)}"
+</code></p>
+
+<p>Let&rsquo;s break it down, the key part here is inside the string interpolation:
+<code>ruby
+sprintf("%0.2f",float)
+</code></p>
+
+<p>In particular, the <code>&ldquo;%0.2f&rdquo;</code> is telling <code>sprintf</code> that you want output to be offset by <code>0</code> digits, and include only
+ <code>.2</code> digits after the decimal point.</p>
+
+<p>If you want to set the width of your float output, to say right justify,
+change the <code>0</code> to a larger number, <code>10</code> would
+include padding to make the field 10 digits wide. If you want more or less
+precision after the decimal, change the number after the <code>.</code> to
+any number you choose, say <code>.1</code> or <code>.5</code>.</p>
+
+<p>My final output: <code>Your change is $1.70</code>. Problem solved.</p>
+
+<p>Thanx for reading. Stay tuned for more from the front lines…</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Notes on a github rebase workflow]]></title>

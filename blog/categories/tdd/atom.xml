@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: TDD | Musings of an 8-bit Vet]]></title>
+  <link href="http://bayendor.github.io/blog/categories/tdd/atom.xml" rel="self"/>
+  <link href="http://bayendor.github.io/"/>
+  <updated>2013-08-07T17:20:21-06:00</updated>
+  <id>http://bayendor.github.io/</id>
+  <author>
+    <name><![CDATA[David Bayendor]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[On TDD and technical hiring]]></title>
+    <link href="http://bayendor.github.io/blog/2013/08/01/on-tdd-and-technical-hiring/"/>
+    <updated>2013-08-01T07:50:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/08/01/on-tdd-and-technical-hiring</id>
+    <content type="html"><![CDATA[<p><blockquote><p>Outside-in development often feels strange to newcomers. Most developers prefer to start with the “important” part of an application &hellip; Thinking like a server and not a client can lead to overengineering by implementing more than you need. Your resulting objects and their interfaces will also be less than optimal, or at least take longer to get quite right.</p><footer><strong>Jared Carroll <a href="http://blog.carbonfive.com/2012/02/14/beginning-outside-in-rails-development-with-cucumber-and-rspec/">http://blog.carbonfive.com/2012/02/14/beginning-outside-in-rails-development-with-cucumber-and-rspec/</a> Beginning Outside-In Rails Development with Cucumber and RSpec</strong></footer></blockquote>
+We have started exploring test drive development in class, which can be a bit
+of a conceptual shift.  TDD goes hand in glove with Agile practices because it
+ encourages rapid delivery of working code, in discrete steps.  As
+a bonus it creates a living document of the development process that can be
+used further down the road of an applications life-cycle to make sure that no
+new code breaks any of the old code.</p>
+
+<p>The quote above comes from an excellent blog entry by Jared Carroll, <a href="http://blog.carbonfive.com/2012/02/14/beginning-outside-in-rails-development-with-cucumber-and-rspec/">Beginning Outside-In Rails Development with Cucumber and RSpec</a>.
+Jared gives an overview of how TDD should work. Anyone getting started in TDD should read it and let it sink in.</p>
+
+<p>On another note, as aspiring junior web-devs, this recent
+<a href="http://www.thoughtbot.com/">thoughtbot</a> podcast is worth listening to:
+<a href="https://learn.thoughtbot.com/giantrobots/59">podcast #59: Nowhere to Hide</a>.</p>
+
+<p>In the episode, Ben Orenstein speaks with thoughtbot CTO Joe Ferris about the technical interview process at thoughtbot, and more.</p>
+
+<p>Thanx for reading, stay tuned for more from the frontlines&hellip;</p>
+]]></content>
+  </entry>
+  
+</feed>

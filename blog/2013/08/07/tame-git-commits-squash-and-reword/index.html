@@ -1,0 +1,464 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Tame Git Commits with squash - Musings of an 8-bit Vet</title>
+  <meta name="author" content="David Bayendor">
+
+  
+  <meta name="description" content="In class we are working our way through the Ruby Koans. This is partly to learn Ruby, and partly to get us used
+to making git commits and doing pull &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://bayendor.github.io/blog/2013/08/07/tame-git-commits-squash-and-reword">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Musings of an 8-bit Vet" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Musings of an 8-bit Vet</a></h1>
+  
+    <h2>A DaVinci Coders Student Tech Diary</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:bayendor.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Tame Git Commits With Squash</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-07T11:34:00-06:00" pubdate data-updated="true">Aug 7<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>In class we are working our way through the <a href="https://github.com/neo/ruby_koans">Ruby Koans</a>. This is partly to learn Ruby, and partly to get us used
+to making git commits and doing pull requests.</p>
+
+<p>While exploring the section &ldquo;about_regular_expressions&rdquo; and fixing each test and doing some <a href="http://gitx.frim.nl/">Gitx</a> practice, I found myself the proud
+owner of 27 separate commits!</p>
+
+<p>At this point Jason Noble, our instructor, stepped in and said something like
+&ldquo;Wow, that&rsquo;s a lot of commits.  You should <code>git rebase -i</code> and
+squash some of them.&rdquo;</p>
+
+<p>What is <code>squash</code>, you ask?  It is where you take a number of commits
+and turn them into a single commit, combining the commit messages at the same
+time.</p>
+
+<p>In the following example, lines 3-7 are five commits I performed:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[~/workspace/squash_reword]
+</span><span class='line'>(master) $ git log --oneline
+</span><span class='line'>d3d80ce Add README file
+</span><span class='line'>b209207 Include testing file
+</span><span class='line'>53ca0f5 Env &gt;&gt; file.txt
+</span><span class='line'>1962bf9 Add another_file.txt
+</span><span class='line'>44d0164 Initial commit
+</span><span class='line'>[~/workspace/squash_reword]
+</span><span class='line'>(master) $</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Issuing the following command: <code>git rebase -i HEAD~4</code>
+make the default editor editor open up <code>git-rebase-todo</code> with the following content:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pick 1962bf9 Add another_file.txt
+</span><span class='line'>pick 53ca0f5 Env &gt;&gt; file.txt
+</span><span class='line'>pick b209207 Include testing file
+</span><span class='line'>pick d3d80ce Add README file
+</span><span class='line'>
+</span><span class='line'># Rebase 44d0164..d3d80ce onto 44d0164
+</span><span class='line'>#
+</span><span class='line'># Commands:
+</span><span class='line'>#  p, pick = use commit
+</span><span class='line'>#  r, reword = use commit, but edit the commit message
+</span><span class='line'>#  e, edit = use commit, but stop for amending
+</span><span class='line'>#  s, squash = use commit, but meld into previous commit
+</span><span class='line'>#  f, fixup = like "squash", but discard this commit's log message
+</span><span class='line'>#  x, exec = run command (the rest of the line) using shell
+</span><span class='line'>#
+</span><span class='line'># These lines can be re-ordered; they are executed from top to bottom.
+</span><span class='line'>#
+</span><span class='line'># If you remove a line here THAT COMMIT WILL BE LOST.
+</span><span class='line'>#
+</span><span class='line'># However, if you remove everything, the rebase will be aborted.
+</span><span class='line'>#
+</span><span class='line'># Note that empty commits are commented out</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I used <code>HEAD ~4</code> to tell rebase to count four commits from
+ <code>HEAD</code>. If you are rebasing against a remote you would use
+ something like <code>git rebase -i upstream/master</code>.</p>
+
+<p> The instructions on how to use all these features are in the comments
+ below the list of commits.  Change <code>pick</code> to
+ <code>squash</code> on the commits you want to combine, and save your changes.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pick 1962bf9 Add another_file.txt
+</span><span class='line'>squash 53ca0f5 Env &gt;&gt; file.txt
+</span><span class='line'>squash b209207 Include testing file
+</span><span class='line'>squash d3d80ce Add README file
+</span><span class='line'>
+</span><span class='line'># Rebase 44d0164..d3d80ce onto 44d0164</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Upon closing the editor, you will be presented with the file
+<code>COMMIT_EDITMSG</code> containing all the messages from the squashed
+commits:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># This is a combination of 4 commits.
+</span><span class='line'># The first commit's message is:
+</span><span class='line'>Add another_file.txt
+</span><span class='line'>
+</span><span class='line'># This is the 2nd commit message:
+</span><span class='line'>
+</span><span class='line'>Env &gt;&gt; file.txt
+</span><span class='line'>
+</span><span class='line'># This is the 3rd commit message:
+</span><span class='line'>
+</span><span class='line'>Include testing file
+</span><span class='line'>
+</span><span class='line'># This is the 4th commit message:
+</span><span class='line'>
+</span><span class='line'>Add README file
+</span><span class='line'>
+</span><span class='line'># Please enter the commit message for your changes. Lines starting
+</span><span class='line'># with '#' will be ignored, and an empty message aborts the commit.
+</span><span class='line'># HEAD detached from 1962bf9
+</span><span class='line'># You are currently editing a commit while rebasing branch 'master' on '44d0164'.
+</span><span class='line'>#
+</span><span class='line'># Changes to be committed:
+</span><span class='line'>#   (use "git reset HEAD^1 &lt;file&gt;..." to unstage)
+</span><span class='line'>#
+</span><span class='line'># new file:   README.md
+</span><span class='line'># new file:   another_file.txt
+</span><span class='line'># modified:   file1.txt
+</span><span class='line'># new file:   file_spec.spec</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Edit the new single commit message, and remove any duplicated or extraneous
+text, and hit save and close the file.  Git will update the files
+and adjust the commit. Your list of commits now looks like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(master) $ git log --oneline
+</span><span class='line'>5dd5037 Add README and testing files
+</span><span class='line'>44d0164 Initial commit
+</span><span class='line'>[~/workspace/squash_reword]
+</span><span class='line'>(master) $</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Problem solved!</p>
+
+<p>You can also use the same procedure to edit commit messages, only use the
+option <code>reword</code> instead of <code>pick</code>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">David Bayendor</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-07T11:34:00-06:00" pubdate data-updated="true">Aug 7<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/github/'>github</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://bayendor.github.io/blog/2013/08/07/tame-git-commits-squash-and-reword/" data-via="bayendor" data-counturl="http://bayendor.github.io/blog/2013/08/07/tame-git-commits-squash-and-reword/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/08/01/on-tdd-and-technical-hiring/" title="Previous Post: On TDD and technical hiring">&laquo; On TDD and technical hiring</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/08/07/tame-git-commits-squash-and-reword/">Tame Git Commits With Squash</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/01/on-tdd-and-technical-hiring/">On TDD and Technical Hiring</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/29/strings-and-things/">Strings &amp; Things</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/26/matters-of-style/">Matters of Style</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/23/dates-slash-times-are-hard/">Dates/Times Are Hard</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Twitter</h1>
+  <a class="twitter-timeline" href="https://twitter.com/bayendor/rubyists" data-widget-id="358255105751015424">Tweets from @bayendor/rubyists</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+</section>
+
+
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/bayendor">@bayendor</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'bayendor',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - David Bayendor -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

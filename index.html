@@ -9,7 +9,8 @@
   <meta name="author" content="David Bayendor">
 
   
-  <meta name="description" content="Outside-in development often feels strange to newcomers. Most developers prefer to start with the “important” part of an application &#8230; Thinking &hellip;">
+  <meta name="description" content="In class we are working our way through the Ruby Koans. This is partly to learn Ruby, and partly to get us used
+to making git commits and doing pull &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +66,230 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/07/tame-git-commits-squash-and-reword/">Tame Git Commits With Squash</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-07T11:34:00-06:00" pubdate data-updated="true">Aug 7<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>In class we are working our way through the <a href="https://github.com/neo/ruby_koans">Ruby Koans</a>. This is partly to learn Ruby, and partly to get us used
+to making git commits and doing pull requests.</p>
+
+<p>While exploring the section &ldquo;about_regular_expressions&rdquo; and fixing each test and doing some <a href="http://gitx.frim.nl/">Gitx</a> practice, I found myself the proud
+owner of 27 separate commits!</p>
+
+<p>At this point Jason Noble, our instructor, stepped in and said something like
+&ldquo;Wow, that&rsquo;s a lot of commits.  You should <code>git rebase -i</code> and
+squash some of them.&rdquo;</p>
+
+<p>What is <code>squash</code>, you ask?  It is where you take a number of commits
+and turn them into a single commit, combining the commit messages at the same
+time.</p>
+
+<p>In the following example, lines 3-7 are five commits I performed:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[~/workspace/squash_reword]
+</span><span class='line'>(master) $ git log --oneline
+</span><span class='line'>d3d80ce Add README file
+</span><span class='line'>b209207 Include testing file
+</span><span class='line'>53ca0f5 Env &gt;&gt; file.txt
+</span><span class='line'>1962bf9 Add another_file.txt
+</span><span class='line'>44d0164 Initial commit
+</span><span class='line'>[~/workspace/squash_reword]
+</span><span class='line'>(master) $</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Issuing the following command: <code>git rebase -i HEAD~4</code>
+make the default editor editor open up <code>git-rebase-todo</code> with the following content:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pick 1962bf9 Add another_file.txt
+</span><span class='line'>pick 53ca0f5 Env &gt;&gt; file.txt
+</span><span class='line'>pick b209207 Include testing file
+</span><span class='line'>pick d3d80ce Add README file
+</span><span class='line'>
+</span><span class='line'># Rebase 44d0164..d3d80ce onto 44d0164
+</span><span class='line'>#
+</span><span class='line'># Commands:
+</span><span class='line'>#  p, pick = use commit
+</span><span class='line'>#  r, reword = use commit, but edit the commit message
+</span><span class='line'>#  e, edit = use commit, but stop for amending
+</span><span class='line'>#  s, squash = use commit, but meld into previous commit
+</span><span class='line'>#  f, fixup = like "squash", but discard this commit's log message
+</span><span class='line'>#  x, exec = run command (the rest of the line) using shell
+</span><span class='line'>#
+</span><span class='line'># These lines can be re-ordered; they are executed from top to bottom.
+</span><span class='line'>#
+</span><span class='line'># If you remove a line here THAT COMMIT WILL BE LOST.
+</span><span class='line'>#
+</span><span class='line'># However, if you remove everything, the rebase will be aborted.
+</span><span class='line'>#
+</span><span class='line'># Note that empty commits are commented out</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I used <code>HEAD ~4</code> to tell rebase to count four commits from
+ <code>HEAD</code>. If you are rebasing against a remote you would use
+ something like <code>git rebase -i upstream/master</code>.</p>
+
+<p> The instructions on how to use all these features are in the comments
+ below the list of commits.  Change <code>pick</code> to
+ <code>squash</code> on the commits you want to combine, and save your changes.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pick 1962bf9 Add another_file.txt
+</span><span class='line'>squash 53ca0f5 Env &gt;&gt; file.txt
+</span><span class='line'>squash b209207 Include testing file
+</span><span class='line'>squash d3d80ce Add README file
+</span><span class='line'>
+</span><span class='line'># Rebase 44d0164..d3d80ce onto 44d0164</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Upon closing the editor, you will be presented with the file
+<code>COMMIT_EDITMSG</code> containing all the messages from the squashed
+commits:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># This is a combination of 4 commits.
+</span><span class='line'># The first commit's message is:
+</span><span class='line'>Add another_file.txt
+</span><span class='line'>
+</span><span class='line'># This is the 2nd commit message:
+</span><span class='line'>
+</span><span class='line'>Env &gt;&gt; file.txt
+</span><span class='line'>
+</span><span class='line'># This is the 3rd commit message:
+</span><span class='line'>
+</span><span class='line'>Include testing file
+</span><span class='line'>
+</span><span class='line'># This is the 4th commit message:
+</span><span class='line'>
+</span><span class='line'>Add README file
+</span><span class='line'>
+</span><span class='line'># Please enter the commit message for your changes. Lines starting
+</span><span class='line'># with '#' will be ignored, and an empty message aborts the commit.
+</span><span class='line'># HEAD detached from 1962bf9
+</span><span class='line'># You are currently editing a commit while rebasing branch 'master' on '44d0164'.
+</span><span class='line'>#
+</span><span class='line'># Changes to be committed:
+</span><span class='line'>#   (use "git reset HEAD^1 &lt;file&gt;..." to unstage)
+</span><span class='line'>#
+</span><span class='line'># new file:   README.md
+</span><span class='line'># new file:   another_file.txt
+</span><span class='line'># modified:   file1.txt
+</span><span class='line'># new file:   file_spec.spec</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Edit the new single commit message, and remove any duplicated or extraneous
+text, and hit save and close the file.  Git will update the files
+and adjust the commit. Your list of commits now looks like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(master) $ git log --oneline
+</span><span class='line'>5dd5037 Add README and testing files
+</span><span class='line'>44d0164 Initial commit
+</span><span class='line'>[~/workspace/squash_reword]
+</span><span class='line'>(master) $</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Problem solved!</p>
+
+<p>You can also use the same procedure to edit commit messages, only use the
+option <code>reword</code> instead of <code>pick</code>.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -980,136 +1205,6 @@ the workflow even further see the second link.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/07/16/rbenv/">Choices: Gemsets & Bundle Exec</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-16T18:58:00-06:00" pubdate data-updated="true">Jul 16<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I have just started at the DaVinci Coders &ldquo;Building the tool-belt of a junior
-Ruby on Rails Developer&rdquo; program.  An eleven week immersion course designed to
-take someone with good computer skills and minimal or dated programming
-experience into the fast moving world of web-development.</p>
-
-<p>Part of our first assignment was to generate this blog, and then to write about
-our experiences, and the technical and other things that we stumble upon.</p>
-
-<p>Here is my first observation: There is danger in having choices.</p>
-
-<p>This is particularly true in choices for web development environments.  It is
-even more perilous when you are a student in a web development course.</p>
-
-<p>In my case, for various reasons, I had spent the prior two months teaching
-myself as much as possible about Ruby and Rails so that I would not feel out
-of my depth in the level II class I was assessed into at DaVinci Coders.</p>
-
-<p>Like most folks, I took the standard path to a working Ruby install, and for
-a while I used RVM like everybody else.  However, for various philosophical, and
-other reasons I decided to start using rbenv instead.</p>
-
-<p>(For insight into this, see my earlier post.  I was an Atari man, after all&hellip;)</p>
-
-<p>rbenv takes a more lightweight approach to managing Ruby installs, holding to the
-Unix tenet of &ldquo;do one thing well.&rdquo;  Unlike RVM it does not have a concept of
-gemsets.  Instead it relies heavily on another standard of Ruby development:
-Bundler.</p>
-
-<p>The bundler gem is pure genius, in that it manages gem install and dependencies
-almost by magic.  Bundler takes it cue from the Gemfile that should be configured
-in each project directory.</p>
-
-<p>So what&rsquo;s the problem?  Isolation, and then duplication of effort.</p>
-
-<p>RVM does an excellent job, via gemsets, of isolating a development environment from other versions of Ruby and associated gems from other projects. Like Bundler, RVM manages various paths to executable gems by some serious techno-magic.</p>
-
-<p>To make sure that project specific gems are run in the context of their gemset
-or gemfile, you typically need to call a command like this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ bundle exec rake db:migrate, # or
-</span><span class='line'>$ bundle exec rspec spec/ </span></code></pre></td></tr></table></div></figure>
-
-
-<p>Even with RVM installed you need to pay the &ldquo;bundle exec&rdquo; keystroke tax, just to
-be sure you are running your code in the right environment.</p>
-
-<p>There are ways to avoid this, you can install bin stubs for your gems and other
-executables or you can do some clever <code>$PATH</code> editing on a per project basis.</p>
-
-<p>Seems to me like RVM and Bundler are sort of doing some of the same work, which
-certainly seems to violate the DRY coding principle, &ldquo;Don&rsquo;t Repeat Yourself.&rdquo;</p>
-
-<p>What&rsquo;s the solution?  Blindingly simple: make an alias in your login profile. Oh,
-and stop using gemsets, since you don&rsquo;t really need them.</p>
-
-<p>In either <code>.bashrc</code> or <code>.bash_profile</code> simply add the following:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># an alias to run &#39;bundle exec&#39;</span>
-</span><span class='line'><span class="k">alias</span> <span class="n">bex</span><span class="o">=</span><span class="s1">&#39;bundle exec&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now you can type the keystroke efficient <code>bex</code> before any command and
-be sure it is running in the proper context of your application directory.  It
-rapidly becomes second nature.</p>
-
-<p>I have to give a nod to Michael Hartl and his
-<a href="http://ruby.railstutorial.org">Ruby on Rails Tutorial</a>, since he proposes this
-exact solution.  However I had seen it before in several other contexts but did
-not know how or why to take advantage of it.</p>
-
-<p>Additionally, you now know how to create an alias for other often used commands,
-or for applications with awkward names.  For instance <code>subl</code> for the
-Sublime Text 2 editor:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># subl runs Sublime Text</span>
-</span><span class='line'><span class="k">alias</span> <span class="n">subl</span><span class="o">=</span><span class="s1">&#39;/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Lastly, I have to add that in exploring how RVM, rbenv, and Bundler function I also
-learnt an incredible amount about how things work &ldquo;behind the curtain.&rdquo;</p>
-
-<p>I believe this is essential to problem solving. It is not enough to know that things
-work, you have to understand the how and the why.</p>
-
-<p>For even more on Bundler and gemsets, check out this <a href="http://rubyrogues.com/045-rr-bundler-with-andre-arko/">Ruby Rogues Podcast</a>.</p>
-
-<p>Thanx for reading.  Stay tuned for more from the front lines&hellip;</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1125,6 +1220,10 @@ work, you have to understand the how and the why.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/08/07/tame-git-commits-squash-and-reword/">Tame Git Commits With Squash</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/08/01/on-tdd-and-technical-hiring/">On TDD and Technical Hiring</a>
       </li>
     
@@ -1138,10 +1237,6 @@ work, you have to understand the how and the why.</p>
     
       <li class="post">
         <a href="/blog/2013/07/23/dates-slash-times-are-hard/">Dates/Times Are Hard</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/07/20/notes-on-a-github-rebase-workflow/">Notes on a Github Rebase Workflow</a>
       </li>
     
   </ul>

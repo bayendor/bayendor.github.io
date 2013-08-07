@@ -9,9 +9,8 @@
   <meta name="author" content="David Bayendor">
 
   
-  <meta name="description" content="A: an individual whose teenage exposure to computing consisted of
-a plethora of home computers based on the venerable 6502 CPU. This would
-include, &hellip;">
+  <meta name="description" content="I have just started at the DaVinci Coders &ldquo;Building the tool-belt of a junior
+Ruby on Rails Developer&rdquo; program. An eleven week immersion &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +66,136 @@ include, &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/16/rbenv/">Choices: Gemsets & Bundle Exec</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-16T18:58:00-06:00" pubdate data-updated="true">Jul 16<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I have just started at the DaVinci Coders &ldquo;Building the tool-belt of a junior
+Ruby on Rails Developer&rdquo; program.  An eleven week immersion course designed to
+take someone with good computer skills and minimal or dated programming
+experience into the fast moving world of web-development.</p>
+
+<p>Part of our first assignment was to generate this blog, and then to write about
+our experiences, and the technical and other things that we stumble upon.</p>
+
+<p>Here is my first observation: There is danger in having choices.</p>
+
+<p>This is particularly true in choices for web development environments.  It is
+even more perilous when you are a student in a web development course.</p>
+
+<p>In my case, for various reasons, I had spent the prior two months teaching
+myself as much as possible about Ruby and Rails so that I would not feel out
+of my depth in the level II class I was assessed into at DaVinci Coders.</p>
+
+<p>Like most folks, I took the standard path to a working Ruby install, and for
+a while I used RVM like everybody else.  However, for various philosophical, and
+other reasons I decided to start using rbenv instead.</p>
+
+<p>(For insight into this, see my earlier post.  I was an Atari man, after all&hellip;)</p>
+
+<p>rbenv takes a more lightweight approach to managing Ruby installs, holding to the
+Unix tenet of &ldquo;do one thing well.&rdquo;  Unlike RVM it does not have a concept of
+gemsets.  Instead it relies heavily on another standard of Ruby development:
+Bundler.</p>
+
+<p>The bundler gem is pure genius, in that it manages gem install and dependencies
+almost by magic.  Bundler takes it cue from the Gemfile that should be configured
+in each project directory.</p>
+
+<p>So what&rsquo;s the problem?  Isolation, and then duplication of effort.</p>
+
+<p>RVM does an excellent job, via gemsets, of isolating a development environment from other versions of Ruby and associated gems from other projects. Like Bundler, RVM manages various paths to executable gems by some serious techno-magic.</p>
+
+<p>To make sure that project specific gems are run in the context of their gemset
+or gemfile, you typically need to call a command like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ bundle exec rake db:migrate, # or
+</span><span class='line'>$ bundle exec rspec spec/ </span></code></pre></td></tr></table></div></figure>
+
+
+<p>Even with RVM installed you need to pay the &ldquo;bundle exec&rdquo; keystroke tax, just to
+be sure you are running your code in the right environment.</p>
+
+<p>There are ways to avoid this, you can install bin stubs for your gems and other
+executables or you can do some clever <code>$PATH</code> editing on a per project basis.</p>
+
+<p>Seems to me like RVM and Bundler are sort of doing some of the same work, which
+certainly seems to violate the DRY coding principle, &ldquo;Don&rsquo;t Repeat Yourself.&rdquo;</p>
+
+<p>What&rsquo;s the solution?  Blindingly simple: make an alias in your login profile. Oh,
+and stop using gemsets, since you don&rsquo;t really need them.</p>
+
+<p>In either <code>.bashrc</code> or <code>.bash_profile</code> simply add the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># an alias to run &#39;bundle exec&#39;</span>
+</span><span class='line'><span class="k">alias</span> <span class="n">bex</span><span class="o">=</span><span class="s1">&#39;bundle exec&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now you can type the keystroke efficient <code>bex</code> before any command and
+be sure it is running in the proper context of your application directory.  It
+rapidly becomes second nature.</p>
+
+<p>I have to give a nod to Michael Hartl and his
+<a href="http://ruby.railstutorial.org">Ruby on Rails Tutorial</a>, since he proposes this
+exact solution.  However I had seen it before in several other contexts but did
+not know how or why to take advantage of it.</p>
+
+<p>Additionally, you now know how to create an alias for other often used commands,
+or for applications with awkward names.  For instance <code>subl</code> for the
+Sublime Text 2 editor:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># subl runs Sublime Text</span>
+</span><span class='line'><span class="k">alias</span> <span class="n">subl</span><span class="o">=</span><span class="s1">&#39;/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Lastly, I have to add that in exploring how RVM, rbenv, and Bundler function I also
+learnt an incredible amount about how things work &ldquo;behind the curtain.&rdquo;</p>
+
+<p>I believe this is essential to problem solving. It is not enough to know that things
+work, you have to understand the how and the why.</p>
+
+<p>For even more on Bundler and gemsets, check out this <a href="http://rubyrogues.com/045-rr-bundler-with-andre-arko/">Ruby Rogues Podcast</a>.</p>
+
+<p>Thanx for reading.  Stay tuned for more from the front lines&hellip;</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -147,6 +276,10 @@ worthy of particular awe&hellip;</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/08/07/tame-git-commits-squash-and-reword/">Tame Git Commits With Squash</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/08/01/on-tdd-and-technical-hiring/">On TDD and Technical Hiring</a>
       </li>
     
@@ -160,10 +293,6 @@ worthy of particular awe&hellip;</p>
     
       <li class="post">
         <a href="/blog/2013/07/23/dates-slash-times-are-hard/">Dates/Times Are Hard</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/07/20/notes-on-a-github-rebase-workflow/">Notes on a Github Rebase Workflow</a>
       </li>
     
   </ul>
