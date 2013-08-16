@@ -4,7 +4,7 @@
   <title><![CDATA[Category: TDD | Musings of an 8-bit Vet]]></title>
   <link href="http://bayendor.github.io/blog/categories/tdd/atom.xml" rel="self"/>
   <link href="http://bayendor.github.io/"/>
-  <updated>2013-08-07T17:41:42-06:00</updated>
+  <updated>2013-08-16T15:14:06-06:00</updated>
   <id>http://bayendor.github.io/</id>
   <author>
     <name><![CDATA[David Bayendor]]></name>
@@ -12,6 +12,39 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rails and TDD Screencasts Worth Watching]]></title>
+    <link href="http://bayendor.github.io/blog/2013/08/16/screencasts-that-teach-rails-and-tdd/"/>
+    <updated>2013-08-16T14:53:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/08/16/screencasts-that-teach-rails-and-tdd</id>
+    <content type="html"><![CDATA[<p>Just a quick post to describe two excellent on-line resources that I have
+found to be extremely helpful as we enter the mid-point of our training at
+<a href="http://davincicoders.com/building-the-toolbelt-of-a-junior-ruby-on-rails-developer/">DaVinci Coders</a>.</p>
+
+<p>The first is Ryan Bates excellent <a href="http://railscasts.com/">RailsCasts</a> series
+of Ruby on Rails screencasts.  While this is a subscription service, Ryan has
+generously made many of his older screencasts available for free.  The amount
+of technical expertise and pro-level tips is absolutely amazing for me as a
+junior Rails dev.  Prior to this I had no real notion of some of the topics
+that RailsCasts covers, but now that I&rsquo;m working with Rails every day, this
+content is absolutely priceless.</p>
+
+<p>The second is the CodeShip series called <a href="http://blog.codeship.io/category/testing-tuesday">Testing Tuesday</a>.  As the name suggest, these are short video
+tutorials on various aspects of TDD and BDD tools and skills, like RSpec,
+Cucumber, and other languages beyond Ruby and Rails.  Even better, these are
+free.  They are also posted online at <a href="https://vimeo.com/codeship">Vimeo</a>.</p>
+
+<p>The beauty of both of these resources, and I&rsquo;m sure there are others, is that
+they are short and to the point. Each are about 10 minutes long, and address
+a problem or provide an overview of a technique that you can put to work right
+away.</p>
+
+<p>Next time you are browsing the web and watching <a href="www.youtube.com">YouTube</a>
+ videos, take a look at one of these resources and learn something that will
+ make you a better developer.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[On TDD and technical hiring]]></title>

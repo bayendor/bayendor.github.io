@@ -9,8 +9,8 @@
   <meta name="author" content="David Bayendor">
 
   
-  <meta name="description" content="In class we are working our way through the Ruby Koans. This is partly to learn Ruby, and partly to get us used
-to making git commits and doing pull &hellip;">
+  <meta name="description" content="Just a quick post to describe two excellent on-line resources that I have
+found to be extremely helpful as we enter the mid-point of our training at &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +66,66 @@ to making git commits and doing pull &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/16/screencasts-that-teach-rails-and-tdd/">Rails and TDD Screencasts Worth Watching</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-16T14:53:00-06:00" pubdate data-updated="true">Aug 16<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Just a quick post to describe two excellent on-line resources that I have
+found to be extremely helpful as we enter the mid-point of our training at
+<a href="http://davincicoders.com/building-the-toolbelt-of-a-junior-ruby-on-rails-developer/">DaVinci Coders</a>.</p>
+
+<p>The first is Ryan Bates excellent <a href="http://railscasts.com/">RailsCasts</a> series
+of Ruby on Rails screencasts.  While this is a subscription service, Ryan has
+generously made many of his older screencasts available for free.  The amount
+of technical expertise and pro-level tips is absolutely amazing for me as a
+junior Rails dev.  Prior to this I had no real notion of some of the topics
+that RailsCasts covers, but now that I&rsquo;m working with Rails every day, this
+content is absolutely priceless.</p>
+
+<p>The second is the CodeShip series called <a href="http://blog.codeship.io/category/testing-tuesday">Testing Tuesday</a>.  As the name suggest, these are short video
+tutorials on various aspects of TDD and BDD tools and skills, like RSpec,
+Cucumber, and other languages beyond Ruby and Rails.  Even better, these are
+free.  They are also posted online at <a href="https://vimeo.com/codeship">Vimeo</a>.</p>
+
+<p>The beauty of both of these resources, and I&rsquo;m sure there are others, is that
+they are short and to the point. Each are about 10 minutes long, and address
+a problem or provide an overview of a technique that you can put to work right
+away.</p>
+
+<p>Next time you are browsing the web and watching <a href="www.youtube.com">YouTube</a>
+ videos, take a look at one of these resources and learn something that will
+ make you a better developer.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1065,148 +1125,6 @@ of Rubyists that I follow.  Check it out in the sidebar to the right.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/07/17/deploying-octopress-to-github-dot-io/">Deploying Octopress to github.io</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-17T15:01:00-06:00" pubdate data-updated="true">Jul 17<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This blog was created using the <a href="http://octopress.org">Octopress</a> blogging
-framework.  I tell you this for several reasons:</p>
-
-<blockquote><ol>
-<li>Because one should give credit for other people&rsquo;s work.</li>
-<li>Expect the site to change as I learn how to modify it.</li>
-<li>Expect the site to break as I learn how to modify it.</li>
-</ol>
-</blockquote>
-
-<p>The first major hurdle I had, and I suspect my fellow aspiring Web-Belt Jrs had
-it as well, was getting the blog to deploy using the Github
-<a href="http://pages.github.com">Pages</a> hosting service.</p>
-
-<p>The Octopress documentation does cover this process, but the workflow for the
-newly minted web-dev can be a bit overwhelming.  There&rsquo;s a lot of stuff happening
-with <code>git</code> at the command line that may seem unfamiliar.  Having said
-that I&rsquo;ll throw my $0.02 worth of advice into the ring, and see if I can&rsquo;t make
-it easier for anyone reading this.</p>
-
-<h3>Set up your username.github.io repo</h3>
-
-<p>Go to your github home page and click on the button labeled &ldquo;New Repository&rdquo; on
-the right side of the screen.</p>
-
-<p><img src="http://f.cl.ly/items/3S0d3m1P0s400S122G1x/GitHub.jpeg"></p>
-
-<p>On the next page enter the name of the repo, in the form
-<code>username.github.io</code> where <code>username</code> is YOUR github user ID.</p>
-
-<p><img src="http://f.cl.ly/items/3x1a0m0W1o3H0x0W3W17/Create_a_New_Repository.jpeg"></p>
-
-<p>Enter an optional description if you wish and click on the green &ldquo;Create
-Repository&rdquo; button.</p>
-
-<p>The next page will show you the setup for your repo, and the repo name.  Make
-sure that the SSH button is selected and copy the address in the box to your
-clipboard, you will need it for the next step.  It will be in the form <code>git@github.com:username/username.github.io.git</code></p>
-
-<p><img src="http://f.cl.ly/items/3f47300A0y1R0Q1L0X2h/username.github.io.jpeg"></p>
-
-<blockquote><p>Note: It can take github several minutes to setup your username.git.io page.
-If you get a 404 error, just go do something else for a little while, and
-then come back and try again.</p></blockquote>
-
-<h3>Set up your Octopress code base to deploy to github.io</h3>
-
-<p>Switch to your terminal program and <code>cd</code> into your octopress directory,
-and then run the <code>rake setup_github_pages</code></p>
-
-<p>For my fellow DaVinci Coder&rsquo;s that would be:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">cd</span> <span class="o">~</span><span class="sr">/workspace/o</span><span class="n">ctopress</span>
-</span><span class='line'><span class="n">rake</span> <span class="n">setup_github_pages</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>It will ask you for the repo name you copied in the last step.  Enter it and continue.
-When the <code>rake</code> job is finished your local repository will have been
-set up via series of git commands to push your blog code to your username.github.io page.</p>
-
-<p>The next step is to actually publish the blog.</p>
-
-<h3>Workflow for publishing your blog entries</h3>
-
-<p>The workflow goes like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="n">new_post</span><span class="o">[</span><span class="s2">&quot;title&quot;</span><span class="o">]</span>    <span class="c1"># Create a new post.</span>
-</span><span class='line'><span class="n">rake</span> <span class="n">generate</span>             <span class="c1"># Generate your blog.</span>
-</span><span class='line'><span class="n">rake</span> <span class="n">deploy</span>               <span class="c1"># Deploy (duh!) your blog.</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>When you deploy you will see a lot of code go scrolling up the screen.  This is
-git committing and pushing the <code>_deploy</code> folder to the <code>master</code>
-branch of your repo.</p>
-
-<p>Go check out your published blog at: <a href="username.github.io">username.github.io</a>.</p>
-
-<p>Also, don&rsquo;t forget to commit and save your changes, using the standard git workflow:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">git</span> <span class="n">add</span> <span class="o">.</span>
-</span><span class='line'><span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s1">&#39;your message&#39;</span>
-</span><span class='line'><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">source</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Just repeat the process to add new posts and publish them.</p>
-
-<p>For more detail on the process see the first link, and for direction in automating
-the workflow even further see the second link.</p>
-
-<p>From Octopress:
-<a href="http://octopress.org/docs/deploying/github/">Deploying to Github Pages</a></p>
-
-<p>From Kevin van Zonneveld:
-<a href="http://kvz.io/blog/2012/09/25/blog-with-octopress/">Blog with Octopress and Github pages</a></p>
-
-<p>Thanx for reading.  Stay tuned for more from the front lines&hellip;</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1222,6 +1140,10 @@ the workflow even further see the second link.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/08/16/screencasts-that-teach-rails-and-tdd/">Rails and TDD Screencasts Worth Watching</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/08/07/tame-git-commits-squash-and-reword/">Tame Git Commits With Squash</a>
       </li>
     
@@ -1235,10 +1157,6 @@ the workflow even further see the second link.</p>
     
       <li class="post">
         <a href="/blog/2013/07/26/matters-of-style/">Matters of Style</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/07/23/dates-slash-times-are-hard/">Dates/Times Are Hard</a>
       </li>
     
   </ul>
