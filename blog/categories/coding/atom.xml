@@ -4,7 +4,7 @@
   <title><![CDATA[Category: coding | Musings of an 8-bit Vet]]></title>
   <link href="http://bayendor.github.io/blog/categories/coding/atom.xml" rel="self"/>
   <link href="http://bayendor.github.io/"/>
-  <updated>2013-08-18T16:20:37-06:00</updated>
+  <updated>2013-08-28T12:52:43-06:00</updated>
   <id>http://bayendor.github.io/</id>
   <author>
     <name><![CDATA[David Bayendor]]></name>
@@ -12,6 +12,85 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Make mine a single: On the use of quotation marks]]></title>
+    <link href="http://bayendor.github.io/blog/2013/08/28/make-mine-a-single-on-the-use-of-quotation-marks/"/>
+    <updated>2013-08-28T08:38:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/08/28/make-mine-a-single-on-the-use-of-quotation-marks</id>
+    <content type="html"><![CDATA[<p>Here are two lines of Ruby code:
+<code>ruby
+puts 'Have a nice day!'
+puts "Have a nice day!"
+</code>
+They both print the same string to the display.  The first uses <code>&lsquo;single
+ quotes&rsquo;</code>, the second uses <code>&ldquo;double quotes&rdquo;</code>.  Now, any new
+ Rubyist quickly learns that you use single quotes for simple or static strings,
+  and double quotes for more comlicated strings, with special characters, etc.
+  You also use double quotes for so-called &ldquo;interpolated strings&rdquo;, where you
+  want to be able to print a variable or other derived value in the string, e.g.
+<code>ruby
+puts "Have a nice day, #{person_name}"
+</code>
+So if double quotes will perform the same function as single quotes, why not
+just use them all the time?</p>
+
+<p>When I posed this question in class the other day it was suggested that
+ whenever the Ruby interpreter sees single quotes it just prints the string, and doesn&rsquo;t bother to
+ check if there is anything possibly going on in between the <code>&lsquo;&rsquo;</code>&rsquo;s.
+ But when Ruby sees double quotes, it has to check each character to see if
+ there is any interpolation required.  This is time consuming, and
+ computationally costly.  If you are working with thousands of lines of code it
+can really add up.</p>
+
+<p>So I wrote a quick benchmark to check just how costly this really is, the
+total time taken is displayed after <code>real</code>:
+```ruby
+time ruby quote_test.rb   # puts &lsquo;Hello there!&rsquo; * 1,000,000</p>
+
+<p>real  0m5.130s
+user  0m0.081s
+sys 0m0.150s</p>
+
+<p>time ruby quotes_test.rb  # puts &ldquo;Hello there!&rdquo; * 1,000,000
+real  0m5.076s
+user  0m0.081s
+sys 0m0.152s
+```
+Huh?  Turns out a million <code>puts</code> is actually slightly faster with
+double quotes.  Maybe I need to give Ruby some more to do:</p>
+
+<p>```ruby
+time ruby quote_test.rb   # puts &lsquo;Hello there!&rsquo; * 3,000,000
+real  0m15.246s
+user  0m0.087s
+sys 0m0.357s</p>
+
+<p>time ruby quotes_test.rb  # puts &ldquo;Hello there!&rdquo; * 3,000,000
+real  0m15.170s
+user  0m0.088s
+sys 0m0.347s
+```
+WTF?  Double quotes is still slightly faster.  Guess we need to dig a little
+deeper.</p>
+
+<p>Turns out there is big discussion of this on <a href="http://stackoverflow.com/questions/1836467/is-there-a-performance-gain-in-using-single-quotes-vs-double-quotes-in-ruby">Stack Overflow</a>, click the link to read all about it.</p>
+
+<p>The short version is this, Ruby doesn&rsquo;t just pass over single quoted strings
+when it evaluates.  It has to look at every character to render the string in
+memory, regardless of single or double quotes, even with interpolation.  After
+some pretty extensive bench-marking there is no real cost to using double
+quotes, and it is often slightly faster.</p>
+
+<p>I suspect that the real reason we use single quotes is one of style.  It can&rsquo;t
+be for code efficiency, and if you later need to update a string to use
+interpolation, you would also have to change the single quotes to double quotes.</p>
+
+<p>I&rsquo;m all about style, so make mine a single!</p>
+
+<p>(But I reserve the right to change my mind later&hellip;)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Matters of style]]></title>
