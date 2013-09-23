@@ -4,7 +4,7 @@
   <title><![CDATA[Category: culture | Musings of an 8-bit Vet]]></title>
   <link href="http://bayendor.github.io/blog/categories/culture/atom.xml" rel="self"/>
   <link href="http://bayendor.github.io/"/>
-  <updated>2013-08-29T17:51:06-06:00</updated>
+  <updated>2013-09-23T16:19:19-06:00</updated>
   <id>http://bayendor.github.io/</id>
   <author>
     <name><![CDATA[David Bayendor]]></name>
@@ -12,6 +12,36 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Weaving Code]]></title>
+    <link href="http://bayendor.github.io/blog/2013/09/23/weaving-code/"/>
+    <updated>2013-09-23T16:03:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/09/23/weaving-code</id>
+    <content type="html"><![CDATA[<p>I recently came across the most amazing piece of video footage while watching
+a documentary on the technology used during the Apollo missions of the late
+1960&rsquo;s.</p>
+
+<p>That era was a little bit like an alternate decade of the 21st century that
+sort of just showed up in the middle of the 20th century.  In addition to
+tremendous leaps in aviation and space-flight that decade gave us advances
+ in medical, material, and computer science.</p>
+
+<p>To put it in perspective, the working memory of the navigation computer for
+the Apollo missions was just 72 kilobytes!  Things that we take for granted
+now had to be invented from scratch, including interrupt driven multi-processing
+algorithms and reliable data storage.</p>
+
+<p>For a fascinating look at how the latter was solved, watch this video:</p>
+
+<p><code><iframe width="560" height="315" src="http://bayendor.github.io//www.youtube.com/embed/P12r8DKHsak" frameborder="0" allowfullscreen></iframe></code></p>
+
+<p>For more about this amazing and lost technology see the Wikipedia entry: <a href="http://en.wikipedia.org/wiki/Core_rope_memory">Core Rope Memory</a></p>
+
+<p>On a separate note, this is a fascinating and possibly forgotten example of
+diversity in coding.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Q: Who is an 8-bit Vet?]]></title>
