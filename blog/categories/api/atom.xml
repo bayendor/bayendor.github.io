@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: rails | Musings of an 8-bit Vet]]></title>
-  <link href="http://bayendor.github.io/blog/categories/rails/atom.xml" rel="self"/>
+  <title><![CDATA[Category: api | Musings of an 8-bit Vet]]></title>
+  <link href="http://bayendor.github.io/blog/categories/api/atom.xml" rel="self"/>
   <link href="http://bayendor.github.io/"/>
   <updated>2013-10-07T16:45:11-06:00</updated>
   <id>http://bayendor.github.io/</id>

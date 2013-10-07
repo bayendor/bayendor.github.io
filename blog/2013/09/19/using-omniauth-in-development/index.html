@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Dates/Times are Hard - Musings of an 8-bit Vet</title>
+  <title>Capture OMNIAUTH failures in development mode - Musings of an 8-bit Vet</title>
   <meta name="author" content="David Bayendor">
 
   
-  <meta name="description" content="Our instructor,Jason Noble, sent out an email this morning about the homework. In this homework we had progressed beyond the ubiquitous hello_world. &hellip;">
+  <meta name="description" content="As part of a recent Rails project, I was implementing authentication using
+GitHub credentials via OmniAuth. I came across an annoying problem with &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://bayendor.github.io/blog/2013/07/23/dates-slash-times-are-hard">
+  <link rel="canonical" href="http://bayendor.github.io/blog/2013/09/19/using-omniauth-in-development">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Musings of an 8-bit Vet" type="application/atom+xml">
@@ -68,7 +69,7 @@
   
   <header>
     
-      <h1 class="entry-title">Dates/Times Are Hard</h1>
+      <h1 class="entry-title">Capture OMNIAUTH Failures in Development Mode</h1>
     
     
       <p class="meta">
@@ -84,80 +85,28 @@
   
 
 
-<time datetime="2013-07-23T12:18:00-06:00" pubdate data-updated="true">Jul 23<span>rd</span>, 2013</time>
+<time datetime="2013-09-19T15:59:00-06:00" pubdate data-updated="true">Sep 19<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Our instructor,Jason Noble, sent out an email this morning about the homework.  In this homework we had progressed beyond the ubiquitous <code>hello_world.rb</code>, and had moved on to calculating how many seconds there were in various blocks of time.  In particular, how many seconds are there between now and 20 or 100 years from now?</p>
+<div class="entry-content"><p>As part of a recent Rails project, I was implementing authentication using
+GitHub credentials via OmniAuth.</p>
 
-<p>Turns out that dates and times are hard to get a handle on in programming.  Especially since a leap year is every 4 years from 1804, but not every 100, and then again every 400 years.  Confusing, I know.  Not just for us, but for own programming tools, and a lot of other folks too.</p>
+<p>I came across an annoying problem with the way OmniAuth handles
+a failure to authenticate while in development mode.  In normal deployment
+a failure to authenticate will redirect back to the requesting website.</p>
 
-<p><code><iframe width="560" height="315" src="//www.youtube.com/embed/xX96xng7sAE" frameborder="0" allowfullscreen></iframe></code></p>
+<p>However, while in development mode in Rails, the failure endpoint causes the
+controller to throw an error and brings the site to a halt.  This is not
+particularly graceful.</p>
 
-<p>Jason&rsquo;s email addressed the issue that depending on how you do your calculations you end up with different answers:
-<code></p>
+<p>After some <em>Googling</em> I found a solution:</p>
 
-<p>Jason originally had these values as the specified output:</p>
-
-<pre><code>That means when you turn 20, you've been alive for 628992000 seconds,
-and if you make it to 100, you will have lived 3144960000 seconds.
-</code></pre>
-
-<p>Classmate Aron was first to finish and his output was slightly different:</p>
-
-<pre><code>That means when you turn 20, you've been alive for 630720000 seconds,
-and if you make it to 100, you will have lived 3153600000 seconds.
-</code></pre>
-
-<p>Calculation methods were to blame.</p>
-
-<p>Jason:</p>
-
-<pre><code>86400 * 7 * 52 * 20  # seconds/day * 7 days/week * 52 weeks/year * 20 years
-86400 * 7 * 52 * 100  # seconds/day * 7 days/week * 52 weeks/year * 20 years
-</code></pre>
-
-<p><strong>365 days != 52 weeks * 7 days/week (364 days)</strong></p>
-
-<p>Aron:</p>
-
-<pre><code>86400 * 365 * 20  # seconds / day * 365 days / year * 20 years
-86400 * 365 * 100  # seconds / day * 365 days / year * 100 years
-</code></pre>
-
-<p><em>(Aron is more accurate, but he forgot to account for leap years)</em></p>
-
-<p>Another possibility from Jason:</p>
-
-<pre><code>86400 * 365.25 * 20  # seconds / day * 365.25 days / year * 20 years  =&gt; 631152000
-86400 * 365.25 * 100  # seconds / day * 365.25 days / year * 100 years =&gt; 3155760000
-</code></pre>
-
-<p><em>(Looks like Jason is getting closer by trying to account for leap years. A year is actually = 365d, 5h, 48m, 47s.  The fractional diffence is why we have leap year. That is an additional 20,927 seconds per year)</em></p>
-
-<p>Jason used the Rails console to get a slightly better answer:</p>
-
-<pre><code>20.years is 631152000 seconds
-100.years is 3155760000 seconds
-</code></pre>
-
-<p>Who has the right answer?  Is there another algorithm?</p>
-
-<p></code>
-My answer was also slightly different since I actually counted the leap years for 20 and 100 years from now, 5 &amp; 24 respectively.</p>
-
-<p>I then added in the additional days to yield:</p>
-
-<pre><code>20 years from now is 631152000 seconds,
-100 years from now is 3155673600 seconds.
-</code></pre>
-
-<p>Notice that my 20 year number is the same as the Rails computation, and my 100 year number is much closer.  In fact it&rsquo;s off by exactly one day.  Looks like Rails missed the fact that 100 / 4 = 25 is not an accurate way to count leap years.</p>
-
-<p>I also tried using the <code>Time</code> function in Ruby:</p>
+<p>Take a look at the <code>omniauth.rb</code> file under the
+<code>initializers</code> directory of your Rails app:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -167,22 +116,42 @@ My answer was also slightly different since I actually counted the leap years fo
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Seconds from now till twenty years from now.</span>
-</span><span class='line'><span class="n">irb</span><span class="o">&gt;</span> <span class="nb">puts</span> <span class="p">(</span><span class="no">Time</span><span class="o">.</span><span class="n">gm</span><span class="p">(</span><span class="mi">2033</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mo">03</span><span class="p">)</span> <span class="o">-</span> <span class="no">Time</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">middleware</span><span class="o">.</span><span class="n">use</span> <span class="ss">OmniAuth</span><span class="p">:</span><span class="ss">:Builder</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">provider</span> <span class="ss">:github</span><span class="p">,</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;GITHUB_KEY&#39;</span><span class="o">]</span><span class="p">,</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;GITHUB_SECRET&#39;</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>            <span class="ss">scope</span><span class="p">:</span> <span class="s2">&quot;user:email&quot;</span>
+</span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&gt;&gt;</span> <span class="mi">631130357</span><span class="o">.</span><span class="mi">633387</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># Seconds from now till 100 years from now.</span>
-</span><span class='line'><span class="n">irb</span><span class="o">&gt;</span> <span class="nb">puts</span> <span class="p">(</span><span class="no">Time</span><span class="o">.</span><span class="n">gm</span><span class="p">(</span><span class="mi">2113</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mo">04</span><span class="p">)</span> <span class="o">-</span> <span class="no">Time</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&gt;&gt;</span> <span class="mi">3155651903</span><span class="o">.</span><span class="mi">756982</span>
+</span><span class='line'><span class="no">OmniAuth</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">on_failure</span> <span class="o">=</span> <span class="no">Proc</span><span class="o">.</span><span class="n">new</span> <span class="p">{</span> <span class="o">|</span><span class="n">env</span><span class="o">|</span>
+</span><span class='line'>  <span class="ss">OmniAuth</span><span class="p">:</span><span class="ss">:FailureEndpoint</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">env</span><span class="p">)</span><span class="o">.</span><span class="n">redirect_to_failure</span>
+</span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Again, slightly different answers.  There are several gems to tackle this
-problem as well.  But this is where I stopped.  Hopefully this stimulates some conversation in class this
- week.</p>
+<p>The first line configures the Rails middleware to use OmniAuth and to pass
+various values to the provider, in this case GitHub.</p>
+
+<p>The code on line 6-8 solves the development failure endpoint by allowing
+you to redirect to the page of your choice via <col>routes.rb</col>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s1">&#39;/auth/:provider/callback&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;sessions#create&#39;</span>
+</span><span class='line'><span class="n">get</span> <span class="s1">&#39;/auth/failure&#39;</span><span class="p">,</span> <span class="ss">to</span><span class="p">:</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Further actions would be handled by the <code>sessions</code> or other
+authentication controller.</p>
+
+<p>This allows you to better test authentication, and to get an idea of how
+your application will behave without having to deploy it first.  The code
+can remain in production, it does not need to be removed.</p>
+
+<p>I&rsquo;ll cover more on OmniAuth authentication in a later post.</p>
+
+<p>Resources:</p>
+
+<p><a href="https://github.com/intridea/omniauth/wiki/FAQ">Intridea OmniAuth FAQ</a></p>
 </div>
 
 
@@ -205,12 +174,12 @@ problem as well.  But this is where I stopped.  Hopefully this stimulates some c
   
 
 
-<time datetime="2013-07-23T12:18:00-06:00" pubdate data-updated="true">Jul 23<span>rd</span>, 2013</time>
+<time datetime="2013-09-19T15:59:00-06:00" pubdate data-updated="true">Sep 19<span>th</span>, 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/coding/'>coding</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+    <a class='category' href='/blog/categories/api/'>api</a>, <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
   
 </span>
 
@@ -219,7 +188,7 @@ problem as well.  But this is where I stopped.  Hopefully this stimulates some c
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://bayendor.github.io/blog/2013/07/23/dates-slash-times-are-hard/" data-via="bayendor" data-counturl="http://bayendor.github.io/blog/2013/07/23/dates-slash-times-are-hard/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://bayendor.github.io/blog/2013/09/19/using-omniauth-in-development/" data-via="bayendor" data-counturl="http://bayendor.github.io/blog/2013/09/19/using-omniauth-in-development/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -232,10 +201,10 @@ problem as well.  But this is where I stopped.  Hopefully this stimulates some c
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/07/20/notes-on-a-github-rebase-workflow/" title="Previous Post: Notes on a github rebase workflow">&laquo; Notes on a github rebase workflow</a>
+        <a class="basic-alignment left" href="/blog/2013/08/28/make-mine-a-single-on-the-use-of-quotation-marks/" title="Previous Post: Make mine a single: On the use of quotation marks">&laquo; Make mine a single: On the use of quotation marks</a>
       
       
-        <a class="basic-alignment right" href="/blog/2013/07/26/matters-of-style/" title="Next Post: Matters of style">Matters of style &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2013/09/23/weaving-code/" title="Next Post: Weaving Code">Weaving Code &raquo;</a>
       
     </p>
   </footer>

@@ -9,7 +9,8 @@
   <meta name="author" content="David Bayendor">
 
   
-  <meta name="description" content="What do you despise? By this are you truly known.Frank Herbert Dune We hear the term &ldquo;agile&rdquo; all the time in the development world. What &hellip;">
+  <meta name="description" content="If everytime you go to do a remote connect (e.g. push) to github and it requests
+your github password, then you have most likely have a problem with &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +66,110 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/19/github-101/">When Github Keeps Asking for a Password</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-19T21:32:00-06:00" pubdate data-updated="true">Jul 19<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>If everytime you go to do a remote connect (e.g. <code>push</code>) to github and it requests
+your github password, then you have most likely have a problem with your credential helper.</p>
+
+<p>The credential helper is part of a standard github or <code>homebrew</code> install.
+But sometimes things don&rsquo;t go as planned, or perhaps your github install was part
+of a larger &ldquo;all-in-one&rdquo; install and something got improperly configured.</p>
+
+<p>The good new is it&rsquo;s an easy enough problem to fix.</p>
+
+<p>These instructions apply to OS X, but you can check <a href="https://help.github.com/articles/set-up-git#platform-all">GitHub Help</a> for your platform.</p>
+
+<p>1: First, check to see if you have the credential helper installed:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">credential</span><span class="o">-</span><span class="n">osxkeychain</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you get the following then it is installed, go to step 3:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">usage</span><span class="p">:</span> <span class="n">git</span> <span class="n">credential</span><span class="o">-</span><span class="n">osxkeychain</span> <span class="o">&lt;</span><span class="n">get</span><span class="o">|</span><span class="n">store</span><span class="o">|</span><span class="n">erase</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But if you get, go to step 2:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">git</span><span class="p">:</span> <span class="s1">&#39;credential-osxkeychain&#39;</span> <span class="n">is</span> <span class="ow">not</span> <span class="n">a</span> <span class="n">git</span> <span class="n">command</span><span class="o">.</span> <span class="no">See</span> <span class="s1">&#39;git --help&#39;</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2: Then you need to install and configure it with:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Download the file</span>
+</span><span class='line'><span class="n">curl</span> <span class="o">-</span><span class="n">s</span> <span class="o">-</span><span class="n">O</span> <span class="p">\</span>
+</span><span class='line'>  <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="n">github</span><span class="o">-</span><span class="n">media</span><span class="o">-</span><span class="n">downloads</span><span class="o">.</span><span class="n">s3</span><span class="o">.</span><span class="n">amazonaws</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">osx</span><span class="o">/</span><span class="n">git</span><span class="o">-</span><span class="n">credential</span><span class="o">-</span><span class="n">osxkeychain</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Fix the permissions</span>
+</span><span class='line'><span class="n">chmod</span> <span class="n">u</span><span class="o">+</span><span class="n">x</span> <span class="n">git</span><span class="o">-</span><span class="n">credential</span><span class="o">-</span><span class="n">osxkeychain</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Move it to the right path, sudo may require your password.</span>
+</span><span class='line'><span class="n">sudo</span> <span class="n">mv</span> <span class="n">git</span><span class="o">-</span><span class="n">credential</span><span class="o">-</span><span class="n">osxkeychain</span> <span class="p">\</span>
+</span><span class='line'>  <span class="s2">&quot;$(dirname $(which git))/git-credential-osxkeychain&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>3: Lastly, modify your git config file to use the helper:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="n">global</span> <span class="n">credential</span><span class="o">.</span><span class="n">helper</span> <span class="n">osxkeychain</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The next time you <code>push</code> you&rsquo;ll be asked for your github
+password, but after that it should be remembered in your OS X keychain for each
+subsequent remote access request.</p>
+
+<p>Thanx for reading. Stay tuned for more from the front lines…</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -548,6 +653,10 @@ worthy of particular awe&hellip;</p>
       </li>
     
       <li class="post">
+        <a href="/blog/2013/09/19/using-omniauth-in-development/">Capture OMNIAUTH Failures in Development Mode</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/08/28/make-mine-a-single-on-the-use-of-quotation-marks/">Make Mine a Single: On the Use of Quotation Marks</a>
       </li>
     
@@ -557,10 +666,6 @@ worthy of particular awe&hellip;</p>
     
       <li class="post">
         <a href="/blog/2013/08/07/tame-git-commits-squash-and-reword/">Tame Git Commits With Squash</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/08/01/on-tdd-and-technical-hiring/">On TDD and Technical Hiring</a>
       </li>
     
   </ul>

@@ -4,7 +4,7 @@
   <title><![CDATA[Musings of an 8-bit Vet]]></title>
   <link href="http://bayendor.github.io/atom.xml" rel="self"/>
   <link href="http://bayendor.github.io/"/>
-  <updated>2013-10-03T18:47:17-06:00</updated>
+  <updated>2013-10-07T16:45:11-06:00</updated>
   <id>http://bayendor.github.io/</id>
   <author>
     <name><![CDATA[David Bayendor]]></name>
@@ -40,6 +40,74 @@ algorithms and reliable data storage.</p>
 
 <p>On a separate note, this is a fascinating and possibly forgotten example of
 diversity in coding.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Capture OMNIAUTH failures in development mode]]></title>
+    <link href="http://bayendor.github.io/blog/2013/09/19/using-omniauth-in-development/"/>
+    <updated>2013-09-19T15:59:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/09/19/using-omniauth-in-development</id>
+    <content type="html"><![CDATA[<p>As part of a recent Rails project, I was implementing authentication using
+GitHub credentials via OmniAuth.</p>
+
+<p>I came across an annoying problem with the way OmniAuth handles
+a failure to authenticate while in development mode.  In normal deployment
+a failure to authenticate will redirect back to the requesting website.</p>
+
+<p>However, while in development mode in Rails, the failure endpoint causes the
+controller to throw an error and brings the site to a halt.  This is not
+particularly graceful.</p>
+
+<p>After some <em>Googling</em> I found a solution:</p>
+
+<p>Take a look at the <code>omniauth.rb</code> file under the
+<code>initializers</code> directory of your Rails app:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">middleware</span><span class="o">.</span><span class="n">use</span> <span class="ss">OmniAuth</span><span class="p">:</span><span class="ss">:Builder</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">provider</span> <span class="ss">:github</span><span class="p">,</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;GITHUB_KEY&#39;</span><span class="o">]</span><span class="p">,</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;GITHUB_SECRET&#39;</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>            <span class="ss">scope</span><span class="p">:</span> <span class="s2">&quot;user:email&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">OmniAuth</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">on_failure</span> <span class="o">=</span> <span class="no">Proc</span><span class="o">.</span><span class="n">new</span> <span class="p">{</span> <span class="o">|</span><span class="n">env</span><span class="o">|</span>
+</span><span class='line'>  <span class="ss">OmniAuth</span><span class="p">:</span><span class="ss">:FailureEndpoint</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">env</span><span class="p">)</span><span class="o">.</span><span class="n">redirect_to_failure</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The first line configures the Rails middleware to use OmniAuth and to pass
+various values to the provider, in this case GitHub.</p>
+
+<p>The code on line 6-8 solves the development failure endpoint by allowing
+you to redirect to the page of your choice via <col>routes.rb</col>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s1">&#39;/auth/:provider/callback&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;sessions#create&#39;</span>
+</span><span class='line'><span class="n">get</span> <span class="s1">&#39;/auth/failure&#39;</span><span class="p">,</span> <span class="ss">to</span><span class="p">:</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Further actions would be handled by the <code>sessions</code> or other
+authentication controller.</p>
+
+<p>This allows you to better test authentication, and to get an idea of how
+your application will behave without having to deploy it first.  The code
+can remain in production, it does not need to be removed.</p>
+
+<p>I&rsquo;ll cover more on OmniAuth authentication in a later post.</p>
+
+<p>Resources:</p>
+
+<p><a href="https://github.com/intridea/omniauth/wiki/FAQ">Intridea OmniAuth FAQ</a></p>
 ]]></content>
   </entry>
   
