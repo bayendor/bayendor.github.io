@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: git | Musings of an 8-bit Vet]]></title>
+  <link href="http://bayendor.github.io/blog/categories/git/atom.xml" rel="self"/>
+  <link href="http://bayendor.github.io/"/>
+  <updated>2013-10-14T10:00:53-06:00</updated>
+  <id>http://bayendor.github.io/</id>
+  <author>
+    <name><![CDATA[David Bayendor]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Adding git branch to the terminal prompt]]></title>
+    <link href="http://bayendor.github.io/blog/2013/10/14/adding-git-branch-to-the-terminal-prompt/"/>
+    <updated>2013-10-14T09:25:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/10/14/adding-git-branch-to-the-terminal-prompt</id>
+    <content type="html"><![CDATA[<p>As you begin to work with branching in git, one of the first commands you
+learn is <code>git branch</code>, which gives output similiar to this:
+<code>bash
+  57933296_assignments_dropdown_master
+* 6724_refactor_master
+  master
+</code>
+The branch identified by the <code>*</code> on line 2 is the current branch.</p>
+
+<p>In the heat of coding it can be useful to know what branch you are on lest you
+ make a commit, push code, or pull from the wrong branch.  Since branches are
+  analogous to directories, wouldn&rsquo;t it be nice if the terminal prompt could
+  tell us not only what directory we were in, but what branch we were on?</p>
+
+<p>As an example, my terminal prompt looks like this:
+<code>bash
+[~/workspace/blog]
+(master) $
+</code>
+Line 1 is my current working directory, on line two in <code>( )</code> is
+the current git branch <code>master</code>.  Pretty useful.</p>
+
+<p>I cannot take any credit for this. The code I present below was passed on to
+me by another developer, who also had no idea where it came from.  I would
+give credit if I knew who to give it to, but instead I give thanks.</p>
+
+<p>In your <code>.bash_profile</code> you will need to add the following code
+snippet to enable parsing of the git branch from the environment:</p>
+
+<p>```bash</p>
+
+<h1>git prompt settings</h1>
+
+<p>parse_git_branch() {
+git branch 2> /dev/null | sed -e &lsquo;/^[^<em>]/d&rsquo; -e &rsquo;s/</em> (.*)/(\1)/&lsquo;
+}
+export -f parse_git_branch
+```</p>
+
+<p>Now you can add <code>parse_git_branch</code> to your prompt settings in
+<code>.bash_profile</code>, like this:</p>
+
+<p>```bash</p>
+
+<h1>prompt</h1>
+
+<p>export PS1=&ldquo;[\w]\n\$(parse_git_branch) \$ &rdquo;
+```</p>
+
+<p>Feel free to experiment, and an on-line search will yield many examples.</p>
+]]></content>
+  </entry>
+  
+</feed>

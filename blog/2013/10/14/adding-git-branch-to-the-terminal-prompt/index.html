@@ -5,11 +5,14 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Agile is the new black - Musings of an 8-bit Vet</title>
+  <title>Adding git branch to the terminal prompt - Musings of an 8-bit Vet</title>
   <meta name="author" content="David Bayendor">
 
   
-  <meta name="description" content="What do you despise? By this are you truly known.Frank Herbert Dune We hear the term &ldquo;agile&rdquo; all the time in the development world. What &hellip;">
+  <meta name="description" content="As you begin to work with branching in git, one of the first commands you
+learn is git branch, which gives output similiar to this: 1
+2
+3 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://bayendor.github.io/blog/2013/07/19/agile-is-the-new-black">
+  <link rel="canonical" href="http://bayendor.github.io/blog/2013/10/14/adding-git-branch-to-the-terminal-prompt">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Musings of an 8-bit Vet" type="application/atom+xml">
@@ -68,7 +71,7 @@
   
   <header>
     
-      <h1 class="entry-title">Agile Is the New Black</h1>
+      <h1 class="entry-title">Adding Git Branch to the Terminal Prompt</h1>
     
     
       <p class="meta">
@@ -84,33 +87,75 @@
   
 
 
-<time datetime="2013-07-19T20:14:00-06:00" pubdate data-updated="true">Jul 19<span>th</span>, 2013</time>
+<time datetime="2013-10-14T09:25:00-06:00" pubdate data-updated="true">Oct 14<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><blockquote><p>What do you despise?  By this are you truly known.</p><footer><strong>Frank Herbert</strong> <cite>Dune</cite></footer></blockquote>
+<div class="entry-content"><p>As you begin to work with branching in git, one of the first commands you
+learn is <code>git branch</code>, which gives output similiar to this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>  57933296_assignments_dropdown_master
+</span><span class='line'>* 6724_refactor_master
+</span><span class='line'>  master
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>We hear the term &ldquo;agile&rdquo; all the time in the development world.  What does it
-really mean?  Everything seems to have the term agile attached to it.</p>
+<p>The branch identified by the <code>*</code> on line 2 is the current branch.</p>
 
-<p>It came up in class tonight as we were introduced to Pivotal Tracker, and the
-paradigm behind it.</p>
+<p>In the heat of coding it can be useful to know what branch you are on lest you
+ make a commit, push code, or pull from the wrong branch.  Since branches are
+  analogous to directories, wouldn&rsquo;t it be nice if the terminal prompt could
+  tell us not only what directory we were in, but what branch we were on?</p>
 
-<p>Sometimes you can figure out what something is by what it is not.  A few weeks
-ago I came across a video on Vimeo that addressed this.  Enjoy&hellip;</p>
+<p>As an example, my terminal prompt looks like this:</p>
 
-<p><code>
-  <iframe src="http://player.vimeo.com/video/68689393?byline=0" width="500" height="281" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
-</code></p>
-
-<p><a href="http://vimeo.com/68689393">Fred George - Agile is the new black - Railsberry 2013</a>.</p>
-
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">[</span>~/workspace/blog<span class="o">]</span>
+</span><span class='line'><span class="o">(</span>master<span class="o">)</span> <span class="err">$</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
+<p>Line 1 is my current working directory, on line two in <code>( )</code> is
+the current git branch <code>master</code>.  Pretty useful.</p>
+
+<p>I cannot take any credit for this. The code I present below was passed on to
+me by another developer, who also had no idea where it came from.  I would
+give credit if I knew who to give it to, but instead I give thanks.</p>
+
+<p>In your <code>.bash_profile</code> you will need to add the following code
+snippet to enable parsing of the git branch from the environment:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># git prompt settings</span>
+</span><span class='line'>parse_git_branch<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>git branch 2&gt; /dev/null | sed -e <span class="s1">&#39;/^[^*]/d&#39;</span> -e <span class="s1">&#39;s/* \(.*\)/(\1)/&#39;</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="nb">export</span> -f parse_git_branch
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now you can add <code>parse_git_branch</code> to your prompt settings in
+<code>.bash_profile</code>, like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># prompt</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">PS1</span><span class="o">=</span><span class="s2">&quot;[\w]\n\$(parse_git_branch) \$ &quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Feel free to experiment, and an on-line search will yield many examples.</p>
 </div>
 
 
@@ -133,12 +178,12 @@ ago I came across a video on Vimeo that addressed this.  Enjoy&hellip;</p>
   
 
 
-<time datetime="2013-07-19T20:14:00-06:00" pubdate data-updated="true">Jul 19<span>th</span>, 2013</time>
+<time datetime="2013-10-14T09:25:00-06:00" pubdate data-updated="true">Oct 14<span>th</span>, 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/agile/'>agile</a>, <a class='category' href='/blog/categories/video/'>video</a>
+    <a class='category' href='/blog/categories/command-line/'>command-line</a>, <a class='category' href='/blog/categories/git/'>git</a>, <a class='category' href='/blog/categories/github/'>github</a>
   
 </span>
 
@@ -147,7 +192,7 @@ ago I came across a video on Vimeo that addressed this.  Enjoy&hellip;</p>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://bayendor.github.io/blog/2013/07/19/agile-is-the-new-black/" data-via="bayendor" data-counturl="http://bayendor.github.io/blog/2013/07/19/agile-is-the-new-black/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://bayendor.github.io/blog/2013/10/14/adding-git-branch-to-the-terminal-prompt/" data-via="bayendor" data-counturl="http://bayendor.github.io/blog/2013/10/14/adding-git-branch-to-the-terminal-prompt/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -160,10 +205,8 @@ ago I came across a video on Vimeo that addressed this.  Enjoy&hellip;</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/07/18/command-line-crash-course/" title="Previous Post: Command Line Crash Course">&laquo; Command Line Crash Course</a>
+        <a class="basic-alignment left" href="/blog/2013/09/23/weaving-code/" title="Previous Post: Weaving Code">&laquo; Weaving Code</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/07/19/github-101/" title="Next Post: When Github Keeps Asking for a Password">When Github Keeps Asking for a Password &raquo;</a>
       
     </p>
   </footer>

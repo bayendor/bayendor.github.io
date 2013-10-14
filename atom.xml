@@ -4,7 +4,7 @@
   <title><![CDATA[Musings of an 8-bit Vet]]></title>
   <link href="http://bayendor.github.io/atom.xml" rel="self"/>
   <link href="http://bayendor.github.io/"/>
-  <updated>2013-10-08T18:04:06-06:00</updated>
+  <updated>2013-10-14T10:00:53-06:00</updated>
   <id>http://bayendor.github.io/</id>
   <author>
     <name><![CDATA[David Bayendor]]></name>
@@ -12,6 +12,76 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Adding git branch to the terminal prompt]]></title>
+    <link href="http://bayendor.github.io/blog/2013/10/14/adding-git-branch-to-the-terminal-prompt/"/>
+    <updated>2013-10-14T09:25:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/10/14/adding-git-branch-to-the-terminal-prompt</id>
+    <content type="html"><![CDATA[<p>As you begin to work with branching in git, one of the first commands you
+learn is <code>git branch</code>, which gives output similiar to this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>  57933296_assignments_dropdown_master
+</span><span class='line'>* 6724_refactor_master
+</span><span class='line'>  master
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The branch identified by the <code>*</code> on line 2 is the current branch.</p>
+
+<p>In the heat of coding it can be useful to know what branch you are on lest you
+ make a commit, push code, or pull from the wrong branch.  Since branches are
+  analogous to directories, wouldn&rsquo;t it be nice if the terminal prompt could
+  tell us not only what directory we were in, but what branch we were on?</p>
+
+<p>As an example, my terminal prompt looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">[</span>~/workspace/blog<span class="o">]</span>
+</span><span class='line'><span class="o">(</span>master<span class="o">)</span> <span class="err">$</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Line 1 is my current working directory, on line two in <code>( )</code> is
+the current git branch <code>master</code>.  Pretty useful.</p>
+
+<p>I cannot take any credit for this. The code I present below was passed on to
+me by another developer, who also had no idea where it came from.  I would
+give credit if I knew who to give it to, but instead I give thanks.</p>
+
+<p>In your <code>.bash_profile</code> you will need to add the following code
+snippet to enable parsing of the git branch from the environment:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># git prompt settings</span>
+</span><span class='line'>parse_git_branch<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>git branch 2&gt; /dev/null | sed -e <span class="s1">&#39;/^[^*]/d&#39;</span> -e <span class="s1">&#39;s/* \(.*\)/(\1)/&#39;</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="nb">export</span> -f parse_git_branch
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now you can add <code>parse_git_branch</code> to your prompt settings in
+<code>.bash_profile</code>, like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># prompt</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">PS1</span><span class="o">=</span><span class="s2">&quot;[\w]\n\$(parse_git_branch) \$ &quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Feel free to experiment, and an on-line search will yield many examples.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Weaving Code]]></title>

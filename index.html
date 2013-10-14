@@ -9,8 +9,10 @@
   <meta name="author" content="David Bayendor">
 
   
-  <meta name="description" content="I recently came across the most amazing piece of video footage while watching
-a documentary on the technology used during the Apollo missions of the &hellip;">
+  <meta name="description" content="As you begin to work with branching in git, one of the first commands you
+learn is git branch, which gives output similiar to this: 1
+2
+3 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +68,103 @@ a documentary on the technology used during the Apollo missions of the &hellip;"
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/14/adding-git-branch-to-the-terminal-prompt/">Adding Git Branch to the Terminal Prompt</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-14T09:25:00-06:00" pubdate data-updated="true">Oct 14<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>As you begin to work with branching in git, one of the first commands you
+learn is <code>git branch</code>, which gives output similiar to this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>  57933296_assignments_dropdown_master
+</span><span class='line'>* 6724_refactor_master
+</span><span class='line'>  master
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The branch identified by the <code>*</code> on line 2 is the current branch.</p>
+
+<p>In the heat of coding it can be useful to know what branch you are on lest you
+ make a commit, push code, or pull from the wrong branch.  Since branches are
+  analogous to directories, wouldn&rsquo;t it be nice if the terminal prompt could
+  tell us not only what directory we were in, but what branch we were on?</p>
+
+<p>As an example, my terminal prompt looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">[</span>~/workspace/blog<span class="o">]</span>
+</span><span class='line'><span class="o">(</span>master<span class="o">)</span> <span class="err">$</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Line 1 is my current working directory, on line two in <code>( )</code> is
+the current git branch <code>master</code>.  Pretty useful.</p>
+
+<p>I cannot take any credit for this. The code I present below was passed on to
+me by another developer, who also had no idea where it came from.  I would
+give credit if I knew who to give it to, but instead I give thanks.</p>
+
+<p>In your <code>.bash_profile</code> you will need to add the following code
+snippet to enable parsing of the git branch from the environment:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># git prompt settings</span>
+</span><span class='line'>parse_git_branch<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>git branch 2&gt; /dev/null | sed -e <span class="s1">&#39;/^[^*]/d&#39;</span> -e <span class="s1">&#39;s/* \(.*\)/(\1)/&#39;</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="nb">export</span> -f parse_git_branch
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now you can add <code>parse_git_branch</code> to your prompt settings in
+<code>.bash_profile</code>, like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># prompt</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">PS1</span><span class="o">=</span><span class="s2">&quot;[\w]\n\$(parse_git_branch) \$ &quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Feel free to experiment, and an on-line search will yield many examples.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1094,93 +1193,6 @@ problem as well.  But this is where I stopped.  Hopefully this stimulates some c
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/07/20/notes-on-a-github-rebase-workflow/">Notes on a Github Rebase Workflow</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-20T20:02:00-06:00" pubdate data-updated="true">Jul 20<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is primarily for my own reference, but it is an attempt to encapsulate the
-git workflow for working with repos being edited by other users.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">git</span> <span class="n">remote</span> <span class="n">add</span> <span class="n">upstream</span> <span class="s2">&quot;repo-path&quot;</span>     <span class="c1"># set upstream to the correct place</span>
-</span><span class='line'><span class="n">git</span> <span class="n">remote</span> <span class="n">add</span> <span class="n">remote_name</span> <span class="n">git_repo_url</span> <span class="c1"># make alias for remote (co-workers) repo</span>
-</span><span class='line'>  <span class="n">git</span> <span class="n">remote</span> <span class="o">-</span><span class="n">v</span>                           <span class="c1"># verify correct paths to repos</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">git</span> <span class="n">fetch</span> <span class="n">origin</span>                        <span class="c1"># check to see what changed</span>
-</span><span class='line'><span class="n">git</span> <span class="n">rebase</span> <span class="n">origin</span><span class="o">/</span><span class="n">branchname</span>            <span class="c1"># rewrite branch based on origin/branchname</span>
-</span><span class='line'><span class="n">git</span> <span class="n">mergetool</span>                           <span class="c1"># run merge tool to resolve diffs</span>
-</span><span class='line'><span class="n">git</span> <span class="n">rebase</span> <span class="o">--</span><span class="n">continue</span>                   <span class="c1"># rebase not done yet!</span>
-</span><span class='line'>  <span class="ow">or</span> <span class="n">git</span> <span class="n">rebase</span> <span class="o">--</span><span class="n">skip</span>                    <span class="c1"># if you want to accept changes</span>
-</span><span class='line'><span class="n">git</span> <span class="n">clean</span> <span class="o">-</span><span class="n">f</span>                            <span class="c1"># cleans up .orig files generated by merge</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">git</span> <span class="n">status</span>                              <span class="c1"># always a good idea to check status</span>
-</span><span class='line'><span class="n">git</span> <span class="n">add</span> <span class="s2">&quot;file&quot;</span>                          <span class="c1"># add only the file you changed!</span>
-</span><span class='line'><span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;message&quot;</span>
-</span><span class='line'><span class="n">git</span> <span class="n">push</span> <span class="p">(</span><span class="o">-</span><span class="n">f</span><span class="p">)</span>                           <span class="c1"># -f forces changes if necessary</span>
-</span><span class='line'>  <span class="n">git</span> <span class="n">status</span>                            <span class="c1"># is working directory clean?</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>Setting the branch to track upstream: </strong>
-In order to track the remote branch on the first push from that branch specify the
-&ldquo;-u&rdquo; switch, i.e. <code>git push -u origin repo_branch</code></p>
-
-<p><strong>Forking / cloning a repository: </strong>
-Make sure that you give your collaborator access to your repo from github.com
-under settings.  You will add them by their github user name.  If you don&rsquo;t their
-<code>git push</code> will be rejected.</p>
-
-<p><strong>Error messages: </strong>
-Git is really good about telling you what went wrong, so read the error messages carefully.</p>
-
-<p><strong>Useful Resource: </strong>
-<a href="http://johnjwilliams.org/2013/07/git-command-essentials.html">JohnWilliams.org: Git Command Essentials</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1196,6 +1208,10 @@ Git is really good about telling you what went wrong, so read the error messages
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/10/14/adding-git-branch-to-the-terminal-prompt/">Adding Git Branch to the Terminal Prompt</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/09/23/weaving-code/">Weaving Code</a>
       </li>
     
@@ -1209,10 +1225,6 @@ Git is really good about telling you what went wrong, so read the error messages
     
       <li class="post">
         <a href="/blog/2013/08/16/screencasts-that-teach-rails-and-tdd/">Rails and TDD Screencasts Worth Watching</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/08/07/tame-git-commits-squash-and-reword/">Tame Git Commits With Squash</a>
       </li>
     
   </ul>
