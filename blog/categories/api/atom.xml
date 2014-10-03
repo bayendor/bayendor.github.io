@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: api | Musings of an 8-bit Vet]]></title>
+  <link href="http://bayendor.github.io/blog/categories/api/atom.xml" rel="self"/>
+  <link href="http://bayendor.github.io/"/>
+  <updated>2014-08-17T12:10:24-06:00</updated>
+  <id>http://bayendor.github.io/</id>
+  <author>
+    <name><![CDATA[David Bayendor]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Capture OMNIAUTH failures in development mode]]></title>
+    <link href="http://bayendor.github.io/blog/2013/09/19/using-omniauth-in-development/"/>
+    <updated>2013-09-19T15:59:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/09/19/using-omniauth-in-development</id>
+    <content type="html"><![CDATA[<p>As part of a recent Rails project, I was implementing authentication using
+GitHub credentials via OmniAuth.</p>
+
+<p>I came across an annoying problem with the way OmniAuth handles
+a failure to authenticate while in development mode.  In normal deployment
+a failure to authenticate will redirect back to the requesting website.</p>
+
+<p>However, while in development mode in Rails, the failure endpoint causes the
+controller to throw an error and brings the site to a halt.  This is not
+particularly graceful.</p>
+
+<p>After some <em>Googling</em> I found a solution:</p>
+
+<p>Take a look at the <code>omniauth.rb</code> file under the
+<code>initializers</code> directory of your Rails app:</p>
+
+<p>```ruby
+Rails.application.config.middleware.use OmniAuth::Builder do
+  provider :github, ENV[&lsquo;GITHUB_KEY&rsquo;], ENV[&lsquo;GITHUB_SECRET&rsquo;],</p>
+
+<pre><code>        scope: "user:email"
+</code></pre>
+
+<p>end</p>
+
+<p>OmniAuth.config.on_failure = Proc.new { |env|
+  OmniAuth::FailureEndpoint.new(env).redirect_to_failure
+}
+```</p>
+
+<p>The first line configures the Rails middleware to use OmniAuth and to pass
+various values to the provider, in this case GitHub.</p>
+
+<p>The code on line 6-8 solves the development failure endpoint by allowing
+you to redirect to the page of your choice via <col>routes.rb</col>:</p>
+
+<p><code>ruby
+get '/auth/:provider/callback' =&gt; 'sessions#create'
+get '/auth/failure', to: redirect('/')
+</code></p>
+
+<p>Further actions would be handled by the <code>sessions</code> or other
+authentication controller.</p>
+
+<p>This allows you to better test authentication, and to get an idea of how
+your application will behave without having to deploy it first.  The code
+can remain in production, it does not need to be removed.</p>
+
+<p>I&rsquo;ll cover more on OmniAuth authentication in a later post.</p>
+
+<p>Resources:</p>
+
+<p><a href="https://github.com/intridea/omniauth/wiki/FAQ">Intridea OmniAuth FAQ</a></p>
+]]></content>
+  </entry>
+  
+</feed>

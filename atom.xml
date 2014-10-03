@@ -1,0 +1,1265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Musings of an 8-bit Vet]]></title>
+  <link href="http://bayendor.github.io/atom.xml" rel="self"/>
+  <link href="http://bayendor.github.io/"/>
+  <updated>2014-08-17T12:10:24-06:00</updated>
+  <id>http://bayendor.github.io/</id>
+  <author>
+    <name><![CDATA[David Bayendor]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Weaving Code]]></title>
+    <link href="http://bayendor.github.io/blog/2013/09/23/weaving-code/"/>
+    <updated>2013-09-23T16:03:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/09/23/weaving-code</id>
+    <content type="html"><![CDATA[<p>I recently came across the most amazing piece of video footage while watching
+a documentary on the technology used during the Apollo missions of the late
+1960&rsquo;s.</p>
+
+<p>That era was a little bit like an alternate decade of the 21st century that
+sort of just showed up in the middle of the 20th century.  In addition to
+tremendous leaps in aviation and space-flight that decade gave us advances
+ in medical, material, and computer science.</p>
+
+<p>To put it in perspective, the working memory of the navigation computer for
+the Apollo missions was just 72 kilobytes!  Things that we take for granted
+now had to be invented from scratch, including interrupt driven multi-processing
+algorithms and reliable data storage.</p>
+
+<p>For a fascinating look at how the latter was solved, watch this video:</p>
+
+<p><code><iframe width="560" height="315" src="http://bayendor.github.io//www.youtube.com/embed/P12r8DKHsak" frameborder="0" allowfullscreen></iframe></code></p>
+
+<p>For more about this amazing and lost technology see the Wikipedia entry: <a href="http://en.wikipedia.org/wiki/Core_rope_memory">Core Rope Memory</a></p>
+
+<p>On a separate note, this is a fascinating and possibly forgotten example of
+diversity in coding.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Capture OMNIAUTH failures in development mode]]></title>
+    <link href="http://bayendor.github.io/blog/2013/09/19/using-omniauth-in-development/"/>
+    <updated>2013-09-19T15:59:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/09/19/using-omniauth-in-development</id>
+    <content type="html"><![CDATA[<p>As part of a recent Rails project, I was implementing authentication using
+GitHub credentials via OmniAuth.</p>
+
+<p>I came across an annoying problem with the way OmniAuth handles
+a failure to authenticate while in development mode.  In normal deployment
+a failure to authenticate will redirect back to the requesting website.</p>
+
+<p>However, while in development mode in Rails, the failure endpoint causes the
+controller to throw an error and brings the site to a halt.  This is not
+particularly graceful.</p>
+
+<p>After some <em>Googling</em> I found a solution:</p>
+
+<p>Take a look at the <code>omniauth.rb</code> file under the
+<code>initializers</code> directory of your Rails app:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">middleware</span><span class="o">.</span><span class="n">use</span> <span class="ss">OmniAuth</span><span class="p">:</span><span class="ss">:Builder</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">provider</span> <span class="ss">:github</span><span class="p">,</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;GITHUB_KEY&#39;</span><span class="o">]</span><span class="p">,</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;GITHUB_SECRET&#39;</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>            <span class="ss">scope</span><span class="p">:</span> <span class="s2">&quot;user:email&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">OmniAuth</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">on_failure</span> <span class="o">=</span> <span class="no">Proc</span><span class="o">.</span><span class="n">new</span> <span class="p">{</span> <span class="o">|</span><span class="n">env</span><span class="o">|</span>
+</span><span class='line'>  <span class="ss">OmniAuth</span><span class="p">:</span><span class="ss">:FailureEndpoint</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">env</span><span class="p">)</span><span class="o">.</span><span class="n">redirect_to_failure</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The first line configures the Rails middleware to use OmniAuth and to pass
+various values to the provider, in this case GitHub.</p>
+
+<p>The code on line 6-8 solves the development failure endpoint by allowing
+you to redirect to the page of your choice via <col>routes.rb</col>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s1">&#39;/auth/:provider/callback&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;sessions#create&#39;</span>
+</span><span class='line'><span class="n">get</span> <span class="s1">&#39;/auth/failure&#39;</span><span class="p">,</span> <span class="ss">to</span><span class="p">:</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Further actions would be handled by the <code>sessions</code> or other
+authentication controller.</p>
+
+<p>This allows you to better test authentication, and to get an idea of how
+your application will behave without having to deploy it first.  The code
+can remain in production, it does not need to be removed.</p>
+
+<p>I&rsquo;ll cover more on OmniAuth authentication in a later post.</p>
+
+<p>Resources:</p>
+
+<p><a href="https://github.com/intridea/omniauth/wiki/FAQ">Intridea OmniAuth FAQ</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Make mine a single: On the use of quotation marks]]></title>
+    <link href="http://bayendor.github.io/blog/2013/08/28/make-mine-a-single-on-the-use-of-quotation-marks/"/>
+    <updated>2013-08-28T08:38:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/08/28/make-mine-a-single-on-the-use-of-quotation-marks</id>
+    <content type="html"><![CDATA[<p>Here are two lines of Ruby code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="s1">&#39;Have a nice day!&#39;</span>
+</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;Have a nice day!&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>They both print the same string to the display.  The first uses <code>&lsquo;single
+ quotes&rsquo;</code>, the second uses <code>&ldquo;double quotes&rdquo;</code>.  Now, any new
+ Rubyist quickly learns that you use single quotes for simple or static strings,
+  and double quotes for more complicated strings, with special characters, etc.
+  You also use double quotes for so-called &ldquo;interpolated strings&rdquo;, where you
+  want to be able to print a variable or other derived value in the string, e.g.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;Have a nice day, </span><span class="si">#{</span><span class="n">person_name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So if double quotes will perform the same function as single quotes, why not
+just use them all the time?</p>
+
+<p>When I posed this question in class the other day it was suggested that
+ whenever the Ruby interpreter sees single quotes it just prints the string, and doesn&rsquo;t bother to
+ check if there is anything possibly going on in between the <code>&lsquo;&rsquo;</code>&rsquo;s.
+ But when Ruby sees double quotes, it has to check each character to see if
+ there is any interpolation required.  This is time consuming, and
+ computationally costly.  If you are working with thousands of lines of code it
+can really add up.</p>
+
+<p>So I wrote a quick benchmark to check just how costly this really is, the
+total time taken is displayed after <code>real</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">time</span> <span class="n">ruby</span> <span class="n">quote_test</span><span class="o">.</span><span class="n">rb</span>   <span class="c1"># puts &#39;Hello there!&#39; * 1,000,000</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">real</span>  <span class="mi">0</span><span class="n">m5</span><span class="o">.</span><span class="mi">130</span><span class="n">s</span>
+</span><span class='line'><span class="n">user</span>  <span class="mi">0</span><span class="n">m0</span><span class="o">.</span><span class="mi">081</span><span class="n">s</span>
+</span><span class='line'><span class="n">sys</span> <span class="mi">0</span><span class="n">m0</span><span class="o">.</span><span class="mi">150</span><span class="n">s</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">time</span> <span class="n">ruby</span> <span class="n">quotes_test</span><span class="o">.</span><span class="n">rb</span>  <span class="c1"># puts &quot;Hello there!&quot; * 1,000,000</span>
+</span><span class='line'><span class="n">real</span>  <span class="mi">0</span><span class="n">m5</span><span class="o">.</span><span class="mo">076</span><span class="n">s</span>
+</span><span class='line'><span class="n">user</span>  <span class="mi">0</span><span class="n">m0</span><span class="o">.</span><span class="mi">081</span><span class="n">s</span>
+</span><span class='line'><span class="n">sys</span> <span class="mi">0</span><span class="n">m0</span><span class="o">.</span><span class="mi">152</span><span class="n">s</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Huh?  Turns out a million <code>puts</code> is actually slightly faster with
+double quotes.  Maybe I need to give Ruby some more to do:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">time</span> <span class="n">ruby</span> <span class="n">quote_test</span><span class="o">.</span><span class="n">rb</span>   <span class="c1"># puts &#39;Hello there!&#39; * 3,000,000</span>
+</span><span class='line'><span class="n">real</span>  <span class="mi">0</span><span class="n">m15</span><span class="o">.</span><span class="mi">246</span><span class="n">s</span>
+</span><span class='line'><span class="n">user</span>  <span class="mi">0</span><span class="n">m0</span><span class="o">.</span><span class="mi">087</span><span class="n">s</span>
+</span><span class='line'><span class="n">sys</span> <span class="mi">0</span><span class="n">m0</span><span class="o">.</span><span class="mi">357</span><span class="n">s</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">time</span> <span class="n">ruby</span> <span class="n">quotes_test</span><span class="o">.</span><span class="n">rb</span>  <span class="c1"># puts &quot;Hello there!&quot; * 3,000,000</span>
+</span><span class='line'><span class="n">real</span>  <span class="mi">0</span><span class="n">m15</span><span class="o">.</span><span class="mi">170</span><span class="n">s</span>
+</span><span class='line'><span class="n">user</span>  <span class="mi">0</span><span class="n">m0</span><span class="o">.</span><span class="mi">088</span><span class="n">s</span>
+</span><span class='line'><span class="n">sys</span> <span class="mi">0</span><span class="n">m0</span><span class="o">.</span><span class="mi">347</span><span class="n">s</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>WTF?  Double quotes is still slightly faster.  Guess we need to dig a little
+deeper.</p>
+
+<p>Turns out there is big discussion of this on <a href="http://stackoverflow.com/questions/1836467/is-there-a-performance-gain-in-using-single-quotes-vs-double-quotes-in-ruby">Stack Overflow</a>, click the link to read all about it.</p>
+
+<p>The short version is this, Ruby doesn&rsquo;t just pass over single quoted strings
+when it evaluates.  It has to look at every character to render the string in
+memory, regardless of single or double quotes, even with interpolation.  After
+some pretty extensive bench-marking there is no real cost to using double
+quotes, and it is often slightly faster.</p>
+
+<p>I suspect that the real reason we use single quotes is one of style.  It can&rsquo;t
+be for code efficiency, and if you later need to update a string to use
+interpolation, you would also have to change the single quotes to double quotes.</p>
+
+<p>I&rsquo;m all about style, so make mine a single!</p>
+
+<p>(But I reserve the right to change my mind later&hellip;)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rails and TDD Screencasts Worth Watching]]></title>
+    <link href="http://bayendor.github.io/blog/2013/08/16/screencasts-that-teach-rails-and-tdd/"/>
+    <updated>2013-08-16T14:53:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/08/16/screencasts-that-teach-rails-and-tdd</id>
+    <content type="html"><![CDATA[<p>Just a quick post to describe two excellent on-line resources that I have
+found to be extremely helpful as we enter the mid-point of our training at
+<a href="http://davincicoders.com/building-the-toolbelt-of-a-junior-ruby-on-rails-developer/">DaVinci Coders</a>.</p>
+
+<p>The first is Ryan Bates&#8217; excellent <a href="http://railscasts.com/">RailsCasts</a> series
+of Ruby on Rails screencasts.  While this is a subscription service, Ryan has
+generously made many of his older screencasts available for free.  The amount
+of technical expertise and pro-level tips is absolutely amazing for me as a
+junior Rails dev.  Prior to this I had no real notion of some of the topics
+that RailsCasts covers, but now that I&rsquo;m working with Rails every day, this
+content is absolutely priceless.</p>
+
+<p>The second is the CodeShip series called <a href="http://blog.codeship.io/category/testing-tuesday">Testing Tuesday</a>.  As the name suggests, these are short video
+tutorials on various aspects of TDD and BDD tools and skills, like RSpec,
+Cucumber, and other languages beyond Ruby and Rails.  Even better, these are
+free.  They are also posted online at <a href="https://vimeo.com/codeship">Vimeo</a>.</p>
+
+<p>The beauty of both of these resources &ndash; and I&rsquo;m sure there are others &ndash; is that
+they are short and to the point. Each are about 10 minutes long, and address
+a problem or provide an overview of a technique that you can put to work right
+away.</p>
+
+<p>Next time you are browsing the web and watching <a href="www.youtube.com">YouTube</a>
+ videos, take a look at one of these resources and learn something that will
+ make you a better developer.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Tame Git Commits with squash]]></title>
+    <link href="http://bayendor.github.io/blog/2013/08/07/tame-git-commits-squash-and-reword/"/>
+    <updated>2013-08-07T11:34:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/08/07/tame-git-commits-squash-and-reword</id>
+    <content type="html"><![CDATA[<p>In class we are working our way through the <a href="https://github.com/neo/ruby_koans">Ruby Koans</a>. This is partly to learn Ruby, and partly to get us used
+to making git commits and doing pull requests.</p>
+
+<p>While exploring the section &ldquo;about_regular_expressions&rdquo; and fixing each test and doing some <a href="http://gitx.frim.nl/">Gitx</a> practice, I found myself the proud
+owner of 27 separate commits!</p>
+
+<p>At this point <a href="http://jasonnoble.org">Jason Noble</a>, our instructor, stepped in and said something like
+&ldquo;Wow, that&rsquo;s a lot of commits.  You should <code>git rebase -i</code> and
+squash some of them.&rdquo;</p>
+
+<p>What is <code>squash</code>, you ask?  It is where you take a number of commits
+and turn them into a single commit, combining the commit messages at the same
+time.</p>
+
+<p>In the following example, lines 3-7 are five commits I performed:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[~/workspace/squash_reword]
+</span><span class='line'>(master) $ git log --oneline
+</span><span class='line'>d3d80ce Add README file
+</span><span class='line'>b209207 Include testing file
+</span><span class='line'>53ca0f5 Env &gt;&gt; file.txt
+</span><span class='line'>1962bf9 Add another_file.txt
+</span><span class='line'>44d0164 Initial commit
+</span><span class='line'>[~/workspace/squash_reword]
+</span><span class='line'>(master) $</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Issuing the following command: <code>git rebase -i HEAD~4</code>
+make the default editor editor open up <code>git-rebase-todo</code> with the following content:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pick 1962bf9 Add another_file.txt
+</span><span class='line'>pick 53ca0f5 Env &gt;&gt; file.txt
+</span><span class='line'>pick b209207 Include testing file
+</span><span class='line'>pick d3d80ce Add README file
+</span><span class='line'>
+</span><span class='line'># Rebase 44d0164..d3d80ce onto 44d0164
+</span><span class='line'>#
+</span><span class='line'># Commands:
+</span><span class='line'>#  p, pick = use commit
+</span><span class='line'>#  r, reword = use commit, but edit the commit message
+</span><span class='line'>#  e, edit = use commit, but stop for amending
+</span><span class='line'>#  s, squash = use commit, but meld into previous commit
+</span><span class='line'>#  f, fixup = like "squash", but discard this commit's log message
+</span><span class='line'>#  x, exec = run command (the rest of the line) using shell
+</span><span class='line'>#
+</span><span class='line'># These lines can be re-ordered; they are executed from top to bottom.
+</span><span class='line'>#
+</span><span class='line'># If you remove a line here THAT COMMIT WILL BE LOST.
+</span><span class='line'>#
+</span><span class='line'># However, if you remove everything, the rebase will be aborted.
+</span><span class='line'>#
+</span><span class='line'># Note that empty commits are commented out</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I used <code>HEAD ~4</code> to tell rebase to count four commits from
+ <code>HEAD</code>. If you are rebasing against a remote you would use
+ something like <code>git rebase -i upstream/master</code>.</p>
+
+<p> The instructions on how to use all these features are in the comments
+ below the list of commits.  Change <code>pick</code> to
+ <code>squash</code> on the commits you want to combine, and save your changes.</p>
+
+<p> <strong><strong>WARNING: Do NOT change the first line!  Bad things happen.</strong></strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pick 1962bf9 Add another_file.txt
+</span><span class='line'>squash 53ca0f5 Env &gt;&gt; file.txt
+</span><span class='line'>squash b209207 Include testing file
+</span><span class='line'>squash d3d80ce Add README file
+</span><span class='line'>
+</span><span class='line'># Rebase 44d0164..d3d80ce onto 44d0164</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Upon closing the editor, you will be presented with the file
+<code>COMMIT_EDITMSG</code> containing all the messages from the squashed
+commits:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># This is a combination of 4 commits.
+</span><span class='line'># The first commit's message is:
+</span><span class='line'>Add another_file.txt
+</span><span class='line'>
+</span><span class='line'># This is the 2nd commit message:
+</span><span class='line'>
+</span><span class='line'>Env &gt;&gt; file.txt
+</span><span class='line'>
+</span><span class='line'># This is the 3rd commit message:
+</span><span class='line'>
+</span><span class='line'>Include testing file
+</span><span class='line'>
+</span><span class='line'># This is the 4th commit message:
+</span><span class='line'>
+</span><span class='line'>Add README file
+</span><span class='line'>
+</span><span class='line'># Please enter the commit message for your changes. Lines starting
+</span><span class='line'># with '#' will be ignored, and an empty message aborts the commit.
+</span><span class='line'># HEAD detached from 1962bf9
+</span><span class='line'># You are currently editing a commit while rebasing branch 'master' on '44d0164'.
+</span><span class='line'>#
+</span><span class='line'># Changes to be committed:
+</span><span class='line'>#   (use "git reset HEAD^1 &lt;file&gt;..." to unstage)
+</span><span class='line'>#
+</span><span class='line'># new file:   README.md
+</span><span class='line'># new file:   another_file.txt
+</span><span class='line'># modified:   file1.txt
+</span><span class='line'># new file:   file_spec.spec</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Edit the new single commit message, and remove any duplicated or extraneous
+text, and hit save and close the file.  Git will update the files
+and adjust the commit. Your list of commits now looks like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(master) $ git log --oneline
+</span><span class='line'>5dd5037 Add README and testing files
+</span><span class='line'>44d0164 Initial commit
+</span><span class='line'>[~/workspace/squash_reword]
+</span><span class='line'>(master) $</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Problem solved!</p>
+
+<p>You can also use the same procedure to edit commit messages, only use the
+option <code>reword</code> instead of <code>pick</code>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[On TDD and technical hiring]]></title>
+    <link href="http://bayendor.github.io/blog/2013/08/01/on-tdd-and-technical-hiring/"/>
+    <updated>2013-08-01T07:50:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/08/01/on-tdd-and-technical-hiring</id>
+    <content type="html"><![CDATA[<blockquote><p>Outside-in development often feels strange to newcomers. Most developers prefer to start with the “important” part of an application &#8230; Thinking like a server and not a client can lead to overengineering by implementing more than you need. Your resulting objects and their interfaces will also be less than optimal, or at least take longer to get quite right.</p><footer><strong>Jared Carroll</strong> <cite><a href='http://blog.carbonfive.com/2012/02/14/beginning-outside-in-rails-development-with-cucumber-and-rspec/'>Beginning Outside-In Rails Development With Cucumber and RSpec</a></cite></footer></blockquote>
+
+
+<p>We have started exploring test drive development in class, which can be a bit
+of a conceptual shift.  TDD goes hand in glove with Agile practices because it
+ encourages rapid delivery of working code, in discrete steps.  As
+a bonus it creates a living document of the development process that can be
+used further down the road of an applications life-cycle to make sure that no
+new code breaks any of the old code.</p>
+
+<p>The quote above comes from an excellent blog entry by Jared Carroll, <a href="http://blog.carbonfive.com/2012/02/14/beginning-outside-in-rails-development-with-cucumber-and-rspec/">Beginning Outside-In Rails Development with Cucumber and RSpec</a>.
+Jared gives an overview of how TDD should work. Anyone getting started in TDD should read it and let it sink in.</p>
+
+<p>On another note, as aspiring junior web-devs, this recent
+<a href="http://www.thoughtbot.com/">thoughtbot</a> podcast is worth listening to:
+<a href="https://learn.thoughtbot.com/giantrobots/59">podcast #59: Nowhere to Hide</a>.</p>
+
+<p>In the episode, Ben Orenstein speaks with thoughtbot CTO Joe Ferris about the technical interview process at thoughtbot, and more.</p>
+
+<p>Thanx for reading, stay tuned for more from the frontlines&hellip;</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Strings &amp; things]]></title>
+    <link href="http://bayendor.github.io/blog/2013/07/29/strings-and-things/"/>
+    <updated>2013-07-29T17:35:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/07/29/strings-and-things</id>
+    <content type="html"><![CDATA[<p>Two useful things I learned doing homework over the weekend:</p>
+
+<p><em>USEFUL THING 1: git commit &mdash;amend</em></p>
+
+<p>Lets say that your fingers get ahead of your brain, and
+that you write your</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git commit -m "Mad code skilz"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and then realize that you forgot to add your modified file.</p>
+
+<p>Well, go ahead</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git add thatfile.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and then issue</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git commit --amend</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will combine the last two commands together, your forgotten file will get linked with the commit message. Problem solved.</p>
+
+<p><em>USEFUL THING 2: Control significant digits in Ruby <code>float</code> returns</em></p>
+
+<p>While building our <code>CashRegister</code> class, I ran into the problem
+that Ruby floats return way more digits after the decimal point than you
+need to make change.</p>
+
+<p>For example, if you pay for an $8.30 purchase with a $10 bill, you do not
+expect to get the message:</p>
+
+<p><code>Your change is $1.6999999999999993</code></p>
+
+<p>Thanks to a quick <em>HipChat</em> session with classmate Aron, I arrived at
+the following way to control float output:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;Your change is $</span><span class="si">#{</span><span class="nb">sprintf</span><span class="p">(</span><span class="s2">&quot;%0.2f&quot;</span><span class="p">,</span><span class="vi">@reg_change</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let&rsquo;s break it down, the key part here is inside the string interpolation:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">sprintf</span><span class="p">(</span><span class="s2">&quot;%0.2f&quot;</span><span class="p">,</span><span class="n">float</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In particular, the <code>&ldquo;%0.2f&rdquo;</code> is telling <code>sprintf</code> that you want output to be offset by <code>0</code> digits, and include only
+ <code>.2</code> digits after the decimal point.</p>
+
+<p>If you want to set the width of your float output, to say right justify,
+change the <code>0</code> to a larger number, <code>10</code> would
+include padding to make the field 10 digits wide. If you want more or less
+precision after the decimal, change the number after the <code>.</code> to
+any number you choose, say <code>.1</code> or <code>.5</code>.</p>
+
+<p>My final output: <code>Your change is $1.70</code>. Problem solved.</p>
+
+<p>Thanx for reading. Stay tuned for more from the front lines…</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Matters of style]]></title>
+    <link href="http://bayendor.github.io/blog/2013/07/26/matters-of-style/"/>
+    <updated>2013-07-26T11:55:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/07/26/matters-of-style</id>
+    <content type="html"><![CDATA[<p>As we are starting to write code, it becomes apparent that some code just looks
+better than other code.  I&rsquo;m pretty sure the Ruby interpreter doesn&rsquo;t care, but
+source code is really a document of the product that the code produces
+so it is important that it be readable and understandable to others.</p>
+
+<p>Ruby is pretty expressive, and it seems to offer a lot of flexibility with the
+syntax.  This could lead to a lot of variation in style.  Just as there are
+ standards for style in the production of written works, so there
+are for programmers.</p>
+
+<p>For Ruby that style guide seems to be: <a href="https://github.com/bbatsov/ruby-style-guide">BBatsov&rsquo;s Ruby Style Guide</a>.</p>
+
+<p>It&rsquo;s an envolving document with a lot of examples of good and bad coding style,
+some of which I am certain are parts of large philosophical debates.  In any
+event as a new Rubyist I feel it is important to develop good habits.  I read
+through the whole document and here some picks for new programmers to be aware of when writing code, based on the sort of code we are writing now.</p>
+
+<p><em>All examples courtesy of BBatsov.</em></p>
+
+<p>Limit lines to 80 characters.</p>
+
+<p>Avoid trailing whitespace.</p>
+
+<p>Use spaces around operators, after commas, colons and semicolons, around <code>{</code>and before <code>}</code>. Whitespace might be (mostly) irrelevant to the Ruby interpreter, but its proper use is the key to writing easily readable code.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">sum</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span>
+</span><span class='line'><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
+</span><span class='line'><span class="mi">1</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="o">?</span> <span class="kp">true</span> <span class="p">:</span> <span class="kp">false</span><span class="p">;</span> <span class="nb">puts</span> <span class="s1">&#39;Hi&#39;</span>
+</span><span class='line'><span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">].</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">e</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>No spaces after <code>(, [</code> or before <code>], )</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">some</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span><span class="o">.</span><span class="n">other</span>
+</span><span class='line'><span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">].</span><span class="n">length</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Use empty lines between defs and to break up a method into logical paragraphs.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">some_method</span>
+</span><span class='line'>  <span class="n">data</span> <span class="o">=</span> <span class="kp">initialize</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">data</span><span class="o">.</span><span class="n">manipulate!</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">data</span><span class="o">.</span><span class="n">result</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">some_method</span>
+</span><span class='line'>  <span class="n">result</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Use spaces around the = operator when assigning default values to method parameters:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># bad</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">some_method</span><span class="p">(</span><span class="n">arg1</span><span class="o">=</span><span class="ss">:default</span><span class="p">,</span> <span class="n">arg2</span><span class="o">=</span><span class="kp">nil</span><span class="p">,</span> <span class="n">arg3</span><span class="o">=[]</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1"># do something...</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># good</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">some_method</span><span class="p">(</span><span class="n">arg1</span> <span class="o">=</span> <span class="ss">:default</span><span class="p">,</span> <span class="n">arg2</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">,</span> <span class="n">arg3</span> <span class="o">=</span> <span class="o">[]</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1"># do something...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Add underscores to large numeric literals to improve their readability.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># bad - how many 0s are there?</span>
+</span><span class='line'><span class="n">num</span> <span class="o">=</span> <span class="mi">1000000</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># good - much easier to parse for the human brain</span>
+</span><span class='line'><span class="n">num</span> <span class="o">=</span> <span class="mi">1_000_000</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Don&rsquo;t use block comments. They cannot be preceded by whitespace and are not as
+easy to spot as regular comments.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># bad</span>
+</span><span class='line'><span class="o">==</span> <span class="k">begin</span>
+</span><span class='line'><span class="n">comment</span> <span class="n">line</span>
+</span><span class='line'><span class="n">another</span> <span class="n">comment</span> <span class="n">line</span>
+</span><span class='line'><span class="o">==</span> <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># good</span>
+</span><span class='line'><span class="c1"># comment line</span>
+</span><span class='line'><span class="c1"># another comment line</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s probably enough to get started.  There is also a very useful gem
+<a href="https://github.com/bbatsov/rubocop">RuboCop</a> that will tell you
+where you are diverging from these recommendations.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Dates/Times are Hard]]></title>
+    <link href="http://bayendor.github.io/blog/2013/07/23/dates-slash-times-are-hard/"/>
+    <updated>2013-07-23T12:18:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/07/23/dates-slash-times-are-hard</id>
+    <content type="html"><![CDATA[<p>Our instructor,Jason Noble, sent out an email this morning about the homework.  In this homework we had progressed beyond the ubiquitous <code>hello_world.rb</code>, and had moved on to calculating how many seconds there were in various blocks of time.  In particular, how many seconds are there between now and 20 or 100 years from now?</p>
+
+<p>Turns out that dates and times are hard to get a handle on in programming.  Especially since a leap year is every 4 years from 1804, but not every 100, and then again every 400 years.  Confusing, I know.  Not just for us, but for own programming tools, and a lot of other folks too.</p>
+
+<p><code><iframe width="560" height="315" src="http://bayendor.github.io//www.youtube.com/embed/xX96xng7sAE" frameborder="0" allowfullscreen></iframe></code></p>
+
+<p>Jason&rsquo;s email addressed the issue that depending on how you do your calculations you end up with different answers:
+<code></p>
+
+<p>Jason originally had these values as the specified output:</p>
+
+<pre><code>That means when you turn 20, you've been alive for 628992000 seconds,
+and if you make it to 100, you will have lived 3144960000 seconds.
+</code></pre>
+
+<p>Classmate Aron was first to finish and his output was slightly different:</p>
+
+<pre><code>That means when you turn 20, you've been alive for 630720000 seconds,
+and if you make it to 100, you will have lived 3153600000 seconds.
+</code></pre>
+
+<p>Calculation methods were to blame.</p>
+
+<p>Jason:</p>
+
+<pre><code>86400 * 7 * 52 * 20  # seconds/day * 7 days/week * 52 weeks/year * 20 years
+86400 * 7 * 52 * 100  # seconds/day * 7 days/week * 52 weeks/year * 20 years
+</code></pre>
+
+<p><strong>365 days != 52 weeks * 7 days/week (364 days)</strong></p>
+
+<p>Aron:</p>
+
+<pre><code>86400 * 365 * 20  # seconds / day * 365 days / year * 20 years
+86400 * 365 * 100  # seconds / day * 365 days / year * 100 years
+</code></pre>
+
+<p><em>(Aron is more accurate, but he forgot to account for leap years)</em></p>
+
+<p>Another possibility from Jason:</p>
+
+<pre><code>86400 * 365.25 * 20  # seconds / day * 365.25 days / year * 20 years  =&gt; 631152000
+86400 * 365.25 * 100  # seconds / day * 365.25 days / year * 100 years =&gt; 3155760000
+</code></pre>
+
+<p><em>(Looks like Jason is getting closer by trying to account for leap years. A year is actually = 365d, 5h, 48m, 47s.  The fractional diffence is why we have leap year. That is an additional 20,927 seconds per year)</em></p>
+
+<p>Jason used the Rails console to get a slightly better answer:</p>
+
+<pre><code>20.years is 631152000 seconds
+100.years is 3155760000 seconds
+</code></pre>
+
+<p>Who has the right answer?  Is there another algorithm?</p>
+
+<p></code>
+My answer was also slightly different since I actually counted the leap years for 20 and 100 years from now, 5 &amp; 24 respectively.</p>
+
+<p>I then added in the additional days to yield:</p>
+
+<pre><code>20 years from now is 631152000 seconds,
+100 years from now is 3155673600 seconds.
+</code></pre>
+
+<p>Notice that my 20 year number is the same as the Rails computation, and my 100 year number is much closer.  In fact it&rsquo;s off by exactly one day.  Looks like Rails missed the fact that 100 / 4 = 25 is not an accurate way to count leap years.</p>
+
+<p>I also tried using the <code>Time</code> function in Ruby:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Seconds from now till twenty years from now.</span>
+</span><span class='line'><span class="n">irb</span><span class="o">&gt;</span> <span class="nb">puts</span> <span class="p">(</span><span class="no">Time</span><span class="o">.</span><span class="n">gm</span><span class="p">(</span><span class="mi">2033</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mo">03</span><span class="p">)</span> <span class="o">-</span> <span class="no">Time</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;&gt;</span> <span class="mi">631130357</span><span class="o">.</span><span class="mi">633387</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Seconds from now till 100 years from now.</span>
+</span><span class='line'><span class="n">irb</span><span class="o">&gt;</span> <span class="nb">puts</span> <span class="p">(</span><span class="no">Time</span><span class="o">.</span><span class="n">gm</span><span class="p">(</span><span class="mi">2113</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mo">04</span><span class="p">)</span> <span class="o">-</span> <span class="no">Time</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;&gt;</span> <span class="mi">3155651903</span><span class="o">.</span><span class="mi">756982</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Again, slightly different answers.  There are several gems to tackle this
+problem as well.  But this is where I stopped.  Hopefully this stimulates some conversation in class this
+ week.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Notes on a github rebase workflow]]></title>
+    <link href="http://bayendor.github.io/blog/2013/07/20/notes-on-a-github-rebase-workflow/"/>
+    <updated>2013-07-20T20:02:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/07/20/notes-on-a-github-rebase-workflow</id>
+    <content type="html"><![CDATA[<p>This is primarily for my own reference, but it is an attempt to encapsulate the
+git workflow for working with repos being edited by other users.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">git</span> <span class="n">remote</span> <span class="n">add</span> <span class="n">upstream</span> <span class="s2">&quot;repo-path&quot;</span>     <span class="c1"># set upstream to the correct place</span>
+</span><span class='line'><span class="n">git</span> <span class="n">remote</span> <span class="n">add</span> <span class="n">remote_name</span> <span class="n">git_repo_url</span> <span class="c1"># make alias for remote (co-workers) repo</span>
+</span><span class='line'>  <span class="n">git</span> <span class="n">remote</span> <span class="o">-</span><span class="n">v</span>                           <span class="c1"># verify correct paths to repos</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">git</span> <span class="n">fetch</span> <span class="n">origin</span>                        <span class="c1"># check to see what changed</span>
+</span><span class='line'><span class="n">git</span> <span class="n">rebase</span> <span class="n">origin</span><span class="o">/</span><span class="n">branchname</span>            <span class="c1"># rewrite branch based on origin/branchname</span>
+</span><span class='line'><span class="n">git</span> <span class="n">mergetool</span>                           <span class="c1"># run merge tool to resolve diffs</span>
+</span><span class='line'><span class="n">git</span> <span class="n">rebase</span> <span class="o">--</span><span class="n">continue</span>                   <span class="c1"># rebase not done yet!</span>
+</span><span class='line'>  <span class="ow">or</span> <span class="n">git</span> <span class="n">rebase</span> <span class="o">--</span><span class="n">skip</span>                    <span class="c1"># if you want to accept changes</span>
+</span><span class='line'><span class="n">git</span> <span class="n">clean</span> <span class="o">-</span><span class="n">f</span>                            <span class="c1"># cleans up .orig files generated by merge</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">git</span> <span class="n">status</span>                              <span class="c1"># always a good idea to check status</span>
+</span><span class='line'><span class="n">git</span> <span class="n">add</span> <span class="s2">&quot;file&quot;</span>                          <span class="c1"># add only the file you changed!</span>
+</span><span class='line'><span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;message&quot;</span>
+</span><span class='line'><span class="n">git</span> <span class="n">push</span> <span class="p">(</span><span class="o">-</span><span class="n">f</span><span class="p">)</span>                           <span class="c1"># -f forces changes if necessary</span>
+</span><span class='line'>  <span class="n">git</span> <span class="n">status</span>                            <span class="c1"># is working directory clean?</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Setting the branch to track upstream: </strong>
+In order to track the remote branch on the first push from that branch specify the
+&ldquo;-u&rdquo; switch, i.e. <code>git push -u origin repo_branch</code></p>
+
+<p><strong>Forking / cloning a repository: </strong>
+Make sure that you give your collaborator access to your repo from github.com
+under settings.  You will add them by their github user name.  If you don&rsquo;t their
+<code>git push</code> will be rejected.</p>
+
+<p><strong>Error messages: </strong>
+Git is really good about telling you what went wrong, so read the error messages carefully.</p>
+
+<p><strong>Useful Resource: </strong>
+<a href="http://johnjwilliams.org/2013/07/git-command-essentials.html">JohnWilliams.org: Git Command Essentials</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[When Github Keeps Asking for a Password]]></title>
+    <link href="http://bayendor.github.io/blog/2013/07/19/github-101/"/>
+    <updated>2013-07-19T21:32:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/07/19/github-101</id>
+    <content type="html"><![CDATA[<p>If everytime you go to do a remote connect (e.g. <code>push</code>) to github and it requests
+your github password, then you have most likely have a problem with your credential helper.</p>
+
+<p>The credential helper is part of a standard github or <code>homebrew</code> install.
+But sometimes things don&rsquo;t go as planned, or perhaps your github install was part
+of a larger &ldquo;all-in-one&rdquo; install and something got improperly configured.</p>
+
+<p>The good new is it&rsquo;s an easy enough problem to fix.</p>
+
+<p>These instructions apply to OS X, but you can check <a href="https://help.github.com/articles/set-up-git#platform-all">GitHub Help</a> for your platform.</p>
+
+<p>1: First, check to see if you have the credential helper installed:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">credential</span><span class="o">-</span><span class="n">osxkeychain</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you get the following then it is installed, go to step 3:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">usage</span><span class="p">:</span> <span class="n">git</span> <span class="n">credential</span><span class="o">-</span><span class="n">osxkeychain</span> <span class="o">&lt;</span><span class="n">get</span><span class="o">|</span><span class="n">store</span><span class="o">|</span><span class="n">erase</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But if you get, go to step 2:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">git</span><span class="p">:</span> <span class="s1">&#39;credential-osxkeychain&#39;</span> <span class="n">is</span> <span class="ow">not</span> <span class="n">a</span> <span class="n">git</span> <span class="n">command</span><span class="o">.</span> <span class="no">See</span> <span class="s1">&#39;git --help&#39;</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2: Then you need to install and configure it with:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Download the file</span>
+</span><span class='line'><span class="n">curl</span> <span class="o">-</span><span class="n">s</span> <span class="o">-</span><span class="n">O</span> <span class="p">\</span>
+</span><span class='line'>  <span class="ss">http</span><span class="p">:</span><span class="sr">//</span><span class="n">github</span><span class="o">-</span><span class="n">media</span><span class="o">-</span><span class="n">downloads</span><span class="o">.</span><span class="n">s3</span><span class="o">.</span><span class="n">amazonaws</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">osx</span><span class="o">/</span><span class="n">git</span><span class="o">-</span><span class="n">credential</span><span class="o">-</span><span class="n">osxkeychain</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Fix the permissions</span>
+</span><span class='line'><span class="n">chmod</span> <span class="n">u</span><span class="o">+</span><span class="n">x</span> <span class="n">git</span><span class="o">-</span><span class="n">credential</span><span class="o">-</span><span class="n">osxkeychain</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Move it to the right path, sudo may require your password.</span>
+</span><span class='line'><span class="n">sudo</span> <span class="n">mv</span> <span class="n">git</span><span class="o">-</span><span class="n">credential</span><span class="o">-</span><span class="n">osxkeychain</span> <span class="p">\</span>
+</span><span class='line'>  <span class="s2">&quot;$(dirname $(which git))/git-credential-osxkeychain&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>3: Lastly, modify your git config file to use the helper:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="n">global</span> <span class="n">credential</span><span class="o">.</span><span class="n">helper</span> <span class="n">osxkeychain</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The next time you <code>push</code> you&rsquo;ll be asked for your github
+password, but after that it should be remembered in your OS X keychain for each
+subsequent remote access request.</p>
+
+<p>Thanx for reading. Stay tuned for more from the front lines…</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Agile is the new black]]></title>
+    <link href="http://bayendor.github.io/blog/2013/07/19/agile-is-the-new-black/"/>
+    <updated>2013-07-19T20:14:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/07/19/agile-is-the-new-black</id>
+    <content type="html"><![CDATA[<blockquote><p>What do you despise?  By this are you truly known.</p><footer><strong>Frank Herbert</strong> <cite>Dune</cite></footer></blockquote>
+
+
+<p>We hear the term &ldquo;agile&rdquo; all the time in the development world.  What does it
+really mean?  Everything seems to have the term agile attached to it.</p>
+
+<p>It came up in class tonight as we were introduced to Pivotal Tracker, and the
+paradigm behind it.</p>
+
+<p>Sometimes you can figure out what something is by what it is not.  A few weeks
+ago I came across a video on Vimeo that addressed this.  Enjoy&hellip;</p>
+
+<p><code>
+  <iframe src="http://player.vimeo.com/video/68689393?byline=0" width="500" height="281" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+</code></p>
+
+<p><a href="http://vimeo.com/68689393">Fred George - Agile is the new black - Railsberry 2013</a>.</p>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Command Line Crash Course]]></title>
+    <link href="http://bayendor.github.io/blog/2013/07/18/command-line-crash-course/"/>
+    <updated>2013-07-18T10:18:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/07/18/command-line-crash-course</id>
+    <content type="html"><![CDATA[<p><img src="http://f.cl.ly/items/0J3R0O2p1V2Z1Z0F1s25/196.png">
+Command Line Fu &ndash; <a href="http://xkcd.com/196/">xkcd.com</a>
+This cartoon is particularly amusing because&hellip;</p>
+
+<p>I&rsquo;ve spent the last twenty-four hours working through
+<a href="http://cli.learncodethehardway.org/book/">The Command Line Crash Course</a>
+as homework for class.  In addition our instructor had us log our progress in
+Pivotal Tracker by having us work through &ldquo;stories&rdquo; to test our knowledge.</p>
+
+<p>Overall it was excellent, since we got exposure to two parts of the development
+environment at the same time: using and working the command line, and learning a
+tool that is a de-facto standard in the development industry.</p>
+
+<p>What did I learn?</p>
+
+<p>Pay attention to the stories, details are important, so don&rsquo;t rush ahead or you&rsquo;ll
+miss something.  My first few stories in Pivotal Tracker were rejected for that reason.</p>
+
+<p>Using the command line is both frustrating and confidence inspiring.  You get the
+feeling you are really interacting with the environment.  The abstraction of GUI&rsquo;s has
+made many people feel that they &ldquo;understand&rdquo; computers, but the reality is not that
+simple.</p>
+
+<p>I grew up using CP/M, DOS, and even did some time on a VAX 11/750 mini-computer.  As
+a result I&rsquo;m comfortable with basic aspects of the command line.  But as I&rsquo;ve been
+delving into development I&rsquo;ve seen command lines that I&rsquo;ve had to use and have simply
+cut and paste them without being entirely sure what they do or how they do it.</p>
+
+<p>The classic was <code>grep</code>.  I was always fascinated by what it was doing, and
+how it was so often used in combination with pipes or redirects.  Prior to this I
+never really had a reason to use it.  Since we do so much work with text and files,
+I see how useful it can be.</p>
+
+<p>In other news I did some fiddling with the blog and added a twitter feed for a list
+of Rubyists that I follow.  Check it out in the sidebar to the right.</p>
+
+<p>Thanx for reading.  Stay tuned for more from the front lines&hellip;</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Deploying Octopress to github.io]]></title>
+    <link href="http://bayendor.github.io/blog/2013/07/17/deploying-octopress-to-github-dot-io/"/>
+    <updated>2013-07-17T15:01:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/07/17/deploying-octopress-to-github-dot-io</id>
+    <content type="html"><![CDATA[<p>This blog was created using the <a href="http://octopress.org">Octopress</a> blogging
+framework.  I tell you this for several reasons:</p>
+
+<blockquote><ol>
+<li>Because one should give credit for other people&rsquo;s work.</li>
+<li>Expect the site to change as I learn how to modify it.</li>
+<li>Expect the site to break as I learn how to modify it.</li>
+</ol>
+</blockquote>
+
+<p>The first major hurdle I had, and I suspect my fellow aspiring Web-Belt Jrs had
+it as well, was getting the blog to deploy using the Github
+<a href="http://pages.github.com">Pages</a> hosting service.</p>
+
+<p>The Octopress documentation does cover this process, but the workflow for the
+newly minted web-dev can be a bit overwhelming.  There&rsquo;s a lot of stuff happening
+with <code>git</code> at the command line that may seem unfamiliar.  Having said
+that I&rsquo;ll throw my $0.02 worth of advice into the ring, and see if I can&rsquo;t make
+it easier for anyone reading this.</p>
+
+<h3>Set up your username.github.io repo</h3>
+
+<p>Go to your github home page and click on the button labeled &ldquo;New Repository&rdquo; on
+the right side of the screen.</p>
+
+<p><img src="http://f.cl.ly/items/3S0d3m1P0s400S122G1x/GitHub.jpeg"></p>
+
+<p>On the next page enter the name of the repo, in the form
+<code>username.github.io</code> where <code>username</code> is YOUR github user ID.</p>
+
+<p><img src="http://f.cl.ly/items/3x1a0m0W1o3H0x0W3W17/Create_a_New_Repository.jpeg"></p>
+
+<p>Enter an optional description if you wish and click on the green &ldquo;Create
+Repository&rdquo; button.</p>
+
+<p>The next page will show you the setup for your repo, and the repo name.  Make
+sure that the SSH button is selected and copy the address in the box to your
+clipboard, you will need it for the next step.  It will be in the form <code>git@github.com:username/username.github.io.git</code></p>
+
+<p><img src="http://f.cl.ly/items/3f47300A0y1R0Q1L0X2h/username.github.io.jpeg"></p>
+
+<blockquote><p>Note: It can take github several minutes to setup your username.git.io page.
+If you get a 404 error, just go do something else for a little while, and
+then come back and try again.</p></blockquote>
+
+<h3>Set up your Octopress code base to deploy to github.io</h3>
+
+<p>Switch to your terminal program and <code>cd</code> into your octopress directory,
+and then run the <code>rake setup_github_pages</code></p>
+
+<p>For my fellow DaVinci Coder&rsquo;s that would be:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">cd</span> <span class="o">~</span><span class="sr">/workspace/o</span><span class="n">ctopress</span>
+</span><span class='line'><span class="n">rake</span> <span class="n">setup_github_pages</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It will ask you for the repo name you copied in the last step.  Enter it and continue.
+When the <code>rake</code> job is finished your local repository will have been
+set up via series of git commands to push your blog code to your username.github.io page.</p>
+
+<p>The next step is to actually publish the blog.</p>
+
+<h3>Workflow for publishing your blog entries</h3>
+
+<p>The workflow goes like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="n">new_post</span><span class="o">[</span><span class="s2">&quot;title&quot;</span><span class="o">]</span>    <span class="c1"># Create a new post.</span>
+</span><span class='line'><span class="n">rake</span> <span class="n">generate</span>             <span class="c1"># Generate your blog.</span>
+</span><span class='line'><span class="n">rake</span> <span class="n">deploy</span>               <span class="c1"># Deploy (duh!) your blog.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When you deploy you will see a lot of code go scrolling up the screen.  This is
+git committing and pushing the <code>_deploy</code> folder to the <code>master</code>
+branch of your repo.</p>
+
+<p>Go check out your published blog at: <a href="username.github.io">username.github.io</a>.</p>
+
+<p>Also, don&rsquo;t forget to commit and save your changes, using the standard git workflow:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">git</span> <span class="n">add</span> <span class="o">.</span>
+</span><span class='line'><span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s1">&#39;your message&#39;</span>
+</span><span class='line'><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">source</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Just repeat the process to add new posts and publish them.</p>
+
+<p>For more detail on the process see the first link, and for direction in automating
+the workflow even further see the second link.</p>
+
+<p>From Octopress:
+<a href="http://octopress.org/docs/deploying/github/">Deploying to Github Pages</a></p>
+
+<p>From Kevin van Zonneveld:
+<a href="http://kvz.io/blog/2012/09/25/blog-with-octopress/">Blog with Octopress and Github pages</a></p>
+
+<p>Thanx for reading.  Stay tuned for more from the front lines&hellip;</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Choices: Gemsets & bundle exec]]></title>
+    <link href="http://bayendor.github.io/blog/2013/07/16/rbenv/"/>
+    <updated>2013-07-16T18:58:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/07/16/rbenv</id>
+    <content type="html"><![CDATA[<p>I have just started at the DaVinci Coders &ldquo;Building the tool-belt of a junior
+Ruby on Rails Developer&rdquo; program.  An eleven week immersion course designed to
+take someone with good computer skills and minimal or dated programming
+experience into the fast moving world of web-development.</p>
+
+<p>Part of our first assignment was to generate this blog, and then to write about
+our experiences, and the technical and other things that we stumble upon.</p>
+
+<p>Here is my first observation: There is danger in having choices.</p>
+
+<p>This is particularly true in choices for web development environments.  It is
+even more perilous when you are a student in a web development course.</p>
+
+<p>In my case, for various reasons, I had spent the prior two months teaching
+myself as much as possible about Ruby and Rails so that I would not feel out
+of my depth in the level II class I was assessed into at DaVinci Coders.</p>
+
+<p>Like most folks, I took the standard path to a working Ruby install, and for
+a while I used RVM like everybody else.  However, for various philosophical, and
+other reasons I decided to start using rbenv instead.</p>
+
+<p>(For insight into this, see my earlier post.  I was an Atari man, after all&hellip;)</p>
+
+<p>rbenv takes a more lightweight approach to managing Ruby installs, holding to the
+Unix tenet of &ldquo;do one thing well.&rdquo;  Unlike RVM it does not have a concept of
+gemsets.  Instead it relies heavily on another standard of Ruby development:
+Bundler.</p>
+
+<p>The bundler gem is pure genius, in that it manages gem install and dependencies
+almost by magic.  Bundler takes it cue from the Gemfile that should be configured
+in each project directory.</p>
+
+<p>So what&rsquo;s the problem?  Isolation, and then duplication of effort.</p>
+
+<p>RVM does an excellent job, via gemsets, of isolating a development environment from other versions of Ruby and associated gems from other projects. Like Bundler, RVM manages various paths to executable gems by some serious techno-magic.</p>
+
+<p>To make sure that project specific gems are run in the context of their gemset
+or gemfile, you typically need to call a command like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ bundle exec rake db:migrate, # or
+</span><span class='line'>$ bundle exec rspec spec/ </span></code></pre></td></tr></table></div></figure>
+
+
+<p>Even with RVM installed you need to pay the &ldquo;bundle exec&rdquo; keystroke tax, just to
+be sure you are running your code in the right environment.</p>
+
+<p>There are ways to avoid this, you can install bin stubs for your gems and other
+executables or you can do some clever <code>$PATH</code> editing on a per project basis.</p>
+
+<p>Seems to me like RVM and Bundler are sort of doing some of the same work, which
+certainly seems to violate the DRY coding principle, &ldquo;Don&rsquo;t Repeat Yourself.&rdquo;</p>
+
+<p>What&rsquo;s the solution?  Blindingly simple: make an alias in your login profile. Oh,
+and stop using gemsets, since you don&rsquo;t really need them.</p>
+
+<p>In either <code>.bashrc</code> or <code>.bash_profile</code> simply add the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># an alias to run &#39;bundle exec&#39;</span>
+</span><span class='line'><span class="k">alias</span> <span class="n">bex</span><span class="o">=</span><span class="s1">&#39;bundle exec&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now you can type the keystroke efficient <code>bex</code> before any command and
+be sure it is running in the proper context of your application directory.  It
+rapidly becomes second nature.</p>
+
+<p>I have to give a nod to Michael Hartl and his
+<a href="http://ruby.railstutorial.org">Ruby on Rails Tutorial</a>, since he proposes this
+exact solution.  However I had seen it before in several other contexts but did
+not know how or why to take advantage of it.</p>
+
+<p>Additionally, you now know how to create an alias for other often used commands,
+or for applications with awkward names.  For instance <code>subl</code> for the
+Sublime Text 2 editor:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># subl runs Sublime Text</span>
+</span><span class='line'><span class="k">alias</span> <span class="n">subl</span><span class="o">=</span><span class="s1">&#39;/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Lastly, I have to add that in exploring how RVM, rbenv, and Bundler function I also
+learnt an incredible amount about how things work &ldquo;behind the curtain.&rdquo;</p>
+
+<p>I believe this is essential to problem solving. It is not enough to know that things
+work, you have to understand the how and the why.</p>
+
+<p>For even more on Bundler and gemsets, check out this <a href="http://rubyrogues.com/045-rr-bundler-with-andre-arko/">Ruby Rogues Podcast</a>.</p>
+
+<p>Thanx for reading.  Stay tuned for more from the front lines&hellip;</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Q: Who is an 8-bit Vet?]]></title>
+    <link href="http://bayendor.github.io/blog/2013/07/15/q-who-is-an-8-bit-vet/"/>
+    <updated>2013-07-15T23:34:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/07/15/q-who-is-an-8-bit-vet</id>
+    <content type="html"><![CDATA[<p><img src="http://f.cl.ly/items/3E011d292H2D261a1T2G/wargames2.jpg"></p>
+
+<p>A: an individual whose teenage exposure to computing consisted of
+a plethora of home computers based on the venerable 6502 CPU.  This would
+include, but not be limited to: Commodore VIC-20 or 64, the Texas Instruments
+TI series, the Apple II (+, e, c), and the Atari 400/800.</p>
+
+<p>If your parents only saw fit to buy you one of the Radio Shack TRS models you
+have my sympathy.</p>
+
+<p>You likely saw the movie &ldquo;War Games&rdquo; in the movie theater when it was first
+released, but your parents probably had to drive you there.  Give yourself extra
+credit for admitting to having a crush on Ally Sheedy&rsquo;s character.</p>
+
+<p>Most of my friends were Apple fanboys.  I myself trod a different path, and was
+an Atari man.  These were the heady days of home computing, where 48K of RAM,
+1.8 MHz clock-speeds and 1200 baud dial-up modems were bleeding edge technology.</p>
+
+<p>If you cut your teeth on these 8-bit machines, then you, too, are a veteran of
+the 8-bit wars.</p>
+
+<p>While the first hackers came from the mainframed halls of academia (e.g. MIT),
+the second wave began on these machines.  If you got your start on Intel x86
+hardware you are not, by definition, an 8-bit Veteran.</p>
+
+<p>P.S.  If you had an Amiga or an Atari ST, you have taken a different path, one
+worthy of particular awe&hellip;</p>
+
+<p>For more on the 6502 chipset see this <a href="https://en.wikipedia.org/wiki/MOS_Technology_6502">Wikipedia Entry</a></p>
+]]></content>
+  </entry>
+  
+</feed>

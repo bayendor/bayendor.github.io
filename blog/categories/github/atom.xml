@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: github | Musings of an 8-bit Vet]]></title>
+  <link href="http://bayendor.github.io/blog/categories/github/atom.xml" rel="self"/>
+  <link href="http://bayendor.github.io/"/>
+  <updated>2014-08-17T12:10:24-06:00</updated>
+  <id>http://bayendor.github.io/</id>
+  <author>
+    <name><![CDATA[David Bayendor]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Tame Git Commits with squash]]></title>
+    <link href="http://bayendor.github.io/blog/2013/08/07/tame-git-commits-squash-and-reword/"/>
+    <updated>2013-08-07T11:34:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/08/07/tame-git-commits-squash-and-reword</id>
+    <content type="html"><![CDATA[<p>In class we are working our way through the <a href="https://github.com/neo/ruby_koans">Ruby Koans</a>. This is partly to learn Ruby, and partly to get us used
+to making git commits and doing pull requests.</p>
+
+<p>While exploring the section &ldquo;about_regular_expressions&rdquo; and fixing each test and doing some <a href="http://gitx.frim.nl/">Gitx</a> practice, I found myself the proud
+owner of 27 separate commits!</p>
+
+<p>At this point <a href="http://jasonnoble.org">Jason Noble</a>, our instructor, stepped in and said something like
+&ldquo;Wow, that&rsquo;s a lot of commits.  You should <code>git rebase -i</code> and
+squash some of them.&rdquo;</p>
+
+<p>What is <code>squash</code>, you ask?  It is where you take a number of commits
+and turn them into a single commit, combining the commit messages at the same
+time.</p>
+
+<p>In the following example, lines 3-7 are five commits I performed:
+<code>
+[~/workspace/squash_reword]
+(master) $ git log --oneline
+d3d80ce Add README file
+b209207 Include testing file
+53ca0f5 Env &gt;&gt; file.txt
+1962bf9 Add another_file.txt
+44d0164 Initial commit
+[~/workspace/squash_reword]
+(master) $
+</code>
+Issuing the following command: <code>git rebase -i HEAD~4</code>
+make the default editor editor open up <code>git-rebase-todo</code> with the following content:</p>
+
+<p>```
+pick 1962bf9 Add another_file.txt
+pick 53ca0f5 Env >> file.txt
+pick b209207 Include testing file
+pick d3d80ce Add README file</p>
+
+<h1>Rebase 44d0164..d3d80ce onto 44d0164</h1>
+
+<p>#</p>
+
+<h1>Commands:</h1>
+
+<h1>p, pick = use commit</h1>
+
+<h1>r, reword = use commit, but edit the commit message</h1>
+
+<h1>e, edit = use commit, but stop for amending</h1>
+
+<h1>s, squash = use commit, but meld into previous commit</h1>
+
+<h1>f, fixup = like &ldquo;squash&rdquo;, but discard this commit&rsquo;s log message</h1>
+
+<h1>x, exec = run command (the rest of the line) using shell</h1>
+
+<p>#</p>
+
+<h1>These lines can be re-ordered; they are executed from top to bottom.</h1>
+
+<p>#</p>
+
+<h1>If you remove a line here THAT COMMIT WILL BE LOST.</h1>
+
+<p>#</p>
+
+<h1>However, if you remove everything, the rebase will be aborted.</h1>
+
+<p>#</p>
+
+<h1>Note that empty commits are commented out</h1>
+
+<p>```
+I used <code>HEAD ~4</code> to tell rebase to count four commits from
+ <code>HEAD</code>. If you are rebasing against a remote you would use
+ something like <code>git rebase -i upstream/master</code>.</p>
+
+<p> The instructions on how to use all these features are in the comments
+ below the list of commits.  Change <code>pick</code> to
+ <code>squash</code> on the commits you want to combine, and save your changes.</p>
+
+<p> <strong><strong>WARNING: Do NOT change the first line!  Bad things happen.</strong></strong></p>
+
+<p>```
+pick 1962bf9 Add another_file.txt
+squash 53ca0f5 Env >> file.txt
+squash b209207 Include testing file
+squash d3d80ce Add README file</p>
+
+<h1>Rebase 44d0164..d3d80ce onto 44d0164</h1>
+
+<p>```</p>
+
+<p>Upon closing the editor, you will be presented with the file
+<code>COMMIT_EDITMSG</code> containing all the messages from the squashed
+commits:</p>
+
+<p>```</p>
+
+<h1>This is a combination of 4 commits.</h1>
+
+<h1>The first commit&rsquo;s message is:</h1>
+
+<p>Add another_file.txt</p>
+
+<h1>This is the 2nd commit message:</h1>
+
+<p>Env >> file.txt</p>
+
+<h1>This is the 3rd commit message:</h1>
+
+<p>Include testing file</p>
+
+<h1>This is the 4th commit message:</h1>
+
+<p>Add README file</p>
+
+<h1>Please enter the commit message for your changes. Lines starting</h1>
+
+<h1>with &lsquo;#&rsquo; will be ignored, and an empty message aborts the commit.</h1>
+
+<h1>HEAD detached from 1962bf9</h1>
+
+<h1>You are currently editing a commit while rebasing branch &lsquo;master&rsquo; on &lsquo;44d0164&rsquo;.</h1>
+
+<p>#</p>
+
+<h1>Changes to be committed:</h1>
+
+<h1>(use &ldquo;git reset HEAD<sup>1</sup> <file>&hellip;&rdquo; to unstage)</h1>
+
+<p>#</p>
+
+<h1>new file:   README.md</h1>
+
+<h1>new file:   another_file.txt</h1>
+
+<h1>modified:   file1.txt</h1>
+
+<h1>new file:   file_spec.spec</h1>
+
+<p><code>
+Edit the new single commit message, and remove any duplicated or extraneous
+text, and hit save and close the file.  Git will update the files
+and adjust the commit. Your list of commits now looks like this:
+</code>
+(master) $ git log &mdash;oneline
+5dd5037 Add README and testing files
+44d0164 Initial commit
+[~/workspace/squash_reword]
+(master) $
+```</p>
+
+<p>Problem solved!</p>
+
+<p>You can also use the same procedure to edit commit messages, only use the
+option <code>reword</code> instead of <code>pick</code>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Strings &amp; things]]></title>
+    <link href="http://bayendor.github.io/blog/2013/07/29/strings-and-things/"/>
+    <updated>2013-07-29T17:35:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/07/29/strings-and-things</id>
+    <content type="html"><![CDATA[<p>Two useful things I learned doing homework over the weekend:</p>
+
+<p><em>USEFUL THING 1: git commit &mdash;amend</em></p>
+
+<p>Lets say that your fingers get ahead of your brain, and
+that you write your
+<code>
+git commit -m "Mad code skilz"
+</code>
+and then realize that you forgot to add your modified file.</p>
+
+<p>Well, go ahead
+<code>
+git add thatfile.txt
+</code>
+and then issue</p>
+
+<p><code>
+git commit --amend
+</code></p>
+
+<p>This will combine the last two commands together, your forgotten file will get linked with the commit message. Problem solved.</p>
+
+<p><em>USEFUL THING 2: Control significant digits in Ruby <code>float</code> returns</em></p>
+
+<p>While building our <code>CashRegister</code> class, I ran into the problem
+that Ruby floats return way more digits after the decimal point than you
+need to make change.</p>
+
+<p>For example, if you pay for an $8.30 purchase with a $10 bill, you do not
+expect to get the message:</p>
+
+<p><code>Your change is $1.6999999999999993</code></p>
+
+<p>Thanks to a quick <em>HipChat</em> session with classmate Aron, I arrived at
+the following way to control float output:</p>
+
+<p><code>ruby
+puts "Your change is $#{sprintf("%0.2f",@reg_change)}"
+</code></p>
+
+<p>Let&rsquo;s break it down, the key part here is inside the string interpolation:
+<code>ruby
+sprintf("%0.2f",float)
+</code></p>
+
+<p>In particular, the <code>&ldquo;%0.2f&rdquo;</code> is telling <code>sprintf</code> that you want output to be offset by <code>0</code> digits, and include only
+ <code>.2</code> digits after the decimal point.</p>
+
+<p>If you want to set the width of your float output, to say right justify,
+change the <code>0</code> to a larger number, <code>10</code> would
+include padding to make the field 10 digits wide. If you want more or less
+precision after the decimal, change the number after the <code>.</code> to
+any number you choose, say <code>.1</code> or <code>.5</code>.</p>
+
+<p>My final output: <code>Your change is $1.70</code>. Problem solved.</p>
+
+<p>Thanx for reading. Stay tuned for more from the front lines…</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Notes on a github rebase workflow]]></title>
+    <link href="http://bayendor.github.io/blog/2013/07/20/notes-on-a-github-rebase-workflow/"/>
+    <updated>2013-07-20T20:02:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/07/20/notes-on-a-github-rebase-workflow</id>
+    <content type="html"><![CDATA[<p>This is primarily for my own reference, but it is an attempt to encapsulate the
+git workflow for working with repos being edited by other users.</p>
+
+<p>```ruby
+git remote add upstream &ldquo;repo-path&rdquo;     # set upstream to the correct place
+git remote add remote_name git_repo_url # make alias for remote (co-workers) repo
+  git remote -v                           # verify correct paths to repos</p>
+
+<p>git fetch origin                        # check to see what changed
+git rebase origin/branchname            # rewrite branch based on origin/branchname
+git mergetool                           # run merge tool to resolve diffs
+git rebase &mdash;continue                   # rebase not done yet!
+  or git rebase &mdash;skip                    # if you want to accept changes
+git clean -f                            # cleans up .orig files generated by merge</p>
+
+<p>git status                              # always a good idea to check status
+git add &ldquo;file&rdquo;                          # add only the file you changed!
+git commit -m &ldquo;message&rdquo;               <br/>
+git push (-f)                           # -f forces changes if necessary
+  git status                            # is working directory clean?
+```</p>
+
+<p><strong>Setting the branch to track upstream: </strong>
+In order to track the remote branch on the first push from that branch specify the
+&ldquo;-u&rdquo; switch, i.e. <code>git push -u origin repo_branch</code></p>
+
+<p><strong>Forking / cloning a repository: </strong>
+Make sure that you give your collaborator access to your repo from github.com
+under settings.  You will add them by their github user name.  If you don&rsquo;t their
+<code>git push</code> will be rejected.</p>
+
+<p><strong>Error messages: </strong>
+Git is really good about telling you what went wrong, so read the error messages carefully.</p>
+
+<p><strong>Useful Resource: </strong>
+<a href="http://johnjwilliams.org/2013/07/git-command-essentials.html">JohnWilliams.org: Git Command Essentials</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[When Github Keeps Asking for a Password]]></title>
+    <link href="http://bayendor.github.io/blog/2013/07/19/github-101/"/>
+    <updated>2013-07-19T21:32:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/07/19/github-101</id>
+    <content type="html"><![CDATA[<p>If everytime you go to do a remote connect (e.g. <code>push</code>) to github and it requests
+your github password, then you have most likely have a problem with your credential helper.</p>
+
+<p>The credential helper is part of a standard github or <code>homebrew</code> install.
+But sometimes things don&rsquo;t go as planned, or perhaps your github install was part
+of a larger &ldquo;all-in-one&rdquo; install and something got improperly configured.</p>
+
+<p>The good new is it&rsquo;s an easy enough problem to fix.</p>
+
+<p>These instructions apply to OS X, but you can check <a href="https://help.github.com/articles/set-up-git#platform-all">GitHub Help</a> for your platform.</p>
+
+<p>1: First, check to see if you have the credential helper installed:</p>
+
+<p><code>ruby
+$ git credential-osxkeychain
+</code>
+If you get the following then it is installed, go to step 3:
+<code>ruby
+usage: git credential-osxkeychain &lt;get|store|erase&gt;
+</code>
+But if you get, go to step 2:
+<code>ruby
+git: 'credential-osxkeychain' is not a git command. See 'git --help'.
+</code>
+2: Then you need to install and configure it with:
+```ruby</p>
+
+<h1>Download the file</h1>
+
+<p>curl -s -O \
+  <a href="http://github-media-downloads.s3.amazonaws.com/osx/git-credential-osxkeychain">http://github-media-downloads.s3.amazonaws.com/osx/git-credential-osxkeychain</a></p>
+
+<h1>Fix the permissions</h1>
+
+<p>chmod u+x git-credential-osxkeychain</p>
+
+<h1>Move it to the right path, sudo may require your password.</h1>
+
+<p>sudo mv git-credential-osxkeychain \
+  &ldquo;$(dirname $(which git))/git-credential-osxkeychain&rdquo;
+```</p>
+
+<p>3: Lastly, modify your git config file to use the helper:
+<code>ruby
+$ git config --global credential.helper osxkeychain
+</code></p>
+
+<p>The next time you <code>push</code> you&rsquo;ll be asked for your github
+password, but after that it should be remembered in your OS X keychain for each
+subsequent remote access request.</p>
+
+<p>Thanx for reading. Stay tuned for more from the front lines…</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Deploying Octopress to github.io]]></title>
+    <link href="http://bayendor.github.io/blog/2013/07/17/deploying-octopress-to-github-dot-io/"/>
+    <updated>2013-07-17T15:01:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/07/17/deploying-octopress-to-github-dot-io</id>
+    <content type="html"><![CDATA[<p>This blog was created using the <a href="http://octopress.org">Octopress</a> blogging
+framework.  I tell you this for several reasons:</p>
+
+<blockquote><ol>
+<li>Because one should give credit for other people&rsquo;s work.</li>
+<li>Expect the site to change as I learn how to modify it.</li>
+<li>Expect the site to break as I learn how to modify it.</li>
+</ol>
+</blockquote>
+
+<p>The first major hurdle I had, and I suspect my fellow aspiring Web-Belt Jrs had
+it as well, was getting the blog to deploy using the Github
+<a href="http://pages.github.com">Pages</a> hosting service.</p>
+
+<p>The Octopress documentation does cover this process, but the workflow for the
+newly minted web-dev can be a bit overwhelming.  There&rsquo;s a lot of stuff happening
+with <code>git</code> at the command line that may seem unfamiliar.  Having said
+that I&rsquo;ll throw my $0.02 worth of advice into the ring, and see if I can&rsquo;t make
+it easier for anyone reading this.</p>
+
+<h3>Set up your username.github.io repo</h3>
+
+<p>Go to your github home page and click on the button labeled &ldquo;New Repository&rdquo; on
+the right side of the screen.</p>
+
+<p><img class="<a" src="href="http://f.cl.ly/items/3S0d3m1P0s400S122G1x/GitHub.jpeg">http://f.cl.ly/items/3S0d3m1P0s400S122G1x/GitHub.jpeg</a>"></p>
+
+<p>On the next page enter the name of the repo, in the form
+<code>username.github.io</code> where <code>username</code> is YOUR github user ID.</p>
+
+<p><img class="<a" src="href="http://f.cl.ly/items/3x1a0m0W1o3H0x0W3W17/Create_a_New_Repository.jpeg">http://f.cl.ly/items/3x1a0m0W1o3H0x0W3W17/Create_a_New_Repository.jpeg</a>"></p>
+
+<p>Enter an optional description if you wish and click on the green &ldquo;Create
+Repository&rdquo; button.</p>
+
+<p>The next page will show you the setup for your repo, and the repo name.  Make
+sure that the SSH button is selected and copy the address in the box to your
+clipboard, you will need it for the next step.  It will be in the form <code>git@github.com:username/username.github.io.git</code></p>
+
+<p><img class="<a" src="href="http://f.cl.ly/items/3f47300A0y1R0Q1L0X2h/username.github.io.jpeg">http://f.cl.ly/items/3f47300A0y1R0Q1L0X2h/username.github.io.jpeg</a>"></p>
+
+<blockquote><p>Note: It can take github several minutes to setup your username.git.io page.
+If you get a 404 error, just go do something else for a little while, and
+then come back and try again.</p></blockquote>
+
+<h3>Set up your Octopress code base to deploy to github.io</h3>
+
+<p>Switch to your terminal program and <code>cd</code> into your octopress directory,
+and then run the <code>rake setup_github_pages</code></p>
+
+<p>For my fellow DaVinci Coder&rsquo;s that would be:
+<code>ruby
+cd ~/workspace/octopress
+rake setup_github_pages
+</code>
+It will ask you for the repo name you copied in the last step.  Enter it and continue.
+When the <code>rake</code> job is finished your local repository will have been
+set up via series of git commands to push your blog code to your username.github.io page.</p>
+
+<p>The next step is to actually publish the blog.</p>
+
+<h3>Workflow for publishing your blog entries</h3>
+
+<p>The workflow goes like this:
+<code>ruby
+rake new_post["title"]    # Create a new post.
+rake generate             # Generate your blog.
+rake deploy               # Deploy (duh!) your blog.
+</code></p>
+
+<p>When you deploy you will see a lot of code go scrolling up the screen.  This is
+git committing and pushing the <code>_deploy</code> folder to the <code>master</code>
+branch of your repo.</p>
+
+<p>Go check out your published blog at: <a href="username.github.io">username.github.io</a>.</p>
+
+<p>Also, don&rsquo;t forget to commit and save your changes, using the standard git workflow:</p>
+
+<p><code>ruby
+git add .
+git commit -m 'your message'
+git push origin source
+</code>
+Just repeat the process to add new posts and publish them.</p>
+
+<p>For more detail on the process see the first link, and for direction in automating
+the workflow even further see the second link.</p>
+
+<p>From Octopress:
+<a href="http://octopress.org/docs/deploying/github/">Deploying to Github Pages</a></p>
+
+<p>From Kevin van Zonneveld:
+<a href="http://kvz.io/blog/2012/09/25/blog-with-octopress/">Blog with Octopress and Github pages</a></p>
+
+<p>Thanx for reading.  Stay tuned for more from the front lines&hellip;</p>
+]]></content>
+  </entry>
+  
+</feed>

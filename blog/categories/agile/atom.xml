@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: agile | Musings of an 8-bit Vet]]></title>
+  <link href="http://bayendor.github.io/blog/categories/agile/atom.xml" rel="self"/>
+  <link href="http://bayendor.github.io/"/>
+  <updated>2014-08-17T12:10:24-06:00</updated>
+  <id>http://bayendor.github.io/</id>
+  <author>
+    <name><![CDATA[David Bayendor]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Agile is the new black]]></title>
+    <link href="http://bayendor.github.io/blog/2013/07/19/agile-is-the-new-black/"/>
+    <updated>2013-07-19T20:14:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/07/19/agile-is-the-new-black</id>
+    <content type="html"><![CDATA[<p><blockquote><p>What do you despise?  By this are you truly known.</p><footer><strong>Frank Herbert</strong> <cite>Dune</cite></footer></blockquote></p>
+
+<p>We hear the term &ldquo;agile&rdquo; all the time in the development world.  What does it
+really mean?  Everything seems to have the term agile attached to it.</p>
+
+<p>It came up in class tonight as we were introduced to Pivotal Tracker, and the
+paradigm behind it.</p>
+
+<p>Sometimes you can figure out what something is by what it is not.  A few weeks
+ago I came across a video on Vimeo that addressed this.  Enjoy&hellip;</p>
+
+<p><code>
+  <iframe src="http://player.vimeo.com/video/68689393?byline=0" width="500" height="281" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+</code></p>
+
+<p><a href="http://vimeo.com/68689393">Fred George - Agile is the new black - Railsberry 2013</a>.</p>
+
+
+
+]]></content>
+  </entry>
+  
+</feed>
