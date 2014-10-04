@@ -1,18 +1,434 @@
----
-layout: page
-title: Blog Archive
-footer: false
----
 
-<div id="blog-archives">
-{% for post in site.posts reverse %}
-{% capture this_year %}{{ post.date | date: "%Y" }}{% endcapture %}
-{% unless year == this_year %}
-  {% assign year = this_year %}
-  <h2>{{ year }}</h2>
-{% endunless %}
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Blog Archive - Musings of an 8-bit Vet</title>
+  <meta name="author" content="David Bayendor">
+
+  
+  <meta name="description" content="Blog Archive 2013 Weaving Code
+Sep 23 2013 posted in culture, tech, video Capture OMNIAUTH failures in development mode
+Sep 19 2013 posted in api, &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://bayendor.github.io/blog/archives">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Musings of an 8-bit Vet" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Musings of an 8-bit Vet</a></h1>
+  
+    <h2>A Student Coders Tech Diary</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:bayendor.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Blog Archive</h1>
+    
+  </header>
+  
+  <div id="blog-archives">
+
+
+
+  
+  <h2>2013</h2>
+
 <article>
-  {% include archive_post.html %}
+  
+<h1><a href="/blog/2013/09/23/weaving-code/">Weaving Code</a></h1>
+<time datetime="2013-09-23T16:03:00-06:00" pubdate><span class='month'>Sep</span> <span class='day'>23</span> <span class='year'>2013</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/culture/'>culture</a>, <a class='category' href='/blog/categories/tech/'>tech</a>, <a class='category' href='/blog/categories/video/'>video</a></span>
+</footer>
+
+
 </article>
-{% endfor %}
+
+
+
+<article>
+  
+<h1><a href="/blog/2013/09/19/using-omniauth-in-development/">Capture OMNIAUTH failures in development mode</a></h1>
+<time datetime="2013-09-19T15:59:00-06:00" pubdate><span class='month'>Sep</span> <span class='day'>19</span> <span class='year'>2013</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/api/'>api</a>, <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/blog/2013/08/28/make-mine-a-single-on-the-use-of-quotation-marks/">Make mine a single: On the use of quotation marks</a></h1>
+<time datetime="2013-08-28T08:38:00-06:00" pubdate><span class='month'>Aug</span> <span class='day'>28</span> <span class='year'>2013</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/coding/'>coding</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/blog/2013/08/16/screencasts-that-teach-rails-and-tdd/">Rails and TDD Screencasts Worth Watching</a></h1>
+<time datetime="2013-08-16T14:53:00-06:00" pubdate><span class='month'>Aug</span> <span class='day'>16</span> <span class='year'>2013</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/rails/'>Rails</a>, <a class='category' href='/blog/categories/tdd/'>TDD</a>, <a class='category' href='/blog/categories/video/'>video</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/blog/2013/08/07/tame-git-commits-squash-and-reword/">Tame Git Commits with squash</a></h1>
+<time datetime="2013-08-07T11:34:00-06:00" pubdate><span class='month'>Aug</span> <span class='day'>07</span> <span class='year'>2013</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/github/'>github</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/blog/2013/08/01/on-tdd-and-technical-hiring/">On TDD and technical hiring</a></h1>
+<time datetime="2013-08-01T07:50:00-06:00" pubdate><span class='month'>Aug</span> <span class='day'>01</span> <span class='year'>2013</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/tdd/'>TDD</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/blog/2013/07/29/strings-and-things/">Strings &amp; things</a></h1>
+<time datetime="2013-07-29T17:35:00-06:00" pubdate><span class='month'>Jul</span> <span class='day'>29</span> <span class='year'>2013</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/github/'>github</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/blog/2013/07/26/matters-of-style/">Matters of style</a></h1>
+<time datetime="2013-07-26T11:55:00-06:00" pubdate><span class='month'>Jul</span> <span class='day'>26</span> <span class='year'>2013</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/coding/'>coding</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/blog/2013/07/23/dates-slash-times-are-hard/">Dates/Times are Hard</a></h1>
+<time datetime="2013-07-23T12:18:00-06:00" pubdate><span class='month'>Jul</span> <span class='day'>23</span> <span class='year'>2013</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/coding/'>coding</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/blog/2013/07/20/notes-on-a-github-rebase-workflow/">Notes on a github rebase workflow</a></h1>
+<time datetime="2013-07-20T20:02:00-06:00" pubdate><span class='month'>Jul</span> <span class='day'>20</span> <span class='year'>2013</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/github/'>github</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/blog/2013/07/19/github-101/">When Github Keeps Asking for a Password</a></h1>
+<time datetime="2013-07-19T21:32:00-06:00" pubdate><span class='month'>Jul</span> <span class='day'>19</span> <span class='year'>2013</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/github/'>github</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/blog/2013/07/19/agile-is-the-new-black/">Agile is the new black</a></h1>
+<time datetime="2013-07-19T20:14:00-06:00" pubdate><span class='month'>Jul</span> <span class='day'>19</span> <span class='year'>2013</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/agile/'>agile</a>, <a class='category' href='/blog/categories/video/'>video</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/blog/2013/07/18/command-line-crash-course/">Command Line Crash Course</a></h1>
+<time datetime="2013-07-18T10:18:00-06:00" pubdate><span class='month'>Jul</span> <span class='day'>18</span> <span class='year'>2013</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/command-line/'>command-line</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/blog/2013/07/17/deploying-octopress-to-github-dot-io/">Deploying Octopress to github.io</a></h1>
+<time datetime="2013-07-17T15:01:00-06:00" pubdate><span class='month'>Jul</span> <span class='day'>17</span> <span class='year'>2013</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/blog/'>blog</a>, <a class='category' href='/blog/categories/github/'>github</a>, <a class='category' href='/blog/categories/octopress/'>octopress</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/blog/2013/07/16/rbenv/">Choices: Gemsets & bundle exec</a></h1>
+<time datetime="2013-07-16T18:58:00-06:00" pubdate><span class='month'>Jul</span> <span class='day'>16</span> <span class='year'>2013</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/bundle/'>bundle</a>, <a class='category' href='/blog/categories/gems/'>gems</a>, <a class='category' href='/blog/categories/rbenv/'>rbenv</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/blog/2013/07/15/q-who-is-an-8-bit-vet/">Q: Who is an 8-bit Vet?</a></h1>
+<time datetime="2013-07-15T23:34:00-06:00" pubdate><span class='month'>Jul</span> <span class='day'>15</span> <span class='year'>2013</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/culture/'>culture</a>, <a class='category' href='/blog/categories/tech/'>tech</a></span>
+</footer>
+
+
+</article>
+
 </div>
+
+  
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/09/23/weaving-code/">Weaving Code</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/09/19/using-omniauth-in-development/">Capture OMNIAUTH Failures in Development Mode</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/28/make-mine-a-single-on-the-use-of-quotation-marks/">Make Mine a Single: On the Use of Quotation Marks</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/16/screencasts-that-teach-rails-and-tdd/">Rails and TDD Screencasts Worth Watching</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/07/tame-git-commits-squash-and-reword/">Tame Git Commits With Squash</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Twitter</h1>
+  <a class="twitter-timeline" href="https://twitter.com/bayendor/rubyists" data-widget-id="358255105751015424">Tweets from @bayendor/rubyists</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+</section>
+
+
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/bayendor">@bayendor</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'bayendor',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - David Bayendor -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
