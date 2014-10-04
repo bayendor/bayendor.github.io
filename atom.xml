@@ -1,93 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>Musings of an 8-bit Vet</title>
-  <meta name="author" content="David Bayendor">
-
-  
-  <meta name="description" content="One of the biggest challenges with a terminal/command line driven interface (CLI) is parsing out the relavent pieces of the input. For a lot of web &hellip;">
-  
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://bayendor.github.io">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="Musings of an 8-bit Vet" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Musings of an 8-bit Vet</a></h1>
-  
-    <h2>A student coder&#8217;s diary.</h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="https://duckduckgo.com/" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:bayendor.github.io" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
-  
-    <article>
-      
-  <header>
+  <title><![CDATA[Musings of an 8-bit Vet]]></title>
+  <link href="http://bayendor.github.io/atom.xml" rel="self"/>
+  <link href="http://bayendor.github.io/"/>
+  <updated>2014-10-04T07:57:42-06:00</updated>
+  <id>http://bayendor.github.io/</id>
+  <author>
+    <name><![CDATA[David Bayendor]]></name>
     
-      <h1 class="entry-title"><a href="/blog/2014/10/03/parsing-command-line-interfaces/">Parsing Command Line Input</a></h1>
-    
-    
-      <p class="meta">
-        
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
-
-
-
-<time class='entry-date' datetime='2014-10-03T11:20:03-06:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2014</span></span> <span class='time'>11:20 am</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>One of the biggest challenges with a terminal/command line driven interface (CLI) is parsing out the relavent pieces of the input.  For a lot of web and touch based interfaces this kind of input is constrained by input widgets.</p>
+  
+  <entry>
+    <title type="html"><![CDATA[Parsing Command Line Input]]></title>
+    <link href="http://bayendor.github.io/blog/2014/10/03/parsing-command-line-interfaces/"/>
+    <updated>2014-10-03T11:20:03-06:00</updated>
+    <id>http://bayendor.github.io/blog/2014/10/03/parsing-command-line-interfaces</id>
+    <content type="html"><![CDATA[<p>One of the biggest challenges with a terminal/command line driven interface (CLI) is parsing out the relavent pieces of the input.  For a lot of web and touch based interfaces this kind of input is constrained by input widgets.</p>
 
 <p>We recently completed an &lsquo;Event Reporter&rsquo; project, and it allows the user to interact with a library of data about attendees to an event. Commands would include: <code>find last_name Smith</code>, <code>load data.csv</code>, <code>save to results.csv</code>, or <code>queue count</code> and <code>queue print</code>.</p>
 
@@ -171,97 +102,7 @@
 <p>The search term or criteria is all the remaining string elements of the array, so we get that value on line 3 by re-combining all the array elements from <code>[input[2]..input.length]</code> and then <code>.join(" ")</code> them with a space between.  The resulting terms are then handled off to the <code>repository</code> on line 4 to the <code>find(criteria, search_term)</code> method.</p>
 
 <p>As part of the evaluation of our project, all of this parsing logic should eventually be refactored into a separate class of it&rsquo;s own, but that&rsquo;s a topic for another post.</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2014/10/03/parsing-command-line-interfaces/">Parsing Command Line Input</a>
-      </li>
-    
-  </ul>
-</section>
-
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
-  </ul>
-  
-  <a href="https://github.com/bayendor">@bayendor</a> on GitHub
-  
-  <script type="text/javascript">
-    $(document).ready(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'bayendor',
-            count: 5,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-
-
-
-  
-</aside>
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - David Bayendor -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
-</footer>
-  
-
-
-
-
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = '//platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-
-</body>
-</html>
+</feed>

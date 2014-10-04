@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/2014/10/03/parsing-command-line-interfaces/</loc>
+    
+    <lastmod>2014-10-03T11:20:03-06:00</lastmod>
+    
+    <priority>0.8</priority>
+  </url>
+  
+  
+  <url>
+    <loc>http://bayendor.github.io/blog-tmp/archives/</loc>
+    <lastmod>2014-10-04T07:57:42-06:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/</loc>
+    <lastmod>2014-10-04T07:57:42-06:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/2013/07/15/q-who-is-an-8-bit-vet/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/2013/07/16/rbenv/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/2013/07/17/deploying-octopress-to-github-dot-io/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/2013/07/18/command-line-crash-course/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/2013/07/19/agile-is-the-new-black/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/2013/07/19/github-101/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/2013/07/20/notes-on-a-github-rebase-workflow/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/2013/07/23/dates-slash-times-are-hard/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/2013/07/26/matters-of-style/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/2013/07/29/strings-and-things/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/2013/08/01/on-tdd-and-technical-hiring/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/2013/08/07/tame-git-commits-squash-and-reword/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/2013/08/16/screencasts-that-teach-rails-and-tdd/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/2013/08/28/make-mine-a-single-on-the-use-of-quotation-marks/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/2013/09/19/using-omniauth-in-development/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/2013/09/23/weaving-code/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/archives/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/categories/agile/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/categories/api/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/categories/blog/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/categories/bundle/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/categories/coding/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/categories/command-line/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/categories/culture/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/categories/gems/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/categories/github/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/categories/octopress/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/categories/rails/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/categories/rbenv/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/categories/ruby/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/categories/tdd/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/categories/tech/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/categories/video/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://bayendor.github.io/blog/page/2/index.html</loc>
+    <lastmod>2014-10-03T10:14:21Z</lastmod>
+    <priority>0.6</priority>
+  </url>
+  
+</urlset>

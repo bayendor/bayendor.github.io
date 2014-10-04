@@ -1,0 +1,384 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Deploying Octopress to github.io - Musings of an 8-bit Vet</title>
+  <meta name="author" content="David Bayendor">
+
+  
+  <meta name="description" content="This blog was created using the Octopress blogging
+framework. I tell you this for several reasons: Because one should give credit for other people& &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://bayendor.github.io/blog/2013/07/17/deploying-octopress-to-github-dot-io">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Musings of an 8-bit Vet" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Musings of an 8-bit Vet</a></h1>
+  
+    <h2>A Student Coders Tech Diary</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:bayendor.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Deploying Octopress to github.io</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-17T15:01:00-06:00" pubdate data-updated="true">Jul 17<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>This blog was created using the <a href="http://octopress.org">Octopress</a> blogging
+framework.  I tell you this for several reasons:</p>
+
+<blockquote><ol>
+<li>Because one should give credit for other people&rsquo;s work.</li>
+<li>Expect the site to change as I learn how to modify it.</li>
+<li>Expect the site to break as I learn how to modify it.</li>
+</ol>
+</blockquote>
+
+<p>The first major hurdle I had, and I suspect my fellow aspiring Web-Belt Jrs had
+it as well, was getting the blog to deploy using the Github
+<a href="http://pages.github.com">Pages</a> hosting service.</p>
+
+<p>The Octopress documentation does cover this process, but the workflow for the
+newly minted web-dev can be a bit overwhelming.  There&rsquo;s a lot of stuff happening
+with <code>git</code> at the command line that may seem unfamiliar.  Having said
+that I&rsquo;ll throw my $0.02 worth of advice into the ring, and see if I can&rsquo;t make
+it easier for anyone reading this.</p>
+
+<h3>Set up your username.github.io repo</h3>
+
+<p>Go to your github home page and click on the button labeled &ldquo;New Repository&rdquo; on
+the right side of the screen.</p>
+
+<p><img src="http://f.cl.ly/items/3S0d3m1P0s400S122G1x/GitHub.jpeg"></p>
+
+<p>On the next page enter the name of the repo, in the form
+<code>username.github.io</code> where <code>username</code> is YOUR github user ID.</p>
+
+<p><img src="http://f.cl.ly/items/3x1a0m0W1o3H0x0W3W17/Create_a_New_Repository.jpeg"></p>
+
+<p>Enter an optional description if you wish and click on the green &ldquo;Create
+Repository&rdquo; button.</p>
+
+<p>The next page will show you the setup for your repo, and the repo name.  Make
+sure that the SSH button is selected and copy the address in the box to your
+clipboard, you will need it for the next step.  It will be in the form <code>git@github.com:username/username.github.io.git</code></p>
+
+<p><img src="http://f.cl.ly/items/3f47300A0y1R0Q1L0X2h/username.github.io.jpeg"></p>
+
+<blockquote><p>Note: It can take github several minutes to setup your username.git.io page.
+If you get a 404 error, just go do something else for a little while, and
+then come back and try again.</p></blockquote>
+
+<h3>Set up your Octopress code base to deploy to github.io</h3>
+
+<p>Switch to your terminal program and <code>cd</code> into your octopress directory,
+and then run the <code>rake setup_github_pages</code></p>
+
+<p>For my fellow DaVinci Coder&rsquo;s that would be:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">cd</span> <span class="o">~</span><span class="sr">/workspace/o</span><span class="n">ctopress</span>
+</span><span class='line'><span class="n">rake</span> <span class="n">setup_github_pages</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It will ask you for the repo name you copied in the last step.  Enter it and continue.
+When the <code>rake</code> job is finished your local repository will have been
+set up via series of git commands to push your blog code to your username.github.io page.</p>
+
+<p>The next step is to actually publish the blog.</p>
+
+<h3>Workflow for publishing your blog entries</h3>
+
+<p>The workflow goes like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="n">new_post</span><span class="o">[</span><span class="s2">&quot;title&quot;</span><span class="o">]</span>    <span class="c1"># Create a new post.</span>
+</span><span class='line'><span class="n">rake</span> <span class="n">generate</span>             <span class="c1"># Generate your blog.</span>
+</span><span class='line'><span class="n">rake</span> <span class="n">deploy</span>               <span class="c1"># Deploy (duh!) your blog.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When you deploy you will see a lot of code go scrolling up the screen.  This is
+git committing and pushing the <code>_deploy</code> folder to the <code>master</code>
+branch of your repo.</p>
+
+<p>Go check out your published blog at: <a href="username.github.io">username.github.io</a>.</p>
+
+<p>Also, don&rsquo;t forget to commit and save your changes, using the standard git workflow:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">git</span> <span class="n">add</span> <span class="o">.</span>
+</span><span class='line'><span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s1">&#39;your message&#39;</span>
+</span><span class='line'><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">source</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Just repeat the process to add new posts and publish them.</p>
+
+<p>For more detail on the process see the first link, and for direction in automating
+the workflow even further see the second link.</p>
+
+<p>From Octopress:
+<a href="http://octopress.org/docs/deploying/github/">Deploying to Github Pages</a></p>
+
+<p>From Kevin van Zonneveld:
+<a href="http://kvz.io/blog/2012/09/25/blog-with-octopress/">Blog with Octopress and Github pages</a></p>
+
+<p>Thanx for reading.  Stay tuned for more from the front lines&hellip;</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">David Bayendor</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-17T15:01:00-06:00" pubdate data-updated="true">Jul 17<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/blog/'>blog</a>, <a class='category' href='/blog/categories/github/'>github</a>, <a class='category' href='/blog/categories/octopress/'>octopress</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://bayendor.github.io/blog/2013/07/17/deploying-octopress-to-github-dot-io/" data-via="bayendor" data-counturl="http://bayendor.github.io/blog/2013/07/17/deploying-octopress-to-github-dot-io/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/07/16/rbenv/" title="Previous Post: Choices: Gemsets & bundle exec">&laquo; Choices: Gemsets & bundle exec</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/07/18/command-line-crash-course/" title="Next Post: Command Line Crash Course">Command Line Crash Course &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/09/23/weaving-code/">Weaving Code</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/09/19/using-omniauth-in-development/">Capture OMNIAUTH Failures in Development Mode</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/28/make-mine-a-single-on-the-use-of-quotation-marks/">Make Mine a Single: On the Use of Quotation Marks</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/16/screencasts-that-teach-rails-and-tdd/">Rails and TDD Screencasts Worth Watching</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/07/tame-git-commits-squash-and-reword/">Tame Git Commits With Squash</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Twitter</h1>
+  <a class="twitter-timeline" href="https://twitter.com/bayendor/rubyists" data-widget-id="358255105751015424">Tweets from @bayendor/rubyists</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+</section>
+
+
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/bayendor">@bayendor</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'bayendor',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - David Bayendor -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

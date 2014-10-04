@@ -1,0 +1,379 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Make mine a single: On the use of quotation marks - Musings of an 8-bit Vet</title>
+  <meta name="author" content="David Bayendor">
+
+  
+  <meta name="description" content="Here are two lines of Ruby code: 1
+2
+puts &#39;Have a nice day!&#39;
+puts &quot;Have a nice day!&quot; They both print the same string to the display &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://bayendor.github.io/blog/2013/08/28/make-mine-a-single-on-the-use-of-quotation-marks">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Musings of an 8-bit Vet" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Musings of an 8-bit Vet</a></h1>
+  
+    <h2>A Student Coders Tech Diary</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:bayendor.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Make Mine a Single: On the Use of Quotation Marks</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-28T08:38:00-06:00" pubdate data-updated="true">Aug 28<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Here are two lines of Ruby code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="s1">&#39;Have a nice day!&#39;</span>
+</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;Have a nice day!&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>They both print the same string to the display.  The first uses <code>&lsquo;single
+ quotes&rsquo;</code>, the second uses <code>&ldquo;double quotes&rdquo;</code>.  Now, any new
+ Rubyist quickly learns that you use single quotes for simple or static strings,
+  and double quotes for more complicated strings, with special characters, etc.
+  You also use double quotes for so-called &ldquo;interpolated strings&rdquo;, where you
+  want to be able to print a variable or other derived value in the string, e.g.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;Have a nice day, </span><span class="si">#{</span><span class="n">person_name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So if double quotes will perform the same function as single quotes, why not
+just use them all the time?</p>
+
+<p>When I posed this question in class the other day it was suggested that
+ whenever the Ruby interpreter sees single quotes it just prints the string, and doesn&rsquo;t bother to
+ check if there is anything possibly going on in between the <code>&lsquo;&rsquo;</code>&rsquo;s.
+ But when Ruby sees double quotes, it has to check each character to see if
+ there is any interpolation required.  This is time consuming, and
+ computationally costly.  If you are working with thousands of lines of code it
+can really add up.</p>
+
+<p>So I wrote a quick benchmark to check just how costly this really is, the
+total time taken is displayed after <code>real</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">time</span> <span class="n">ruby</span> <span class="n">quote_test</span><span class="o">.</span><span class="n">rb</span>   <span class="c1"># puts &#39;Hello there!&#39; * 1,000,000</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">real</span>  <span class="mi">0</span><span class="n">m5</span><span class="o">.</span><span class="mi">130</span><span class="n">s</span>
+</span><span class='line'><span class="n">user</span>  <span class="mi">0</span><span class="n">m0</span><span class="o">.</span><span class="mi">081</span><span class="n">s</span>
+</span><span class='line'><span class="n">sys</span> <span class="mi">0</span><span class="n">m0</span><span class="o">.</span><span class="mi">150</span><span class="n">s</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">time</span> <span class="n">ruby</span> <span class="n">quotes_test</span><span class="o">.</span><span class="n">rb</span>  <span class="c1"># puts &quot;Hello there!&quot; * 1,000,000</span>
+</span><span class='line'><span class="n">real</span>  <span class="mi">0</span><span class="n">m5</span><span class="o">.</span><span class="mo">076</span><span class="n">s</span>
+</span><span class='line'><span class="n">user</span>  <span class="mi">0</span><span class="n">m0</span><span class="o">.</span><span class="mi">081</span><span class="n">s</span>
+</span><span class='line'><span class="n">sys</span> <span class="mi">0</span><span class="n">m0</span><span class="o">.</span><span class="mi">152</span><span class="n">s</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Huh?  Turns out a million <code>puts</code> is actually slightly faster with
+double quotes.  Maybe I need to give Ruby some more to do:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">time</span> <span class="n">ruby</span> <span class="n">quote_test</span><span class="o">.</span><span class="n">rb</span>   <span class="c1"># puts &#39;Hello there!&#39; * 3,000,000</span>
+</span><span class='line'><span class="n">real</span>  <span class="mi">0</span><span class="n">m15</span><span class="o">.</span><span class="mi">246</span><span class="n">s</span>
+</span><span class='line'><span class="n">user</span>  <span class="mi">0</span><span class="n">m0</span><span class="o">.</span><span class="mi">087</span><span class="n">s</span>
+</span><span class='line'><span class="n">sys</span> <span class="mi">0</span><span class="n">m0</span><span class="o">.</span><span class="mi">357</span><span class="n">s</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">time</span> <span class="n">ruby</span> <span class="n">quotes_test</span><span class="o">.</span><span class="n">rb</span>  <span class="c1"># puts &quot;Hello there!&quot; * 3,000,000</span>
+</span><span class='line'><span class="n">real</span>  <span class="mi">0</span><span class="n">m15</span><span class="o">.</span><span class="mi">170</span><span class="n">s</span>
+</span><span class='line'><span class="n">user</span>  <span class="mi">0</span><span class="n">m0</span><span class="o">.</span><span class="mi">088</span><span class="n">s</span>
+</span><span class='line'><span class="n">sys</span> <span class="mi">0</span><span class="n">m0</span><span class="o">.</span><span class="mi">347</span><span class="n">s</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>WTF?  Double quotes is still slightly faster.  Guess we need to dig a little
+deeper.</p>
+
+<p>Turns out there is big discussion of this on <a href="http://stackoverflow.com/questions/1836467/is-there-a-performance-gain-in-using-single-quotes-vs-double-quotes-in-ruby">Stack Overflow</a>, click the link to read all about it.</p>
+
+<p>The short version is this, Ruby doesn&rsquo;t just pass over single quoted strings
+when it evaluates.  It has to look at every character to render the string in
+memory, regardless of single or double quotes, even with interpolation.  After
+some pretty extensive bench-marking there is no real cost to using double
+quotes, and it is often slightly faster.</p>
+
+<p>I suspect that the real reason we use single quotes is one of style.  It can&rsquo;t
+be for code efficiency, and if you later need to update a string to use
+interpolation, you would also have to change the single quotes to double quotes.</p>
+
+<p>I&rsquo;m all about style, so make mine a single!</p>
+
+<p>(But I reserve the right to change my mind later&hellip;)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">David Bayendor</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-28T08:38:00-06:00" pubdate data-updated="true">Aug 28<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/coding/'>coding</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://bayendor.github.io/blog/2013/08/28/make-mine-a-single-on-the-use-of-quotation-marks/" data-via="bayendor" data-counturl="http://bayendor.github.io/blog/2013/08/28/make-mine-a-single-on-the-use-of-quotation-marks/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/08/16/screencasts-that-teach-rails-and-tdd/" title="Previous Post: Rails and TDD Screencasts Worth Watching">&laquo; Rails and TDD Screencasts Worth Watching</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/09/19/using-omniauth-in-development/" title="Next Post: Capture OMNIAUTH failures in development mode">Capture OMNIAUTH failures in development mode &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/09/23/weaving-code/">Weaving Code</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/09/19/using-omniauth-in-development/">Capture OMNIAUTH Failures in Development Mode</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/28/make-mine-a-single-on-the-use-of-quotation-marks/">Make Mine a Single: On the Use of Quotation Marks</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/16/screencasts-that-teach-rails-and-tdd/">Rails and TDD Screencasts Worth Watching</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/07/tame-git-commits-squash-and-reword/">Tame Git Commits With Squash</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Twitter</h1>
+  <a class="twitter-timeline" href="https://twitter.com/bayendor/rubyists" data-widget-id="358255105751015424">Tweets from @bayendor/rubyists</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+</section>
+
+
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/bayendor">@bayendor</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'bayendor',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - David Bayendor -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

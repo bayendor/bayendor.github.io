@@ -1,0 +1,341 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Strings &amp; things - Musings of an 8-bit Vet</title>
+  <meta name="author" content="David Bayendor">
+
+  
+  <meta name="description" content="Two useful things I learned doing homework over the weekend: USEFUL THING 1: git commit &mdash;amend Lets say that your fingers get ahead of your &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://bayendor.github.io/blog/2013/07/29/strings-and-things">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Musings of an 8-bit Vet" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Musings of an 8-bit Vet</a></h1>
+  
+    <h2>A Student Coders Tech Diary</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:bayendor.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Strings &amp; Things</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-29T17:35:00-06:00" pubdate data-updated="true">Jul 29<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Two useful things I learned doing homework over the weekend:</p>
+
+<p><em>USEFUL THING 1: git commit &mdash;amend</em></p>
+
+<p>Lets say that your fingers get ahead of your brain, and
+that you write your</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git commit -m "Mad code skilz"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and then realize that you forgot to add your modified file.</p>
+
+<p>Well, go ahead</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git add thatfile.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and then issue</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git commit --amend</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will combine the last two commands together, your forgotten file will get linked with the commit message. Problem solved.</p>
+
+<p><em>USEFUL THING 2: Control significant digits in Ruby <code>float</code> returns</em></p>
+
+<p>While building our <code>CashRegister</code> class, I ran into the problem
+that Ruby floats return way more digits after the decimal point than you
+need to make change.</p>
+
+<p>For example, if you pay for an $8.30 purchase with a $10 bill, you do not
+expect to get the message:</p>
+
+<p><code>Your change is $1.6999999999999993</code></p>
+
+<p>Thanks to a quick <em>HipChat</em> session with classmate Aron, I arrived at
+the following way to control float output:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;Your change is $</span><span class="si">#{</span><span class="nb">sprintf</span><span class="p">(</span><span class="s2">&quot;%0.2f&quot;</span><span class="p">,</span><span class="vi">@reg_change</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let&rsquo;s break it down, the key part here is inside the string interpolation:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">sprintf</span><span class="p">(</span><span class="s2">&quot;%0.2f&quot;</span><span class="p">,</span><span class="n">float</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In particular, the <code>&ldquo;%0.2f&rdquo;</code> is telling <code>sprintf</code> that you want output to be offset by <code>0</code> digits, and include only
+ <code>.2</code> digits after the decimal point.</p>
+
+<p>If you want to set the width of your float output, to say right justify,
+change the <code>0</code> to a larger number, <code>10</code> would
+include padding to make the field 10 digits wide. If you want more or less
+precision after the decimal, change the number after the <code>.</code> to
+any number you choose, say <code>.1</code> or <code>.5</code>.</p>
+
+<p>My final output: <code>Your change is $1.70</code>. Problem solved.</p>
+
+<p>Thanx for reading. Stay tuned for more from the front lines…</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">David Bayendor</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-29T17:35:00-06:00" pubdate data-updated="true">Jul 29<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/github/'>github</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://bayendor.github.io/blog/2013/07/29/strings-and-things/" data-via="bayendor" data-counturl="http://bayendor.github.io/blog/2013/07/29/strings-and-things/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/07/26/matters-of-style/" title="Previous Post: Matters of style">&laquo; Matters of style</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/08/01/on-tdd-and-technical-hiring/" title="Next Post: On TDD and technical hiring">On TDD and technical hiring &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/09/23/weaving-code/">Weaving Code</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/09/19/using-omniauth-in-development/">Capture OMNIAUTH Failures in Development Mode</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/28/make-mine-a-single-on-the-use-of-quotation-marks/">Make Mine a Single: On the Use of Quotation Marks</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/16/screencasts-that-teach-rails-and-tdd/">Rails and TDD Screencasts Worth Watching</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/07/tame-git-commits-squash-and-reword/">Tame Git Commits With Squash</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Twitter</h1>
+  <a class="twitter-timeline" href="https://twitter.com/bayendor/rubyists" data-widget-id="358255105751015424">Tweets from @bayendor/rubyists</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+</section>
+
+
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/bayendor">@bayendor</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'bayendor',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - David Bayendor -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

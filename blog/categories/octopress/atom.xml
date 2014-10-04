@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: octopress | Musings of an 8-bit Vet]]></title>
+  <link href="http://bayendor.github.io/blog/categories/octopress/atom.xml" rel="self"/>
+  <link href="http://bayendor.github.io/"/>
+  <updated>2014-08-17T12:10:24-06:00</updated>
+  <id>http://bayendor.github.io/</id>
+  <author>
+    <name><![CDATA[David Bayendor]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Deploying Octopress to github.io]]></title>
+    <link href="http://bayendor.github.io/blog/2013/07/17/deploying-octopress-to-github-dot-io/"/>
+    <updated>2013-07-17T15:01:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/07/17/deploying-octopress-to-github-dot-io</id>
+    <content type="html"><![CDATA[<p>This blog was created using the <a href="http://octopress.org">Octopress</a> blogging
+framework.  I tell you this for several reasons:</p>
+
+<blockquote><ol>
+<li>Because one should give credit for other people&rsquo;s work.</li>
+<li>Expect the site to change as I learn how to modify it.</li>
+<li>Expect the site to break as I learn how to modify it.</li>
+</ol>
+</blockquote>
+
+<p>The first major hurdle I had, and I suspect my fellow aspiring Web-Belt Jrs had
+it as well, was getting the blog to deploy using the Github
+<a href="http://pages.github.com">Pages</a> hosting service.</p>
+
+<p>The Octopress documentation does cover this process, but the workflow for the
+newly minted web-dev can be a bit overwhelming.  There&rsquo;s a lot of stuff happening
+with <code>git</code> at the command line that may seem unfamiliar.  Having said
+that I&rsquo;ll throw my $0.02 worth of advice into the ring, and see if I can&rsquo;t make
+it easier for anyone reading this.</p>
+
+<h3>Set up your username.github.io repo</h3>
+
+<p>Go to your github home page and click on the button labeled &ldquo;New Repository&rdquo; on
+the right side of the screen.</p>
+
+<p><img class="<a" src="href="http://f.cl.ly/items/3S0d3m1P0s400S122G1x/GitHub.jpeg">http://f.cl.ly/items/3S0d3m1P0s400S122G1x/GitHub.jpeg</a>"></p>
+
+<p>On the next page enter the name of the repo, in the form
+<code>username.github.io</code> where <code>username</code> is YOUR github user ID.</p>
+
+<p><img class="<a" src="href="http://f.cl.ly/items/3x1a0m0W1o3H0x0W3W17/Create_a_New_Repository.jpeg">http://f.cl.ly/items/3x1a0m0W1o3H0x0W3W17/Create_a_New_Repository.jpeg</a>"></p>
+
+<p>Enter an optional description if you wish and click on the green &ldquo;Create
+Repository&rdquo; button.</p>
+
+<p>The next page will show you the setup for your repo, and the repo name.  Make
+sure that the SSH button is selected and copy the address in the box to your
+clipboard, you will need it for the next step.  It will be in the form <code>git@github.com:username/username.github.io.git</code></p>
+
+<p><img class="<a" src="href="http://f.cl.ly/items/3f47300A0y1R0Q1L0X2h/username.github.io.jpeg">http://f.cl.ly/items/3f47300A0y1R0Q1L0X2h/username.github.io.jpeg</a>"></p>
+
+<blockquote><p>Note: It can take github several minutes to setup your username.git.io page.
+If you get a 404 error, just go do something else for a little while, and
+then come back and try again.</p></blockquote>
+
+<h3>Set up your Octopress code base to deploy to github.io</h3>
+
+<p>Switch to your terminal program and <code>cd</code> into your octopress directory,
+and then run the <code>rake setup_github_pages</code></p>
+
+<p>For my fellow DaVinci Coder&rsquo;s that would be:
+<code>ruby
+cd ~/workspace/octopress
+rake setup_github_pages
+</code>
+It will ask you for the repo name you copied in the last step.  Enter it and continue.
+When the <code>rake</code> job is finished your local repository will have been
+set up via series of git commands to push your blog code to your username.github.io page.</p>
+
+<p>The next step is to actually publish the blog.</p>
+
+<h3>Workflow for publishing your blog entries</h3>
+
+<p>The workflow goes like this:
+<code>ruby
+rake new_post["title"]    # Create a new post.
+rake generate             # Generate your blog.
+rake deploy               # Deploy (duh!) your blog.
+</code></p>
+
+<p>When you deploy you will see a lot of code go scrolling up the screen.  This is
+git committing and pushing the <code>_deploy</code> folder to the <code>master</code>
+branch of your repo.</p>
+
+<p>Go check out your published blog at: <a href="username.github.io">username.github.io</a>.</p>
+
+<p>Also, don&rsquo;t forget to commit and save your changes, using the standard git workflow:</p>
+
+<p><code>ruby
+git add .
+git commit -m 'your message'
+git push origin source
+</code>
+Just repeat the process to add new posts and publish them.</p>
+
+<p>For more detail on the process see the first link, and for direction in automating
+the workflow even further see the second link.</p>
+
+<p>From Octopress:
+<a href="http://octopress.org/docs/deploying/github/">Deploying to Github Pages</a></p>
+
+<p>From Kevin van Zonneveld:
+<a href="http://kvz.io/blog/2012/09/25/blog-with-octopress/">Blog with Octopress and Github pages</a></p>
+
+<p>Thanx for reading.  Stay tuned for more from the front lines&hellip;</p>
+]]></content>
+  </entry>
+  
+</feed>

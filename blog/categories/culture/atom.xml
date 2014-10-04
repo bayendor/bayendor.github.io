@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: culture | Musings of an 8-bit Vet]]></title>
+  <link href="http://bayendor.github.io/blog/categories/culture/atom.xml" rel="self"/>
+  <link href="http://bayendor.github.io/"/>
+  <updated>2014-08-17T12:10:24-06:00</updated>
+  <id>http://bayendor.github.io/</id>
+  <author>
+    <name><![CDATA[David Bayendor]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Weaving Code]]></title>
+    <link href="http://bayendor.github.io/blog/2013/09/23/weaving-code/"/>
+    <updated>2013-09-23T16:03:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/09/23/weaving-code</id>
+    <content type="html"><![CDATA[<p>I recently came across the most amazing piece of video footage while watching
+a documentary on the technology used during the Apollo missions of the late
+1960&rsquo;s.</p>
+
+<p>That era was a little bit like an alternate decade of the 21st century that
+sort of just showed up in the middle of the 20th century.  In addition to
+tremendous leaps in aviation and space-flight that decade gave us advances
+ in medical, material, and computer science.</p>
+
+<p>To put it in perspective, the working memory of the navigation computer for
+the Apollo missions was just 72 kilobytes!  Things that we take for granted
+now had to be invented from scratch, including interrupt driven multi-processing
+algorithms and reliable data storage.</p>
+
+<p>For a fascinating look at how the latter was solved, watch this video:</p>
+
+<p><code><iframe width="560" height="315" src="http://bayendor.github.io//www.youtube.com/embed/P12r8DKHsak" frameborder="0" allowfullscreen></iframe></code></p>
+
+<p>For more about this amazing and lost technology see the Wikipedia entry: <a href="http://en.wikipedia.org/wiki/Core_rope_memory">Core Rope Memory</a></p>
+
+<p>On a separate note, this is a fascinating and possibly forgotten example of
+diversity in coding.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Q: Who is an 8-bit Vet?]]></title>
+    <link href="http://bayendor.github.io/blog/2013/07/15/q-who-is-an-8-bit-vet/"/>
+    <updated>2013-07-15T23:34:00-06:00</updated>
+    <id>http://bayendor.github.io/blog/2013/07/15/q-who-is-an-8-bit-vet</id>
+    <content type="html"><![CDATA[<p><img class="<a" src="href="http://f.cl.ly/items/3E011d292H2D261a1T2G/wargames2.jpg">http://f.cl.ly/items/3E011d292H2D261a1T2G/wargames2.jpg</a>"></p>
+
+<p>A: an individual whose teenage exposure to computing consisted of
+a plethora of home computers based on the venerable 6502 CPU.  This would
+include, but not be limited to: Commodore VIC-20 or 64, the Texas Instruments
+TI series, the Apple II (+, e, c), and the Atari 400/800.</p>
+
+<p>If your parents only saw fit to buy you one of the Radio Shack TRS models you
+have my sympathy.</p>
+
+<p>You likely saw the movie &ldquo;War Games&rdquo; in the movie theater when it was first
+released, but your parents probably had to drive you there.  Give yourself extra
+credit for admitting to having a crush on Ally Sheedy&rsquo;s character.</p>
+
+<p>Most of my friends were Apple fanboys.  I myself trod a different path, and was
+an Atari man.  These were the heady days of home computing, where 48K of RAM,
+1.8 MHz clock-speeds and 1200 baud dial-up modems were bleeding edge technology.</p>
+
+<p>If you cut your teeth on these 8-bit machines, then you, too, are a veteran of
+the 8-bit wars.</p>
+
+<p>While the first hackers came from the mainframed halls of academia (e.g. MIT),
+the second wave began on these machines.  If you got your start on Intel x86
+hardware you are not, by definition, an 8-bit Veteran.</p>
+
+<p>P.S.  If you had an Amiga or an Atari ST, you have taken a different path, one
+worthy of particular awe&hellip;</p>
+
+<p>For more on the 6502 chipset see this <a href="https://en.wikipedia.org/wiki/MOS_Technology_6502">Wikipedia Entry</a></p>
+]]></content>
+  </entry>
+  
+</feed>
