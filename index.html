@@ -9,7 +9,8 @@
   <meta name="author" content="David Bayendor">
 
   
-  <meta name="description" content="One of the biggest challenges with a terminal/command line driven interface (CLI) is parsing out the relavent pieces of the input. For a lot of web &hellip;">
+  <meta name="description" content="Postgres 9.4.0 has finally shipped. This long awaited release includes numerous upgrades,
+including native support for JSON, and improved scalability &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +66,262 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/12/20/upgrading-to-postgres-9-dot-4-on-os-x/">Upgrading to Postgres 9.4.0 on OS X</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-12-20T10:58:28-07:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:58 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Postgres 9.4.0 has finally shipped. This long awaited release includes numerous upgrades,
+including native support for JSON, and improved scalability and index performance.</p>
+
+<p>Upgrading to Postgres 9.4.0 is not as simple as merely replacing your current 9.3.x version with the newer
+version. The release notes indicate that users who wish to upgrade must first migrate their existing data
+from prior versions using one of two strategies: <code>pg_dumpall</code> or <code>pg_upgrade</code>.</p>
+
+<p>In this post I&rsquo;ll provide the instructions to use <code>pg_dumpall</code> to upgrade on OS X.</p>
+
+<p>There are typically two ways that OS X users install Postgres on their machine: via
+the OS X native <code>postgres.app</code> (the one with the blue elephant icon) or using the package manager <code>homebrew</code>.
+I&rsquo;ll provide instructions for both.</p>
+
+<h2>1: Export your existing databases to a SQL script file</h2>
+
+<p><em>DO THIS FIRST FOR EITHER INSTALLATION METHOD</em></p>
+
+<p>Postgres stores databases in version specific directories.  So before we get started we need to know what
+the current Postgres data directory is for the installed version.  Fire up your postgres console
+and find out with <code>SHOW data_directory;</code>.  Your output may look different, but what we want is the path that
+is returned.  On my machine it looked like this:</p>
+
+<figure class='code'><figcaption><span>Using psql to locate the data directory</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="err">$</span> <span class="n">psql</span>
+</span><span class='line'><span class="k">Null</span> <span class="n">display</span> <span class="k">is</span> <span class="ss">&quot;[NULL]&quot;</span><span class="p">.</span>
+</span><span class='line'><span class="n">Expanded</span> <span class="n">display</span> <span class="k">is</span> <span class="n">used</span> <span class="n">automatically</span><span class="p">.</span>
+</span><span class='line'><span class="n">psql</span> <span class="p">(</span><span class="mi">9</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">5</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span>
+</span><span class='line'><span class="k">Type</span> <span class="ss">&quot;help&quot;</span> <span class="k">for</span> <span class="n">help</span><span class="p">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">localhost</span> <span class="o">@</span><span class="n">David</span><span class="o">=#</span> <span class="k">SHOW</span> <span class="n">data_directory</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>                      <span class="n">data_directory</span>
+</span><span class='line'><span class="c1">-----------------------------------------------------------</span>
+</span><span class='line'> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">David</span><span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">Application</span> <span class="n">Support</span><span class="o">/</span><span class="n">Postgres</span><span class="o">/</span><span class="n">var</span><span class="o">-</span><span class="mi">9</span><span class="p">.</span><span class="mi">3</span>
+</span><span class='line'><span class="p">(</span><span class="mi">1</span> <span class="k">row</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">localhost</span> <span class="o">@</span><span class="n">David</span><span class="o">=#</span> <span class="err">\</span><span class="n">q</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">$</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Make a note of this directory.  Once the data has been migrated and you&rsquo;ve confirmed everything is
+working you&rsquo;ll probably want to delete the old copy to free up space.</p>
+
+<p>Next export the existing 9.3 databases out of that directory prior to upgrading to 9.4:</p>
+
+<figure class='code'><figcaption><span>Using pg_dumpall to create a single SQL script file for migration to 9.4</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mkdir pg_migrate
+</span><span class='line'><span class="nb">cd </span>pg_migrate
+</span><span class='line'>pg_dumpall &gt; db.out
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+It&rsquo;s worth noting that like many unix commands you will get no feedback from this command while it is running.
+Depending on how many and/or how large your pg databases are this may take a while.  When you are returned to
+your standard shell prompt run <code>ls</code> and if you see <code>db.out</code> you are ready to go.</p>
+
+<p><em>Go to step 2a for <code>homebrew</code> or step 2b for <code>postgres.app</code></em></p>
+
+<h2>2a: If you are using <code>homebrew</code> follow this path:</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew update <span class="o">&amp;&amp;</span> brew outdated
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you do not run this command on a regular basis you may be surprised by how many packages are
+outdated. In any event you should see <code>postgresql</code> listed among the packages.</p>
+
+<p>Since you can&rsquo;t have two versions of postgres installed, you need to uninstall the old one first and then
+install the new version.  Do that like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew uninstall postgresql
+</span><span class='line'>brew install postgresql
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Confirm that postgres is running and that you have the new version:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>psql --version
+</span><span class='line'>psql <span class="o">(</span>PostgreSQL<span class="o">)</span> 9.4.0
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If postgres will not respond you may need to restart your terminal to pick up the new changes, or follow
+instructions issued after the homebrew install to manually start the postgres server.</p>
+
+<p>If postgres is running but you cannot start the <code>psql</code> interface, try running <code>createdb</code> to fix this.</p>
+
+<h2>2b: If you are using the OS X native <code>postgres.app</code></h2>
+
+<p>Click the elephant icon in the OS X menubar and choose <code>quit</code> to stop the server.</p>
+
+<p>Go to your Applications directory and find the Postgres app (the blue elephant icon). Rename it to
+Postgres.old.</p>
+
+<p>Go to <a href="http://postgresapp.com">http://postgresapp.com</a> and download the latest version.  Double cick the downloaded zip file and drag
+the new Postgres app into your Applications folder.</p>
+
+<p>Double click the icon and wait for the application to start.  From either the elephant icon in the menu bar
+or the <code>psql</code> command check the version number. It should be 9.4.0.</p>
+
+<h2>3: Import the SQL dump into the new server directory.</h2>
+
+<p>From the directory where you ran <code>pg_dumpall</code> in step 1 run the following command:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>psql -f db.out postgres
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Unlike the original <code>pg_dumpall</code> command you will see a lot of activity on the screen, including some warnings
+what look like errors.  This is expected output, so be patient while the databases are recreated in the new 9.4
+server directory.</p>
+
+<p>Once you get your command prompt back, go into the <code>psql</code> console and check you databases are all there the
+command <code>\l</code>. At a minimum you should have output like the example below, where one database typically has
+your OSX or postgres admin username, two are templates, and one is postgres:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="err">$</span> <span class="n">psql</span>
+</span><span class='line'><span class="k">Null</span> <span class="n">display</span> <span class="k">is</span> <span class="ss">&quot;[NULL]&quot;</span><span class="p">.</span>
+</span><span class='line'><span class="n">Expanded</span> <span class="n">display</span> <span class="k">is</span> <span class="n">used</span> <span class="n">automatically</span><span class="p">.</span>
+</span><span class='line'><span class="n">psql</span> <span class="p">(</span><span class="mi">9</span><span class="p">.</span><span class="mi">4</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'><span class="k">Type</span> <span class="ss">&quot;help&quot;</span> <span class="k">for</span> <span class="n">help</span><span class="p">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">localhost</span> <span class="o">@</span><span class="n">David</span><span class="o">=#</span> <span class="err">\</span><span class="n">l</span>
+</span><span class='line'>                                       <span class="n">List</span> <span class="k">of</span> <span class="n">databases</span>
+</span><span class='line'>            <span class="n">Name</span>             <span class="o">|</span> <span class="k">Owner</span> <span class="o">|</span> <span class="k">Encoding</span> <span class="o">|</span>   <span class="k">Collate</span>   <span class="o">|</span>    <span class="n">Ctype</span>    <span class="o">|</span> <span class="k">Access</span> <span class="k">privileges</span>
+</span><span class='line'><span class="c1">-----------------------------+-------+----------+-------------+-------------+-------------------</span>
+</span><span class='line'> <span class="n">David</span>                       <span class="o">|</span> <span class="n">David</span> <span class="o">|</span> <span class="n">UTF8</span>     <span class="o">|</span> <span class="n">en_US</span><span class="p">.</span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span> <span class="o">|</span> <span class="n">en_US</span><span class="p">.</span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span> <span class="o">|</span>
+</span><span class='line'> <span class="n">postgres</span>                    <span class="o">|</span> <span class="n">David</span> <span class="o">|</span> <span class="n">UTF8</span>     <span class="o">|</span> <span class="n">en_US</span><span class="p">.</span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span> <span class="o">|</span> <span class="n">en_US</span><span class="p">.</span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span> <span class="o">|</span>
+</span><span class='line'> <span class="n">template0</span>                   <span class="o">|</span> <span class="n">David</span> <span class="o">|</span> <span class="n">UTF8</span>     <span class="o">|</span> <span class="n">en_US</span><span class="p">.</span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span> <span class="o">|</span> <span class="n">en_US</span><span class="p">.</span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span> <span class="o">|</span> <span class="o">=</span><span class="k">c</span><span class="o">/</span><span class="n">David</span>         <span class="o">+</span>
+</span><span class='line'>                             <span class="o">|</span>       <span class="o">|</span>          <span class="o">|</span>             <span class="o">|</span>             <span class="o">|</span> <span class="n">David</span><span class="o">=</span><span class="n">CTc</span><span class="o">/</span><span class="n">David</span>
+</span><span class='line'> <span class="n">template1</span>                   <span class="o">|</span> <span class="n">David</span> <span class="o">|</span> <span class="n">UTF8</span>     <span class="o">|</span> <span class="n">en_US</span><span class="p">.</span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span> <span class="o">|</span> <span class="n">en_US</span><span class="p">.</span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span> <span class="o">|</span> <span class="n">David</span><span class="o">=</span><span class="n">CTc</span><span class="o">/</span><span class="n">David</span>  <span class="o">+</span>
+</span><span class='line'>                             <span class="o">|</span>       <span class="o">|</span>          <span class="o">|</span>             <span class="o">|</span>             <span class="o">|</span> <span class="o">=</span><span class="k">c</span><span class="o">/</span><span class="n">David</span>
+</span><span class='line'><span class="p">(</span><span class="mi">4</span> <span class="k">rows</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">localhost</span> <span class="o">@</span><span class="n">David</span><span class="o">=#</span> <span class="err">\</span><span class="n">q</span>
+</span><span class='line'><span class="err">$</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>4: Clean up the export file and the old data directory</h2>
+
+<p>Verify that your applications can access your databases, and that everything is working as expected.
+Once you are comfortable with that you have some cleaning up to do.</p>
+
+<p>Backup or delete the <code>db.out</code> file.</p>
+
+<p>If you are using <code>postgres.app</code> delete the <code>postgres.old</code> application from your Applications folder.</p>
+
+<p>Finally using the <code>SHOW data_directory;</code> command from step 1, verify that the new directory is not the same
+as the old one, and then you can safely delete the old database directory.  In my case the old directory was
+<code>~/Library/Application Support/Postgres/var-9.3</code>, and the new one is now:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="err">$</span> <span class="n">psql</span>
+</span><span class='line'><span class="k">Null</span> <span class="n">display</span> <span class="k">is</span> <span class="ss">&quot;[NULL]&quot;</span><span class="p">.</span>
+</span><span class='line'><span class="n">Expanded</span> <span class="n">display</span> <span class="k">is</span> <span class="n">used</span> <span class="n">automatically</span><span class="p">.</span>
+</span><span class='line'><span class="n">psql</span> <span class="p">(</span><span class="mi">9</span><span class="p">.</span><span class="mi">4</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'><span class="k">Type</span> <span class="ss">&quot;help&quot;</span> <span class="k">for</span> <span class="n">help</span><span class="p">.</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">localhost</span> <span class="o">@</span><span class="n">David</span><span class="o">=#</span> <span class="k">SHOW</span> <span class="n">data_directory</span><span class="p">;</span>
+</span><span class='line'>                      <span class="n">data_directory</span>
+</span><span class='line'><span class="c1">-----------------------------------------------------------</span>
+</span><span class='line'> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">David</span><span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">Application</span> <span class="n">Support</span><span class="o">/</span><span class="n">Postgres</span><span class="o">/</span><span class="n">var</span><span class="o">-</span><span class="mi">9</span><span class="p">.</span><span class="mi">4</span>
+</span><span class='line'><span class="p">(</span><span class="mi">1</span> <span class="k">row</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can remove or backup the old directory at your discretion.</p>
+
+<p>That completes your upgrade to 9.4.0.  For any patch revisions, i.e. <code>9.4.x</code>, that come later you can simply upgrade
+the postgres application either via <code>homebrew upgrade postgresql</code> or by downloading the newer <code>postgres.app</code> and
+installing it over the old version.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -189,6 +446,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/12/20/upgrading-to-postgres-9-dot-4-on-os-x/">Upgrading to Postgres 9.4.0 on OS X</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/10/03/parsing-command-line-interfaces/">Parsing Command Line Input</a>

@@ -1,24 +1,91 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Musings of an 8-bit Vet]]></title>
-  <link href="http://bayendor.github.io/atom.xml" rel="self"/>
-  <link href="http://bayendor.github.io/"/>
-  <updated>2014-12-20T17:42:19-07:00</updated>
-  <id>http://bayendor.github.io/</id>
-  <author>
-    <name><![CDATA[David Bayendor]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Upgrading to Postgres 9.4.0 on OS X - Musings of an 8-bit Vet</title>
+  <meta name="author" content="David Bayendor">
 
   
-  <entry>
-    <title type="html"><![CDATA[Upgrading to Postgres 9.4.0 on OS X]]></title>
-    <link href="http://bayendor.github.io/blog/2014/12/20/upgrading-to-postgres-9-dot-4-on-os-x/"/>
-    <updated>2014-12-20T10:58:28-07:00</updated>
-    <id>http://bayendor.github.io/blog/2014/12/20/upgrading-to-postgres-9-dot-4-on-os-x</id>
-    <content type="html"><![CDATA[<p>Postgres 9.4.0 has finally shipped. This long awaited release includes numerous upgrades,
+  <meta name="description" content="Postgres 9.4.0 has finally shipped. This long awaited release includes numerous upgrades,
+including native support for JSON, and improved scalability &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://bayendor.github.io/blog/2014/12/20/upgrading-to-postgres-9-dot-4-on-os-x">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Musings of an 8-bit Vet" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Musings of an 8-bit Vet</a></h1>
+  
+    <h2>A student coder&#8217;s diary.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:bayendor.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Upgrading to Postgres 9.4.0 on OS X</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-12-20T10:58:28-07:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:58 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Postgres 9.4.0 has finally shipped. This long awaited release includes numerous upgrades,
 including native support for JSON, and improved scalability and index performance.</p>
 
 <p>Upgrading to Postgres 9.4.0 is not as simple as merely replacing your current 9.3.x version with the newer
@@ -246,99 +313,130 @@ as the old one, and then you can safely delete the old database directory.  In m
 <p>That completes your upgrade to 9.4.0.  For any patch revisions, i.e. <code>9.4.x</code>, that come later you can simply upgrade
 the postgres application either via <code>homebrew upgrade postgresql</code> or by downloading the newer <code>postgres.app</code> and
 installing it over the old version.</p>
-]]></content>
-  </entry>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
   
-  <entry>
-    <title type="html"><![CDATA[Parsing Command Line Input]]></title>
-    <link href="http://bayendor.github.io/blog/2014/10/03/parsing-command-line-interfaces/"/>
-    <updated>2014-10-03T11:20:03-06:00</updated>
-    <id>http://bayendor.github.io/blog/2014/10/03/parsing-command-line-interfaces</id>
-    <content type="html"><![CDATA[<p>One of the biggest challenges with a terminal/command line driven interface (CLI) is parsing out the relavent pieces of the input.  For a lot of web and touch based interfaces this kind of input is constrained by input widgets.</p>
 
-<p>We recently completed an &lsquo;Event Reporter&rsquo; project, and it allows the user to interact with a library of data about attendees to an event. Commands would include: <code>find last_name Smith</code>, <code>load data.csv</code>, <code>save to results.csv</code>, or <code>queue count</code> and <code>queue print</code>.</p>
+<span class="byline author vcard">Posted by <span class="fn">David Bayendor</span></span>
 
-<p>Ruby provides a capable set of methods for breaking input into strings and arrays, which then allows you to manipulate and extract the parts that are meaningful so they can be passed as messages to the other classes in the application.</p>
-
-<p>The basic CLI requires a REPL loop that Reads input, Evaluates it, Prints a response, and repeats until some condition is met that terminates the loop.</p>
-
-<p>These are examples of how we tackled some of the problems we came up against:</p>
-
-<figure class='code'><figcaption><span>The initial REPL loop</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">start</span>
-</span><span class='line'>    <span class="n">printer</span><span class="o">.</span><span class="n">intro</span>
-</span><span class='line'>    <span class="k">until</span> <span class="n">finished?</span>
-</span><span class='line'>      <span class="n">printer</span><span class="o">.</span><span class="n">command_request</span>
-</span><span class='line'>      <span class="n">process_command</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>    <span class="n">printer</span><span class="o">.</span><span class="n">ending</span>
-</span><span class='line'>  <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+      
 
 
-<p>In the code snippet above, the two methods on lines 4 &amp; 5 handle the request for input and then pass that input off for processing.</p>
-
-<p>The <code>process_command</code> method is a <code>case</code> statement that has boolean conditions based on the input received, and for each type of command request, breaks the command down to extract the required content.  For example, the command <code>load</code> has two conditions: as a single term that will load a default file, and with a filename that will load a given file.  One strategy looks like this:</p>
-
-<figure class='code'><figcaption><span>Parsing the LOAD request</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">when</span> <span class="nb">load</span><span class="p">?</span>
-</span><span class='line'>  <span class="k">if</span> <span class="vi">@input</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">1</span>
-</span><span class='line'>    <span class="n">load_file</span><span class="p">(</span><span class="vi">@input</span><span class="o">.</span><span class="n">last</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">else</span>
-</span><span class='line'>    <span class="n">load_file</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>  <span class="o">[.</span><span class="n">.</span><span class="o">.]</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Here we already know that the second (or last) part of the command is going to be the filename, so we use <code>length</code> to determine that condition, and then pass the corresponding string out of the <code>@input</code> array to the <code>load()</code> method.  The <code>load</code> method has it&rsquo;s own logic to check if a file exists, and handle malformed file names, since that is not a command parsing responsiblity.</p>
-
-<p>When evaluating the <code>find</code> method there are three components to the command, <code>find</code>, <code>criteria</code>, i.e. state, city, etc., and the <code>term</code> to search against, &lsquo;CO&rsquo; or &lsquo;Denver&rsquo;.  However the <code>term</code> may be consist of multiple words, such as &lsquo;New Orleans&rsquo;.  Because we decompose the command into an array, split on spaces, the search term needs to be reconsituted.  One way to approach that might look like this:</p>
-
-<figure class='code'><figcaption><span>Parsing the FIND request with multi-word term</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">when</span> <span class="n">find</span>
-</span><span class='line'>  <span class="k">if</span> <span class="vi">@input</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">2</span>
-</span><span class='line'>    <span class="n">value</span> <span class="o">=</span> <span class="n">input</span><span class="o">[</span><span class="mi">2</span><span class="o">.</span><span class="n">.input</span><span class="o">.</span><span class="n">length</span><span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
-</span><span class='line'>    <span class="vi">@repository</span><span class="o">.</span><span class="n">find_by</span><span class="p">(</span><span class="vi">@input</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">printer</span><span class="o">.</span><span class="n">results</span><span class="p">(</span><span class="vi">@repository</span><span class="o">.</span><span class="n">results_count</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">else</span>
-</span><span class='line'>    <span class="n">printer</span><span class="o">.</span><span class="n">not_a_valid_command</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>  <span class="o">[.</span><span class="n">.</span><span class="o">.]</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<time class='entry-date' datetime='2014-12-20T10:58:28-07:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:58 am</span></time>
+      
 
 
-<p>In a similar strategy to the <code>load</code> method, we evaluate how long the input request is.  Then we go after the <code>criteria</code> and the <code>term</code>.  Criteria is the second element in the array after the command, so that is handled with <code>input[1]</code> (remembering that Ruby is zero-indexed).</p>
-
-<p>The search term or criteria is all the remaining string elements of the array, so we get that value on line 3 by re-combining all the array elements from <code>[input[2]..input.length]</code> and then <code>.join(" ")</code> them with a space between.  The resulting terms are then handled off to the <code>repository</code> on line 4 to the <code>find(criteria, search_term)</code> method.</p>
-
-<p>As part of the evaluation of our project, all of this parsing logic should eventually be refactored into a separate class of it&rsquo;s own, but that&rsquo;s a topic for another post.</p>
-]]></content>
-  </entry>
+    </p>
+    
+      <div class="sharing">
   
-</feed>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://bayendor.github.io/blog/2014/12/20/upgrading-to-postgres-9-dot-4-on-os-x/" data-via="bayendor" data-counturl="http://bayendor.github.io/blog/2014/12/20/upgrading-to-postgres-9-dot-4-on-os-x/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/10/03/parsing-command-line-interfaces/" title="Previous Post: Parsing Command Line Input">&laquo; Parsing Command Line Input</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/12/20/upgrading-to-postgres-9-dot-4-on-os-x/">Upgrading to Postgres 9.4.0 on OS X</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/03/parsing-command-line-interfaces/">Parsing Command Line Input</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/bayendor">@bayendor</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'bayendor',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - David Bayendor -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
