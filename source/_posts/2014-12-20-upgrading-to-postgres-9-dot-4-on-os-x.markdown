@@ -109,7 +109,7 @@ psql -f db.out postgres
 ```
 
 Unlike the original `pg_dumpall` command you will see a lot of activity on the screen, including some warnings
-what look like errors.  This is expected output, so be patient while the databases are recreated in the new 9.4
+that look like errors.  This is expected output, so be patient while the databases are recreated in the new 9.4
 server directory.  
 
 Once you get your command prompt back, go into the `psql` console and check you databases are all there the 
