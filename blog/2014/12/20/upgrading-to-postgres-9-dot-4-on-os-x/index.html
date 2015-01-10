@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Upgrading to Postgres 9.4.0 on OS X - Musings of an 8-bit Vet</title>
+  <title>Upgrading OS X PostgreSQL App to 9.4 - Musings of an 8-bit Vet</title>
   <meta name="author" content="David Bayendor">
 
   
-  <meta name="description" content="Postgres 9.4.0 has finally shipped. This long awaited release includes numerous upgrades,
+  <meta name="description" content="Postgres 9.4 has finally shipped. This long awaited release includes numerous upgrades,
 including native support for JSON, and improved scalability &hellip;">
   
 
@@ -69,7 +69,7 @@ including native support for JSON, and improved scalability &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Upgrading to Postgres 9.4.0 on OS X</h1>
+      <h1 class="entry-title">Upgrading OS X PostgreSQL App to 9.4</h1>
     
     
       <p class="meta">
@@ -85,22 +85,20 @@ including native support for JSON, and improved scalability &hellip;">
   </header>
 
 
-<div class="entry-content"><p>Postgres 9.4.0 has finally shipped. This long awaited release includes numerous upgrades,
+<div class="entry-content"><p>Postgres 9.4 has finally shipped. This long awaited release includes numerous upgrades,
 including native support for JSON, and improved scalability and index performance.</p>
 
 <p>Upgrading to Postgres 9.4.0 is not as simple as merely replacing your current 9.3.x version with the newer
 version. The release notes indicate that users who wish to upgrade must first migrate their existing data
 from prior versions using one of two strategies: <code>pg_dumpall</code> or <code>pg_upgrade</code>.</p>
 
-<p>In this post I&rsquo;ll provide the instructions to use <code>pg_dumpall</code> to upgrade on OS X.</p>
+<p>There are typically two ways that OS X users install Postgres on their machine: via the OS X native <a href="http://postgresapp.com">Postgres.app</a> (the one with the blue elephant icon) or using the package manager <code>homebrew</code>.</p>
 
-<p>There are typically two ways that OS X users install Postgres on their machine: via
-the OS X native <code>postgres.app</code> (the one with the blue elephant icon) or using the package manager <code>homebrew</code>.
-I&rsquo;ll provide instructions for both.</p>
+<p>I&rsquo;ll provide instructions for <a href="http://postgresapp.com">Postgres.app</a> using <code>pg_dumpall</code> to upgrade on OS X.</p>
+
+<p>If you installed with <code>homebrew</code> follow the excellent instructions found here: <a href="http://cl.ly/ZF5l">Keita&rsquo;s Blog: Homebrew and PostgreSQL 9.4</a></p>
 
 <h2>1: Export your existing databases to a SQL script file</h2>
-
-<p><em>DO THIS FIRST FOR EITHER INSTALLATION METHOD</em></p>
 
 <p>Postgres stores databases in version specific directories.  So before we get started we need to know what
 the current Postgres data directory is for the installed version.  Fire up your postgres console
@@ -156,48 +154,11 @@ working you&rsquo;ll probably want to delete the old copy to free up space.</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>
-It&rsquo;s worth noting that like many unix commands you will get no feedback from this command while it is running.
+<p>It&rsquo;s worth noting that like many unix commands you will get no feedback from this command while it is running.
 Depending on how many and/or how large your pg databases are this may take a while.  When you are returned to
 your standard shell prompt run <code>ls</code> and if you see <code>db.out</code> you are ready to go.</p>
 
-<p><em>Go to step 2a for <code>homebrew</code> or step 2b for <code>postgres.app</code></em></p>
-
-<h2>2a: If you are using <code>homebrew</code> follow this path:</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew update <span class="o">&amp;&amp;</span> brew outdated
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you do not run this command on a regular basis you may be surprised by how many packages are
-outdated. In any event you should see <code>postgresql</code> listed among the packages.</p>
-
-<p>Since you can&rsquo;t have two versions of postgres installed, you need to uninstall the old one first and then
-install the new version.  Do that like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew uninstall postgresql
-</span><span class='line'>brew install postgresql
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Confirm that postgres is running and that you have the new version:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>psql --version
-</span><span class='line'>psql <span class="o">(</span>PostgreSQL<span class="o">)</span> 9.4.0
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If postgres will not respond you may need to restart your terminal to pick up the new changes, or follow
-instructions issued after the homebrew install to manually start the postgres server.</p>
-
-<p>If postgres is running but you cannot start the <code>psql</code> interface, try running <code>createdb</code> to fix this.</p>
-
-<h2>2b: If you are using the OS X native <code>postgres.app</code></h2>
+<h2>2: Download the latest <a href="http://postgresapp.com">Postgres.app</a></h2>
 
 <p>Click the elephant icon in the OS X menubar and choose <code>quit</code> to stop the server.</p>
 
@@ -310,9 +271,7 @@ as the old one, and then you can safely delete the old database directory.  In m
 
 <p>You can remove or backup the old directory at your discretion.</p>
 
-<p>That completes your upgrade to 9.4.0.  For any patch revisions, i.e. <code>9.4.x</code>, that come later you can simply upgrade
-the postgres application either via <code>homebrew upgrade postgresql</code> or by downloading the newer <code>postgres.app</code> and
-installing it over the old version.</p>
+<p>That completes your upgrade to 9.4.0.  For any patch revisions, i.e. <code>9.4.x</code>, that come later you can simply upgrade the postgres application by downloading the newer <a href="http://postgresapp.com">Postgres.app</a> and installing it over the old version.</p>
 </div>
 
 
@@ -361,7 +320,7 @@ installing it over the old version.</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2014/12/20/upgrading-to-postgres-9-dot-4-on-os-x/">Upgrading to Postgres 9.4.0 on OS X</a>
+        <a href="/blog/2014/12/20/upgrading-to-postgres-9-dot-4-on-os-x/">Upgrading OS X PostgreSQL App to 9.4</a>
       </li>
     
       <li class="post">
@@ -411,7 +370,7 @@ installing it over the old version.</p>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - David Bayendor -
+  Copyright &copy; 2015 - David Bayendor -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
