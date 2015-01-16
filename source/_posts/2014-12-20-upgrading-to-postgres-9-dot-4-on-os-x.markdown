@@ -1,28 +1,26 @@
 ---
 layout: post
-title: "Upgrading to Postgres 9.4.0 on OS X"
+title: "Upgrading OS X PostgreSQL App to 9.4"
 date: 2014-12-20 10:58:28 -0700
 comments: true
-categories: 
+categories:
 ---
-Postgres 9.4.0 has finally shipped. This long awaited release includes numerous upgrades, 
+Postgres 9.4 has finally shipped. This long awaited release includes numerous upgrades,
 including native support for JSON, and improved scalability and index performance.
 
 Upgrading to Postgres 9.4.0 is not as simple as merely replacing your current 9.3.x version with the newer
 version. The release notes indicate that users who wish to upgrade must first migrate their existing data
 from prior versions using one of two strategies: `pg_dumpall` or `pg_upgrade`.
 
-In this post I'll provide the instructions to use `pg_dumpall` to upgrade on OS X.
+There are typically two ways that OS X users install Postgres on their machine: via the OS X native [Postgres.app](http://postgresapp.com) (the one with the blue elephant icon) or using the package manager `homebrew`.
 
-There are typically two ways that OS X users install Postgres on their machine: via
-the OS X native `postgres.app` (the one with the blue elephant icon) or using the package manager `homebrew`.
-I'll provide instructions for both.
+I'll provide instructions for [Postgres.app](http://postgresapp.com) using `pg_dumpall` to upgrade on OS X.
+
+If you installed with `homebrew` follow the excellent instructions found here: [Keita's Blog: Homebrew and PostgreSQL 9.4](http://cl.ly/ZF5l)
 
 ## 1: Export your existing databases to a SQL script file
 
-_DO THIS FIRST FOR EITHER INSTALLATION METHOD_
-
-Postgres stores databases in version specific directories.  So before we get started we need to know what 
+Postgres stores databases in version specific directories.  So before we get started we need to know what
 the current Postgres data directory is for the installed version.  Fire up your postgres console
 and find out with `SHOW data_directory;`.  Your output may look different, but what we want is the path that
 is returned.  On my machine it looked like this:
@@ -54,40 +52,13 @@ Next export the existing 9.3 databases out of that directory prior to upgrading 
 mkdir pg_migrate
 cd pg_migrate
 pg_dumpall > db.out
-``` 
+```
 It's worth noting that like many unix commands you will get no feedback from this command while it is running.
-Depending on how many and/or how large your pg databases are this may take a while.  When you are returned to 
+Depending on how many and/or how large your pg databases are this may take a while.  When you are returned to
 your standard shell prompt run `ls` and if you see `db.out` you are ready to go.
 
-_Go to step 2a for `homebrew` or step 2b for `postgres.app`_
 
-## 2a: If you are using `homebrew` follow this path:
-
-``` bash 
-brew update && brew outdated
-```
-If you do not run this command on a regular basis you may be surprised by how many packages are 
-outdated. In any event you should see `postgresql` listed among the packages.
-
-Since you can't have two versions of postgres installed, you need to uninstall the old one first and then 
-install the new version.  Do that like this:
-
-``` bash
-brew uninstall postgresql
-brew install postgresql
-```
-
-Confirm that postgres is running and that you have the new version:
-```bash
-psql --version
-psql (PostgreSQL) 9.4.0
-```
-If postgres will not respond you may need to restart your terminal to pick up the new changes, or follow
-instructions issued after the homebrew install to manually start the postgres server.
-
-If postgres is running but you cannot start the `psql` interface, try running `createdb` to fix this.
-
-## 2b: If you are using the OS X native `postgres.app` 
+## 2: Download the latest [Postgres.app](http://postgresapp.com)
 
 Click the elephant icon in the OS X menubar and choose `quit` to stop the server.
 
@@ -110,9 +81,9 @@ psql -f db.out postgres
 
 Unlike the original `pg_dumpall` command you will see a lot of activity on the screen, including some warnings
 that look like errors.  This is expected output, so be patient while the databases are recreated in the new 9.4
-server directory.  
+server directory.
 
-Once you get your command prompt back, go into the `psql` console and check you databases are all there the 
+Once you get your command prompt back, go into the `psql` console and check you databases are all there the
 command `\l`. At a minimum you should have output like the example below, where one database typically has
 your OSX or postgres admin username, two are templates, and one is postgres:
 
@@ -169,7 +140,5 @@ localhost @David=# SHOW data_directory;
 
 You can remove or backup the old directory at your discretion.
 
-That completes your upgrade to 9.4.0.  For any patch revisions, i.e. `9.4.x`, that come later you can simply upgrade
-the postgres application either via `homebrew upgrade postgresql` or by downloading the newer `postgres.app` and
-installing it over the old version.
+That completes your upgrade to 9.4.0.  For any patch revisions, i.e. `9.4.x`, that come later you can simply upgrade the postgres application by downloading the newer [Postgres.app](http://postgresapp.com) and installing it over the old version.
 
